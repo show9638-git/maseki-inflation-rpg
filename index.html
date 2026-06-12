@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#090b14">
-<title>魔石インフレーションRPG Rebuild v2.2</title>
+<title>魔石インフレーションRPG Rebuild v2.3</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <div id="app">
 <header class="top">
-  <div><h1>魔石インフレーションRPG Rebuild v2.2</h1><p>オート戦闘 / フィーバー廃止 / 技一覧・特技枠付替え対応</p></div>
+  <div><h1>魔石インフレーションRPG Rebuild v2.3</h1><p>画像修正 / 魔石個別化 / 技Lv / ステージ追加 / ラスボス追加</p></div>
   <div class="topBtns">
     <button id="soundBtn" type="button">音ON</button>
     <button id="bgmBtn" type="button">BGM:冒険</button>
@@ -27,7 +27,6 @@
   <div><span>魔石</span><b id="hudStones">0</b></div>
 </section>
 
-
 <main class="screen">
   <section id="field" class="field"><div id="enemyLine" class="enemyLine"></div></section>
 
@@ -38,8 +37,8 @@
   </section>
 
   <section class="party">
-    <article class="actor" data-actor="hero"><div id="heroPic" class="actorPic heroPic">白黒虹<br>剣士</div><div><h3 id="heroName">主人公</h3><div id="heroBars"></div><p id="heroMini"></p></div></article>
-    <article class="actor" data-actor="ally1"><div id="ally1Pic" class="actorPic ally1Pic">白黒虹<br>女性</div><div><h3 id="ally1Name">仲間1</h3><div id="ally1Bars"></div><p id="ally1Mini"></p></div></article>
+    <article class="actor" data-actor="hero"><div id="heroPic" class="actorPic heroPic"></div><div><h3 id="heroName">主人公</h3><div id="heroBars"></div><p id="heroMini"></p></div></article>
+    <article class="actor" data-actor="ally1"><div id="ally1Pic" class="actorPic ally1Pic"></div><div><h3 id="ally1Name">仲間1</h3><div id="ally1Bars"></div><p id="ally1Mini"></p></div></article>
   </section>
 
   <section class="target"><span>対象</span><select id="targetSelect"></select></section>
@@ -51,20 +50,20 @@
     <button id="skill3Btn" type="button">特技3</button>
     <button id="nextBtn" type="button">敵入替</button>
     <button id="absorbOpenBtn" type="button">魔石吸収</button>
+    <button id="sellOpenBtn" type="button">魔石売却</button>
     <button id="autoStartBtn" type="button">オート開始</button>
     <button id="autoStopBtn" type="button">オート停止</button>
   </section>
 
   <section id="absorbPanel" class="absorbPanel hidden">
     <span>吸収量</span>
-    <select id="absorbSelect">
-      <option value="10">10%</option>
-      <option value="25">25%</option>
-      <option value="50">50%</option>
-      <option value="100">100%</option>
-      <option value="all">一括吸収</option>
-    </select>
+    <select id="absorbSelect"><option value="10">10%</option><option value="25">25%</option><option value="50">50%</option><option value="100">100%</option><option value="all">一括吸収</option></select>
     <button id="absorbExecBtn" type="button">吸収実行</button>
+  </section>
+  <section id="sellPanel" class="absorbPanel hidden">
+    <span>売却量</span>
+    <select id="sellSelect"><option value="10">10%</option><option value="25">25%</option><option value="50">50%</option><option value="100">100%</option><option value="all">一括売却</option></select>
+    <button id="sellExecBtn" type="button">売却実行</button>
   </section>
 
   <nav class="tabs">
@@ -72,15 +71,17 @@
     <button class="tab" type="button" data-panel="area">場所</button>
     <button class="tab" type="button" data-panel="growth">育成</button>
     <button class="tab" type="button" data-panel="equip">装備</button>
+    <button class="tab" type="button" data-panel="stone">魔石</button>
     <button class="tab" type="button" data-panel="ally">仲間</button>
     <button class="tab" type="button" data-panel="image">画像/名前</button>
     <button class="tab" type="button" data-panel="gallery">敵絵</button>
   </nav>
 
   <section id="panel-battle" class="panel active"><h2>ログ</h2><div id="log" class="log"></div></section>
-  <section id="panel-area" class="panel"><h2>場所・出現数倍率</h2><p class="hint">場所ごとに1〜3倍。表示上限は3体。</p><div id="areaList" class="cards"></div></section>
+  <section id="panel-area" class="panel"><h2>場所・出現数倍率</h2><p class="hint">場所ごとに1〜5倍。表示上限は5体。終末王座にラスボスあり。</p><div id="areaList" class="cards"></div></section>
   <section id="panel-growth" class="panel"><h2>育成</h2><div class="subtabs"><button class="growthBtn active" type="button" data-growth="hero">主人公</button><button class="growthBtn" type="button" data-growth="ally1">仲間1</button></div><div id="growthPanel" class="cards"></div></section>
   <section id="panel-equip" class="panel"><h2>装備</h2><div class="subtabs"><button class="equipBtn active" type="button" data-equip="hero">主人公</button><button class="equipBtn" type="button" data-equip="ally1">仲間1</button></div><div id="equipPanel" class="cards"></div></section>
+  <section id="panel-stone" class="panel"><h2>魔石一覧</h2><p class="hint">敵ごとの魔石。強い敵ほど吸収・売却が強力。</p><div id="stonePanel" class="cards"></div></section>
   <section id="panel-ally" class="panel"><h2>仲間</h2><div id="allyPanel" class="cards"></div></section>
   <section id="panel-image" class="panel">
     <h2>名前・イラスト変更</h2>
@@ -88,18 +89,12 @@
       <div class="card">
         <h3>主人公</h3>
         <input id="heroNameInput" class="textInput" type="text" placeholder="主人公名">
-        <div class="cardBtns">
-          <label class="fileBtn">主人公画像を選ぶ<input id="heroImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label>
-          <button id="heroImageResetBtn" type="button">画像初期化</button>
-        </div>
+        <div class="cardBtns"><label class="fileBtn">主人公画像を選ぶ<input id="heroImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="heroImageResetBtn" type="button">画像初期化</button></div>
       </div>
       <div class="card">
         <h3>仲間1</h3>
         <input id="ally1NameInput" class="textInput" type="text" placeholder="仲間1名">
-        <div class="cardBtns">
-          <label class="fileBtn">仲間1画像を選ぶ<input id="ally1ImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label>
-          <button id="ally1ImageResetBtn" type="button">画像初期化</button>
-        </div>
+        <div class="cardBtns"><label class="fileBtn">仲間1画像を選ぶ<input id="ally1ImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="ally1ImageResetBtn" type="button">画像初期化</button></div>
       </div>
     </div>
   </section>
