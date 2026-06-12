@@ -32,3 +32,9 @@ git add .
 git commit -m "Update RPG v0.3 enemies rare equipment long press"
 git push
 ```
+
+
+## v0.3.1
+
+- 攻撃/技/回復/吸収/敵再抽選ボタンが消える問題に対する安全対策を追加。
+- HTML側にも初期ボタンを配置し、JS側の再描画も堅牢化。

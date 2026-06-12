@@ -289,7 +289,27 @@ function unequipSkill(name){state.player.skillSlots=state.player.skillSlots.map(
 function render(){migrate();const l=loc();$("scene").style.background=`linear-gradient(135deg,${l.color[0]},${l.color[1]})`;$("sceneName").textContent=l.name;$("sceneText").textContent=l.text;$("stripLevel").textContent=state.player.level;$("stripMoney").textContent=format(state.player.money);$("stripStones").textContent=format(state.player.stones);$("stripLocation").textContent=l.name;renderBattle();renderCommands();renderLocations();renderStats();renderSkills();renderMaterials();renderShop();renderCraft();renderEquipment();renderParty();renderQuests();renderImages()}
 function renderBattle(){const t=totals();$("heroName").textContent=`${state.player.name} Lv${state.player.level}`;$("heroBars").innerHTML=bar("HP",state.player.hp,t.maxHp)+bar("MP",state.player.mp,t.maxMp)+bar("EXP",state.player.exp,state.player.nextExp);$("heroStats").innerHTML=row("攻撃",format(t.atk))+row("防御",format(t.def))+row("回復薬",state.player.items.potion||0);const alive=aliveEnemies();$("enemyGroup").innerHTML=state.enemies.map((e,i)=>`<div class="enemy-card ${e.rare?"rare":""} ${e.hp<=0?"dead":""} ${alive[state.selectedTarget]===e?"targeted":""}" data-target="${i}">${e.rare?'<span class="rare-label">RARE</span>':""}${e.img?`<img src="${e.img}" alt="${e.name}">`:`<div class="fallback">${e.portrait}</div>`}<h4>${e.name}</h4>${bar("HP",e.hp,e.maxHp)}</div>`).join("");document.querySelectorAll("[data-target]").forEach(b=>b.onclick=()=>{const idx=Number(b.dataset.target);const aliveIdx=alive.findIndex(e=>e===state.enemies[idx]);if(aliveIdx>=0){state.selectedTarget=aliveIdx;renderBattle();renderTargetSelect()}});$("enemySummary").innerHTML=row("生存数",alive.length)+row("最大同時出現",enemyCountForLocation(l))+row("レア撃破",state.rareKills||0);renderTargetSelect()}
 function renderTargetSelect(){const alive=aliveEnemies();$("targetSelect").innerHTML=alive.map((e,i)=>`<option value="${i}" ${i===state.selectedTarget?"selected":""}>${i+1}: ${e.name}</option>`).join("");$("targetSelect").onchange=()=>{state.selectedTarget=Number($("targetSelect").value);renderBattle()}}
-function renderCommands(){const has=aliveEnemies().length>0;const skillButtons=state.player.skillSlots.map((name,i)=>name?`<button data-use-skill="${name}" ${!has?"disabled":""}>${name}</button>`:"").join("");$("commandPad").innerHTML=`<button id="attackBtn">攻撃</button>${skillButtons}<button id="healBtn">回復薬</button><button id="absorbBtn">10%吸収</button><button id="nextBtn">敵再抽選</button>`;bindHold($("attackBtn"),attack);$("attackBtn").disabled=!has;$("attackBtn").onclick=attack;$("healBtn").onclick=potion;$("absorbBtn").onclick=()=>absorb("some");$("nextBtn").onclick=spawnEnemyGroup;document.querySelectorAll("[data-use-skill]").forEach(b=>{b.onclick=()=>useSkill(b.dataset.useSkill);bindHold(b,()=>useSkill(b.dataset.useSkill));})}
+function renderCommands(){
+  const pad=$("commandPad");
+  if(!pad)return;
+  const has=aliveEnemies().length>0;
+  const slots=(state.player&&state.player.skillSlots?state.player.skillSlots:[]).filter(Boolean);
+  const skillButtons=slots.map(name=>`<button type="button" data-use-skill="${name}" ${!has?"disabled":""}>${name}</button>`).join("");
+  pad.innerHTML=`<button id="attackBtn" type="button" ${!has?"disabled":""}>攻撃</button>${skillButtons}<button id="healBtn" type="button">回復薬</button><button id="absorbBtn" type="button">10%吸収</button><button id="nextBtn" type="button">敵再抽選</button>`;
+  const attackBtn=$("attackBtn");
+  if(attackBtn){attackBtn.onclick=attack;bindHold(attackBtn,attack);}
+  const healBtn=$("healBtn");
+  if(healBtn)healBtn.onclick=potion;
+  const absorbBtn=$("absorbBtn");
+  if(absorbBtn)absorbBtn.onclick=()=>absorb("some");
+  const nextBtn=$("nextBtn");
+  if(nextBtn)nextBtn.onclick=spawnEnemyGroup;
+  document.querySelectorAll("[data-use-skill]").forEach(b=>{
+    const skillName=b.dataset.useSkill;
+    b.onclick=()=>useSkill(skillName);
+    bindHold(b,()=>useSkill(skillName));
+  });
+}
 function renderLocations(){$("locationList").innerHTML=LOCATIONS.map(l=>{const locked=state.player.level<l.minLevel;return `<article class="card"><h3>${l.name}</h3><p>${l.text}<br>${locked?`解放条件：Lv${l.minLevel}`:`移動可能 / 最大${l.maxEnemies}体`}</p><button data-location="${l.id}" ${locked?"disabled":""}>ここへ行く</button></article>`}).join("");document.querySelectorAll("[data-location]").forEach(b=>b.onclick=()=>move(b.dataset.location))}
 function renderStats(){const t=totals(),eff=equipEffects();$("stats").innerHTML=row("Lv",state.player.level)+row("経験値",`${format(state.player.exp)} / ${format(state.player.nextExp)}`)+row("HP",`${format(state.player.hp)} / ${format(t.maxHp)}`)+row("MP",`${format(state.player.mp)} / ${format(t.maxMp)}`)+row("攻撃",format(t.atk))+row("防御",format(t.def))+row("ダメージ補正",`${Math.round((eff.damageRate||0)*100)}%`)+row("経験値補正",`${Math.round((eff.expRate||0)*100)}%`)+row("レア補正",`${Math.round((eff.rareRate||0)*100)}%`)+row("複数攻撃補正",`+${eff.extraTargets||0}体`)+row("撃破数",format(Object.values(state.kills).reduce((a,b)=>a+b,0)))+row("吸収総量",format(state.player.totalAbsorbed));$("equippedInGrowth").innerHTML=equipmentRows()}
 function renderSkills(){const learned=Object.keys(state.player.skills);$("skillSlots").innerHTML=state.player.skillSlots.map((name,i)=>`<div class="skill-slot"><strong>${i+1}枠</strong><select data-slot="${i}"><option value="">未セット</option>${learned.map(s=>`<option value="${s}" ${s===name?"selected":""}>${s}</option>`).join("")}</select></div>`).join("");document.querySelectorAll("[data-slot]").forEach(sel=>sel.onchange=()=>setSkillSlot(Number(sel.dataset.slot),sel.value));$("learnedSkills").innerHTML=learned.map(n=>{const s=state.player.skills[n],set=state.player.skillSlots.includes(n),lib=SKILL_LIBRARY[n]||{};return `<article class="card"><h3>${n} Lv${s.level}${set?"【セット中】":""}</h3><p>技経験値：${format(s.exp)} / ${format(s.nextExp)}<br>消費MP：${lib.mp??"-"} / 対象：${lib.targets>=99?"全体":(lib.targets||1)+"体"}</p><div class="card-actions"><button data-unskill="${n}" ${!set?"disabled":""}>外す</button></div></article>`}).join("");document.querySelectorAll("[data-unskill]").forEach(b=>b.onclick=()=>unequipSkill(b.dataset.unskill))}
@@ -309,5 +329,25 @@ let toastTimer=null;function toast(t){clearTimeout(toastTimer);$("toast").textCo
 function setupAudio(){if(audio.ctx)return;audio.ctx=new (window.AudioContext||window.webkitAudioContext)()}function tone(freq,dur,type="sine",gain=.05){if(!audio.enabled)return;setupAudio();const ctx=audio.ctx,o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=freq;g.gain.value=gain;o.connect(g);g.connect(ctx.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+dur);o.stop(ctx.currentTime+dur)}function sfx(kind){if(!audio.enabled)return;const map={attack:[220,.08,"sawtooth",.045],skill:[440,.16,"triangle",.055],hit:[90,.08,"square",.035],win:[660,.12,"sine",.05],level:[880,.22,"triangle",.055],coin:[1040,.07,"sine",.04],heal:[520,.14,"sine",.04],absorb:[330,.18,"triangle",.05],learn:[990,.28,"sine",.05],equip:[740,.09,"triangle",.04],craft:[600,.16,"triangle",.05],move:[260,.08,"sine",.035],spawn:[140,.12,"sawtooth",.03],down:[70,.22,"sawtooth",.045]};tone(...(map[kind]||map.coin))}function startBgm(){if(!audio.enabled)return;setupAudio();stopBgm();const notes=[220,247,262,330,294,262,247,196];let i=0;audio.bgmTimer=setInterval(()=>{tone(notes[i%notes.length],.18,"triangle",.018);i++},420)}function stopBgm(){if(audio.bgmTimer){clearInterval(audio.bgmTimer);audio.bgmTimer=null}}function toggleAudio(){audio.enabled=!audio.enabled;$("audioBtn").textContent=audio.enabled?"音OFF":"音ON";if(audio.enabled){setupAudio();audio.ctx.resume();startBgm();toast("BGM/効果音ON")}else{stopBgm();toast("BGM/効果音OFF")}}
 function bindHold(el,fn){if(!el)return;el.onpointerdown=()=>{clearTimeout(longPress.timer);clearInterval(longPress.interval);longPress.timer=setTimeout(()=>{longPress.interval=setInterval(fn,180)},450)};["pointerup","pointerleave","pointercancel"].forEach(ev=>el.addEventListener(ev,()=>{clearTimeout(longPress.timer);clearInterval(longPress.interval)}))}
 function bind(){document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>tab(b.dataset.tab));$("targetSelect").onchange=()=>{state.selectedTarget=Number($("targetSelect").value);renderBattle()};$("audioBtn").onclick=toggleAudio;$("saveBtn").onclick=save;$("loadBtn").onclick=load;$("resetBtn").onclick=reset;$("absorbSomeBtn").onclick=()=>absorb("some");$("absorbAllBtn").onclick=()=>absorb("all");bindHold($("absorbAllBtn"),()=>absorb("all"));document.querySelectorAll("[data-sell]").forEach(b=>{b.onclick=()=>sell(b.dataset.sell);bindHold(b,()=>sell(b.dataset.sell))});$("heroUpload").onchange=e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{localStorage.setItem(HERO_IMAGE_KEY,reader.result);renderImages();toast("主人公画像を変更")};reader.readAsDataURL(file)};$("resetHeroImageBtn").onclick=()=>{localStorage.removeItem(HERO_IMAGE_KEY);renderImages();toast("主人公画像を初期化")}}
-bind();migrate();log("v0.3開始。複数敵・レア敵・装備効果・長押しに対応。");spawnEnemyGroup();render();
+try{
+  bind();
+  migrate();
+  renderCommands();
+  log("v0.3.1開始。コマンドボタン表示を修正。");
+  spawnEnemyGroup();
+  render();
+}catch(err){
+  console.error(err);
+  const pad=document.getElementById("commandPad");
+  if(pad){
+    pad.innerHTML='<button type="button" onclick="location.reload()">再読み込み</button><button type="button" disabled>読み込みエラー</button>';
+  }
+  const logEl=document.getElementById("log");
+  if(logEl){
+    const div=document.createElement("div");
+    div.className="log-entry bad";
+    div.textContent="読み込みエラー: "+(err&&err.message?err.message:err);
+    logEl.prepend(div);
+  }
+}
 })();
