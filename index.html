@@ -4,17 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#090b14">
-  <title>魔石インフレーションRPG Mobile</title>
+  <title>魔石インフレーションRPG v0.2</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <div id="app">
   <header class="topbar">
     <div>
-      <h1>魔石インフレーションRPG</h1>
-      <p>スマホ対応版 / 場所選択式コマンドバトル</p>
+      <h1>魔石インフレーションRPG v0.2</h1>
+      <p>スマホ対応 / BGM・効果音 / 画像差し替え / 技セット9枠</p>
     </div>
     <div class="top-actions">
+      <button id="audioBtn" class="mini">音ON</button>
       <button id="saveBtn" class="mini">保存</button>
       <button id="loadBtn" class="mini">読込</button>
       <button id="resetBtn" class="mini danger">初期化</button>
@@ -34,6 +35,7 @@
     <button class="tab" data-tab="growth">育成</button>
     <button class="tab" data-tab="shop">装備</button>
     <button class="tab" data-tab="party">仲間</button>
+    <button class="tab" data-tab="assets">画像</button>
   </nav>
 
   <main>
@@ -47,28 +49,27 @@
 
       <div class="battle-grid">
         <article class="unit">
-          <div class="portrait hero-portrait">白黒虹</div>
+          <div class="portrait-wrap">
+            <img id="heroImage" class="battle-image hero-img" alt="主人公">
+            <div id="heroFallback" class="portrait hero-portrait">白黒虹</div>
+          </div>
           <h3 id="heroName">主人公</h3>
           <div id="heroBars"></div>
           <div id="heroStats" class="mini-list"></div>
         </article>
 
         <article class="unit">
-          <div id="enemyPortrait" class="portrait enemy-portrait">敵</div>
+          <div class="portrait-wrap">
+            <img id="enemyImage" class="battle-image enemy-img" alt="敵">
+            <div id="enemyFallback" class="portrait enemy-portrait">敵</div>
+          </div>
           <h3 id="enemyName">敵</h3>
           <div id="enemyBars"></div>
           <div id="enemyStats" class="mini-list"></div>
         </article>
       </div>
 
-      <div class="command-pad">
-        <button id="attackBtn">攻撃</button>
-        <button id="skill1Btn">虹斬り</button>
-        <button id="skill2Btn">習得技</button>
-        <button id="healBtn">回復薬</button>
-        <button id="absorbBtn">魔石吸収</button>
-        <button id="nextBtn">次の敵</button>
-      </div>
+      <div id="commandPad" class="command-pad"></div>
 
       <section class="log-box">
         <div class="log-title">ログ</div>
@@ -84,26 +85,39 @@
     <section id="growthTab" class="tab-page">
       <h2>ステータス</h2>
       <div id="stats" class="data-card"></div>
-      <h2>技</h2>
-      <div id="skills" class="data-card"></div>
+
+      <h2>技セット 9枠</h2>
+      <p class="hint">覚えた技を9枠までセットできます。戦闘コマンドにはセット中の技が表示されます。</p>
+      <div id="skillSlots" class="skill-slot-list"></div>
+
+      <h2>習得済み技</h2>
+      <div id="learnedSkills" class="card-list"></div>
+
       <h2>素材</h2>
       <div id="materials" class="data-card"></div>
+
       <h2>クエスト</h2>
       <div id="quests" class="card-list"></div>
     </section>
 
     <section id="shopTab" class="tab-page">
-      <h2>魔石換金</h2>
+      <h2>魔石換金・吸収</h2>
       <div class="card">
-        <p>魔石1個 = 8G。吸収すると永続強化、売ると装備資金。</p>
+        <p>魔石は敵1体につき基本1個。まれに複数個落ちます。吸収すると永続強化、売ると装備資金になります。</p>
         <div class="inline-buttons">
           <button data-sell="10">10個売る</button>
           <button data-sell="100">100個売る</button>
           <button data-sell="all">全部売る</button>
         </div>
+        <div class="inline-buttons">
+          <button id="absorbSomeBtn">10%吸収</button>
+          <button id="absorbAllBtn">一括吸収</button>
+        </div>
       </div>
+
       <h2>商店</h2>
       <div id="shopItems" class="card-list"></div>
+
       <h2>鍛冶・錬成</h2>
       <div id="craftItems" class="card-list"></div>
     </section>
@@ -113,6 +127,28 @@
       <div id="equipment" class="data-card"></div>
       <h2>仲間</h2>
       <div id="partyList" class="card-list"></div>
+    </section>
+
+    <section id="assetsTab" class="tab-page">
+      <h2>画像差し替え</h2>
+      <div class="card">
+        <p>主人公画像はいつでも差し替えできます。PNG/JPG/WebPを選ぶと、この端末のブラウザ保存領域に保持されます。</p>
+        <div class="inline-buttons">
+          <label class="file-button">
+            主人公画像を選ぶ
+            <input id="heroUpload" type="file" accept="image/png,image/jpeg,image/webp">
+          </label>
+          <button id="resetHeroImageBtn">主人公画像を初期化</button>
+        </div>
+      </div>
+
+      <h2>追加済み素材シート</h2>
+      <div class="asset-grid">
+        <div class="asset-card"><img src="./assets/hero-sprite-sheet.png" alt="主人公スプライト"><span>主人公アクション</span></div>
+        <div class="asset-card"><img src="./assets/enemy-sheet-1.png" alt="敵1"><span>敵10体 その1</span></div>
+        <div class="asset-card"><img src="./assets/enemy-sheet-2.png" alt="敵2"><span>敵10体 その2</span></div>
+        <div class="asset-card"><img src="./assets/extra-assets-sheet.png" alt="追加素材"><span>アイコン・演出素材</span></div>
+      </div>
     </section>
   </main>
 </div>
