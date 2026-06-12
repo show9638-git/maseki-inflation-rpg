@@ -4,123 +4,125 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#090b14">
-  <title>魔石インフレーションRPG Rebuild v1</title>
+  <title>魔石インフレーションRPG Rebuild v1.1</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <div id="app">
   <header class="top">
     <div>
-      <h1>魔石インフレーションRPG Rebuild v1</h1>
-      <p>作り直し版 / ドラクエ風正面バトル / 最大3体 / フィーバー搭載</p>
+      <h1>魔石インフレーションRPG Rebuild v1.1</h1>
+      <p>安定化版 / ボタン操作修正 / ドラクエ風正面バトル</p>
     </div>
     <div class="topBtns">
-      <button id="soundBtn">音ON</button>
-      <button id="saveBtn">保存</button>
-      <button id="loadBtn">読込</button>
-      <button id="resetBtn" class="danger">初期化</button>
+      <button id="soundBtn" type="button">音ON</button>
+      <button id="saveBtn" type="button">保存</button>
+      <button id="loadBtn" type="button">読込</button>
+      <button id="resetBtn" type="button" class="danger">初期化</button>
     </div>
   </header>
 
   <section class="hud">
-    <div><span>場所</span><b id="hudArea">草原</b></div>
+    <div><span>場所</span><b id="hudArea">-</b></div>
     <div><span>Lv</span><b id="hudLv">1</b></div>
     <div><span>G</span><b id="hudGold">0</b></div>
     <div><span>魔石</span><b id="hudStones">0</b></div>
   </section>
 
   <section class="feverBox">
-    <div class="feverText"><b>FEVER</b><span id="feverLabel">0/100</span></div>
-    <div class="feverBar"><div id="feverFill"></div></div>
-    <button id="feverBtn">フィーバー発動</button>
+    <div>
+      <div class="feverText"><b>FEVER</b><span id="feverLabel">0/100</span></div>
+      <div class="feverBar"><div id="feverFill"></div></div>
+    </div>
+    <button id="feverBtn" type="button">フィーバー発動</button>
   </section>
 
   <main class="screen">
-    <section id="battleView" class="battleView">
+    <section class="fieldWrap">
       <div id="field" class="field">
         <div id="enemyLine" class="enemyLine"></div>
       </div>
+    </section>
 
-      <div class="partyLine">
-        <div class="actorCard">
-          <div id="heroSprite" class="actorSprite heroSprite">白黒虹</div>
-          <div>
-            <h3 id="heroName">主人公</h3>
-            <div id="heroBars"></div>
-            <div id="heroMini"></div>
-          </div>
+    <section class="partyLine">
+      <article class="actorCard">
+        <div id="heroSprite" class="actorSprite heroSprite">白黒虹<br>剣士</div>
+        <div>
+          <h3 id="heroName">主人公</h3>
+          <div id="heroBars"></div>
+          <div id="heroMini" class="mini"></div>
         </div>
-        <div class="actorCard">
-          <div id="allySprite" class="actorSprite allySprite">白黒虹</div>
-          <div>
-            <h3 id="allyName">仲間</h3>
-            <div id="allyBars"></div>
-            <div id="allyMini"></div>
-          </div>
+      </article>
+      <article class="actorCard">
+        <div id="allySprite" class="actorSprite allySprite">白黒虹<br>女性</div>
+        <div>
+          <h3 id="allyName">仲間</h3>
+          <div id="allyBars"></div>
+          <div id="allyMini" class="mini"></div>
         </div>
+      </article>
+    </section>
+
+    <section class="targetRow">
+      <span>対象</span>
+      <select id="targetSelect"></select>
+    </section>
+
+    <section id="commands" class="commands">
+      <button id="attackBtn" type="button">攻撃</button>
+      <button id="skillBtn" type="button">特技</button>
+      <button id="healBtn" type="button">回復薬</button>
+      <button id="absorbBtn" type="button">10%吸収</button>
+      <button id="nextBtn" type="button">敵入替</button>
+      <button id="absorbAllBtn" type="button">一括吸収</button>
+    </section>
+
+    <nav class="tabs">
+      <button class="tab active" type="button" data-panel="battle">戦闘</button>
+      <button class="tab" type="button" data-panel="area">場所</button>
+      <button class="tab" type="button" data-panel="growth">育成</button>
+      <button class="tab" type="button" data-panel="equip">装備</button>
+      <button class="tab" type="button" data-panel="ally">仲間</button>
+      <button class="tab" type="button" data-panel="gallery">画像</button>
+    </nav>
+
+    <section id="panel-battle" class="panel active">
+      <h2>ログ</h2>
+      <div id="log" class="log"></div>
+    </section>
+
+    <section id="panel-area" class="panel">
+      <h2>場所</h2>
+      <div id="areaList" class="cardList"></div>
+    </section>
+
+    <section id="panel-growth" class="panel">
+      <h2>育成</h2>
+      <div class="subtabs">
+        <button class="miniTab active" type="button" data-growth="hero">主人公</button>
+        <button class="miniTab" type="button" data-growth="ally">仲間</button>
       </div>
+      <div id="growthPanel" class="cardList"></div>
+    </section>
 
-      <div class="targetRow">
-        <span>対象</span>
-        <select id="targetSelect"></select>
+    <section id="panel-equip" class="panel">
+      <h2>装備</h2>
+      <div class="subtabs">
+        <button class="equipTab active" type="button" data-equiptarget="hero">主人公</button>
+        <button class="equipTab" type="button" data-equiptarget="ally">仲間</button>
       </div>
+      <div id="equipPanel" class="cardList"></div>
+    </section>
 
-      <div id="commands" class="commands">
-        <button id="attackBtn">攻撃</button>
-        <button id="skillBtn">特技</button>
-        <button id="healBtn">回復薬</button>
-        <button id="absorbBtn">10%吸収</button>
-        <button id="nextBtn">敵入替</button>
-        <button id="absorbAllBtn">一括吸収</button>
-      </div>
+    <section id="panel-ally" class="panel">
+      <h2>仲間</h2>
+      <div id="allyPanel" class="cardList"></div>
+    </section>
 
-      <div class="tabs">
-        <button class="tab active" data-tab="battle">戦闘</button>
-        <button class="tab" data-tab="area">場所</button>
-        <button class="tab" data-tab="growth">育成</button>
-        <button class="tab" data-tab="equip">装備</button>
-        <button class="tab" data-tab="ally">仲間</button>
-        <button class="tab" data-tab="gallery">画像</button>
-      </div>
-
-      <section id="panel-battle" class="panel active">
-        <h2>ログ</h2>
-        <div id="log" class="log"></div>
-      </section>
-
-      <section id="panel-area" class="panel">
-        <h2>場所</h2>
-        <div id="areaList" class="cardList"></div>
-      </section>
-
-      <section id="panel-growth" class="panel">
-        <h2>育成</h2>
-        <div class="subtabs">
-          <button class="miniTab active" data-growth="hero">主人公</button>
-          <button class="miniTab" data-growth="ally">仲間</button>
-        </div>
-        <div id="growthPanel" class="cardList"></div>
-      </section>
-
-      <section id="panel-equip" class="panel">
-        <h2>装備</h2>
-        <div class="subtabs">
-          <button class="equipTab active" data-equiptarget="hero">主人公</button>
-          <button class="equipTab" data-equiptarget="ally">仲間</button>
-        </div>
-        <div id="equipPanel" class="cardList"></div>
-      </section>
-
-      <section id="panel-ally" class="panel">
-        <h2>仲間</h2>
-        <div id="allyPanel" class="cardList"></div>
-      </section>
-
-      <section id="panel-gallery" class="panel">
-        <h2>イラスト一覧</h2>
-        <p class="hint">敵は1体ずつカード化。複数エネミー時は最大3体分をバトル画面に同時表示します。</p>
-        <div id="gallery" class="gallery"></div>
-      </section>
+    <section id="panel-gallery" class="panel">
+      <h2>イラスト一覧</h2>
+      <p class="hint">敵は1体ずつ表示。複数エネミー時はバトル画面に最大3体分を同時表示します。</p>
+      <div id="gallery" class="gallery"></div>
     </section>
   </main>
 </div>
