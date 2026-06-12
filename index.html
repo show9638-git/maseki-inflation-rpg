@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#090b14">
-  <title>魔石インフレーションRPG Rebuild v1.1</title>
+  <title>魔石インフレーションRPG Rebuild v1.2</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <div id="app">
   <header class="top">
     <div>
-      <h1>魔石インフレーションRPG Rebuild v1.1</h1>
-      <p>安定化版 / ボタン操作修正 / ドラクエ風正面バトル</p>
+      <h1>魔石インフレーションRPG Rebuild v1.2</h1>
+      <p>回復薬/10%吸収削除・装備追加・画像変更・出現数倍率・1分フィーバー</p>
     </div>
     <div class="topBtns">
       <button id="soundBtn" type="button">音ON</button>
+      <button id="bgmBtn" type="button">BGM:冒険</button>
       <button id="saveBtn" type="button">保存</button>
       <button id="loadBtn" type="button">読込</button>
       <button id="resetBtn" type="button" class="danger">初期化</button>
@@ -33,6 +34,7 @@
     <div>
       <div class="feverText"><b>FEVER</b><span id="feverLabel">0/100</span></div>
       <div class="feverBar"><div id="feverFill"></div></div>
+      <p class="hint feverHint">v1.2では約1分継続。たまりにくく調整済み。</p>
     </div>
     <button id="feverBtn" type="button">フィーバー発動</button>
   </section>
@@ -44,8 +46,15 @@
       </div>
     </section>
 
+    <section class="partySwitch">
+      <span>操作/表示対象</span>
+      <button class="focusBtn active" type="button" data-focus="hero">主人公</button>
+      <button class="focusBtn" type="button" data-focus="ally">仲間1</button>
+      <button class="focusBtn" type="button" data-focus="ally2">仲間2</button>
+    </section>
+
     <section class="partyLine">
-      <article class="actorCard">
+      <article class="actorCard" data-actor-card="hero">
         <div id="heroSprite" class="actorSprite heroSprite">白黒虹<br>剣士</div>
         <div>
           <h3 id="heroName">主人公</h3>
@@ -53,12 +62,20 @@
           <div id="heroMini" class="mini"></div>
         </div>
       </article>
-      <article class="actorCard">
+      <article class="actorCard" data-actor-card="ally">
         <div id="allySprite" class="actorSprite allySprite">白黒虹<br>女性</div>
         <div>
-          <h3 id="allyName">仲間</h3>
+          <h3 id="allyName">仲間1</h3>
           <div id="allyBars"></div>
           <div id="allyMini" class="mini"></div>
+        </div>
+      </article>
+      <article class="actorCard" data-actor-card="ally2">
+        <div id="ally2Sprite" class="actorSprite ally2Sprite">白黒虹<br>女性2</div>
+        <div>
+          <h3 id="ally2Name">仲間2</h3>
+          <div id="ally2Bars"></div>
+          <div id="ally2Mini" class="mini"></div>
         </div>
       </article>
     </section>
@@ -71,10 +88,10 @@
     <section id="commands" class="commands">
       <button id="attackBtn" type="button">攻撃</button>
       <button id="skillBtn" type="button">特技</button>
-      <button id="healBtn" type="button">回復薬</button>
-      <button id="absorbBtn" type="button">10%吸収</button>
       <button id="nextBtn" type="button">敵入替</button>
       <button id="absorbAllBtn" type="button">一括吸収</button>
+      <button id="sellBtn" type="button">魔石売却</button>
+      <button id="autoBtn" type="button">オート1回</button>
     </section>
 
     <nav class="tabs">
@@ -83,7 +100,8 @@
       <button class="tab" type="button" data-panel="growth">育成</button>
       <button class="tab" type="button" data-panel="equip">装備</button>
       <button class="tab" type="button" data-panel="ally">仲間</button>
-      <button class="tab" type="button" data-panel="gallery">画像</button>
+      <button class="tab" type="button" data-panel="image">画像</button>
+      <button class="tab" type="button" data-panel="gallery">敵絵</button>
     </nav>
 
     <section id="panel-battle" class="panel active">
@@ -92,7 +110,8 @@
     </section>
 
     <section id="panel-area" class="panel">
-      <h2>場所</h2>
+      <h2>場所・敵出現数倍率</h2>
+      <p class="hint">場所ごとに敵出現数を1倍〜3倍まで変更できます。最大表示は3体です。</p>
       <div id="areaList" class="cardList"></div>
     </section>
 
@@ -100,7 +119,8 @@
       <h2>育成</h2>
       <div class="subtabs">
         <button class="miniTab active" type="button" data-growth="hero">主人公</button>
-        <button class="miniTab" type="button" data-growth="ally">仲間</button>
+        <button class="miniTab" type="button" data-growth="ally">仲間1</button>
+        <button class="miniTab" type="button" data-growth="ally2">仲間2</button>
       </div>
       <div id="growthPanel" class="cardList"></div>
     </section>
@@ -109,7 +129,8 @@
       <h2>装備</h2>
       <div class="subtabs">
         <button class="equipTab active" type="button" data-equiptarget="hero">主人公</button>
-        <button class="equipTab" type="button" data-equiptarget="ally">仲間</button>
+        <button class="equipTab" type="button" data-equiptarget="ally">仲間1</button>
+        <button class="equipTab" type="button" data-equiptarget="ally2">仲間2</button>
       </div>
       <div id="equipPanel" class="cardList"></div>
     </section>
@@ -119,8 +140,14 @@
       <div id="allyPanel" class="cardList"></div>
     </section>
 
+    <section id="panel-image" class="panel">
+      <h2>主人公・仲間イラスト変更</h2>
+      <p class="hint">画像を選ぶと端末のブラウザ保存領域に保存されます。後から何度でも変更できます。</p>
+      <div id="imagePanel" class="cardList"></div>
+    </section>
+
     <section id="panel-gallery" class="panel">
-      <h2>イラスト一覧</h2>
+      <h2>敵イラスト一覧</h2>
       <p class="hint">敵は1体ずつ表示。複数エネミー時はバトル画面に最大3体分を同時表示します。</p>
       <div id="gallery" class="gallery"></div>
     </section>
