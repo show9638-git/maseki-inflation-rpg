@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#090b14">
-  <title>魔石インフレーションRPG v0.2</title>
+  <title>魔石インフレーションRPG v0.3</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <div id="app">
   <header class="topbar">
     <div>
-      <h1>魔石インフレーションRPG v0.2</h1>
-      <p>スマホ対応 / BGM・効果音 / 画像差し替え / 技セット9枠</p>
+      <h1>魔石インフレーションRPG v0.3</h1>
+      <p>複数敵・レア敵・長押し・装備効果・吸収減衰・技9枠対応</p>
     </div>
     <div class="top-actions">
       <button id="audioBtn" class="mini">音ON</button>
@@ -43,30 +43,32 @@
       <div id="scene" class="scene">
         <div>
           <h2 id="sceneName">はじまりの草原</h2>
-          <p id="sceneText">弱い魔物が出る。育成の起点。</p>
+          <p id="sceneText">敵を倒すと自動で次の敵が出現します。</p>
         </div>
       </div>
 
       <div class="battle-grid">
-        <article class="unit">
-          <div class="portrait-wrap">
+        <article class="unit hero-unit">
+          <div class="portrait-wrap hero-stage">
             <img id="heroImage" class="battle-image hero-img" alt="主人公">
             <div id="heroFallback" class="portrait hero-portrait">白黒虹</div>
+            <div id="slashEffect" class="slash-effect hidden"></div>
           </div>
           <h3 id="heroName">主人公</h3>
           <div id="heroBars"></div>
           <div id="heroStats" class="mini-list"></div>
         </article>
 
-        <article class="unit">
-          <div class="portrait-wrap">
-            <img id="enemyImage" class="battle-image enemy-img" alt="敵">
-            <div id="enemyFallback" class="portrait enemy-portrait">敵</div>
-          </div>
-          <h3 id="enemyName">敵</h3>
-          <div id="enemyBars"></div>
-          <div id="enemyStats" class="mini-list"></div>
+        <article class="unit enemy-unit">
+          <h3>敵グループ</h3>
+          <div id="enemyGroup" class="enemy-group"></div>
+          <div id="enemySummary" class="mini-list"></div>
         </article>
+      </div>
+
+      <div class="target-box">
+        <span>攻撃対象：</span>
+        <select id="targetSelect"></select>
       </div>
 
       <div id="commandPad" class="command-pad"></div>
@@ -79,6 +81,7 @@
 
     <section id="placesTab" class="tab-page">
       <h2>場所選択</h2>
+      <p class="hint">場所ごとに通常敵とレア敵が変わります。レア敵は基本10% / 5% / 3%。装備効果で上昇します。</p>
       <div id="locationList" class="card-list"></div>
     </section>
 
@@ -86,8 +89,11 @@
       <h2>ステータス</h2>
       <div id="stats" class="data-card"></div>
 
+      <h2>装備中アイテム</h2>
+      <div id="equippedInGrowth" class="data-card"></div>
+
       <h2>技セット 9枠</h2>
-      <p class="hint">覚えた技を9枠までセットできます。戦闘コマンドにはセット中の技が表示されます。</p>
+      <p class="hint">技は9枠までセット可能。技ごとに1体/2体/3体攻撃があります。</p>
       <div id="skillSlots" class="skill-slot-list"></div>
 
       <h2>習得済み技</h2>
@@ -103,7 +109,7 @@
     <section id="shopTab" class="tab-page">
       <h2>魔石換金・吸収</h2>
       <div class="card">
-        <p>魔石は敵1体につき基本1個。まれに複数個落ちます。吸収すると永続強化、売ると装備資金になります。</p>
+        <p>魔石は敵1体につき基本1個、まれに複数個。吸収は上限なしですが、総吸収量が増えるほど上がりにくくなります。</p>
         <div class="inline-buttons">
           <button data-sell="10">10個売る</button>
           <button data-sell="100">100個売る</button>
@@ -132,7 +138,7 @@
     <section id="assetsTab" class="tab-page">
       <h2>画像差し替え</h2>
       <div class="card">
-        <p>主人公画像はいつでも差し替えできます。PNG/JPG/WebPを選ぶと、この端末のブラウザ保存領域に保持されます。</p>
+        <p>主人公画像は後から好きに差し替えできます。PNG/JPG/WebPを選ぶと、この端末のブラウザ保存領域に保持されます。</p>
         <div class="inline-buttons">
           <label class="file-button">
             主人公画像を選ぶ
@@ -142,11 +148,11 @@
         </div>
       </div>
 
-      <h2>追加済み素材シート</h2>
+      <h2>素材シート</h2>
       <div class="asset-grid">
-        <div class="asset-card"><img src="./assets/hero-sprite-sheet.png" alt="主人公スプライト"><span>主人公アクション</span></div>
-        <div class="asset-card"><img src="./assets/enemy-sheet-1.png" alt="敵1"><span>敵10体 その1</span></div>
-        <div class="asset-card"><img src="./assets/enemy-sheet-2.png" alt="敵2"><span>敵10体 その2</span></div>
+        <div class="asset-card"><img src="./assets/hero-sprite-sheet.png" alt="主人公"><span>主人公アクション</span></div>
+        <div class="asset-card"><img src="./assets/enemy-sheet-1.png" alt="敵1"><span>敵素材 1</span></div>
+        <div class="asset-card"><img src="./assets/enemy-sheet-2.png" alt="敵2"><span>敵素材 2</span></div>
         <div class="asset-card"><img src="./assets/extra-assets-sheet.png" alt="追加素材"><span>アイコン・演出素材</span></div>
       </div>
     </section>
