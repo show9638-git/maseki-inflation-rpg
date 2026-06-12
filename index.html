@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#090b14">
-<title>魔石インフレーションRPG Rebuild v2.1</title>
+<title>魔石インフレーションRPG Rebuild v2.2</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <div id="app">
 <header class="top">
-  <div><h1>魔石インフレーションRPG Rebuild v2.1</h1><p>仲間2削除 / 画像設定修正 / 魔石吸収選択式 / 仲間AI強化</p></div>
+  <div><h1>魔石インフレーションRPG Rebuild v2.2</h1><p>オート戦闘 / フィーバー廃止 / 技一覧・特技枠付替え対応</p></div>
   <div class="topBtns">
     <button id="soundBtn" type="button">音ON</button>
     <button id="bgmBtn" type="button">BGM:冒険</button>
@@ -27,14 +27,6 @@
   <div><span>魔石</span><b id="hudStones">0</b></div>
 </section>
 
-<section class="fever">
-  <div class="feverMain">
-    <div class="feverText"><b>FEVER</b><span id="feverLabel">0/100</span></div>
-    <div class="feverBar"><div id="feverFill"></div></div>
-    <p>満タンで約1分、高速自動撃破。以前より高速処理。</p>
-  </div>
-  <button id="feverBtn" type="button">フィーバー発動</button>
-</section>
 
 <main class="screen">
   <section id="field" class="field"><div id="enemyLine" class="enemyLine"></div></section>
@@ -59,6 +51,8 @@
     <button id="skill3Btn" type="button">特技3</button>
     <button id="nextBtn" type="button">敵入替</button>
     <button id="absorbOpenBtn" type="button">魔石吸収</button>
+    <button id="autoStartBtn" type="button">オート開始</button>
+    <button id="autoStopBtn" type="button">オート停止</button>
   </section>
 
   <section id="absorbPanel" class="absorbPanel hidden">
