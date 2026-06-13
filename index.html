@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>魔石転生サバイバー v0.4</title>
+<title>魔石転生サバイバー v0.5</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="app">
   <section id="title" class="screen active">
     <div class="box">
-      <h1>魔石転生サバイバー v0.4</h1>
-      <p>敵インフレ強化 / スキル40種 / レベル選択3秒 / ガチャ500種</p>
+      <h1>魔石転生サバイバー v0.5</h1>
+      <p>ドットマップ / 障害物 / ランダムアイテム20種 / ミニマップ / 人族進化ドット / スキルドット</p>
       <div class="stats">
         <div><b>転生pt</b><span id="metaPts">0</span></div>
         <div><b>Gold</b><span id="goldText">0</span></div>
@@ -25,11 +25,13 @@
       <button id="resetSave" type="button">保存初期化</button>
     </div>
   </section>
+
   <section id="race" class="screen">
     <header><button class="back" type="button">戻る</button><h2>種族選択</h2></header>
     <div id="raceCards" class="cards"></div>
     <button id="start" class="fixedBtn" type="button">出撃</button>
   </section>
+
   <section id="gacha" class="screen">
     <header><button class="back" type="button">戻る</button><h2>ガチャ / 所持品</h2></header>
     <div class="point">Gold：<b id="goldGacha">0</b></div>
@@ -43,11 +45,13 @@
     <h2>所持装備・スキン</h2>
     <div id="inventoryCards" class="cards"></div>
   </section>
+
   <section id="upgrades" class="screen">
     <header><button class="back" type="button">戻る</button><h2>転生強化</h2></header>
     <div class="point">所持転生pt：<b id="ptsText">0</b></div>
     <div id="upgradeCards" class="cards"></div>
   </section>
+
   <section id="game" class="screen game">
     <canvas id="cv"></canvas>
     <div class="hud">
@@ -59,10 +63,11 @@
     </div>
     <div class="hp"><i id="hpbar"></i></div>
     <div class="xp"><i id="xpbar"></i></div>
-    <div id="skills" class="skills"></div>
+    <div id="buffs" class="buffs"></div>
     <div id="touchHint">押している方向へ移動。離すと即停止。</div>
     <button id="pause" type="button">II</button>
   </section>
+
   <section id="levelup" class="overlay">
     <div class="modal">
       <h2>レベルアップ <span id="choiceTimer">3.0</span></h2>
@@ -70,6 +75,7 @@
       <div id="choices" class="choices"></div>
     </div>
   </section>
+
   <section id="result" class="overlay">
     <div class="modal">
       <h2>リザルト</h2>
@@ -77,6 +83,7 @@
       <button id="backTitle" type="button">タイトルへ</button>
     </div>
   </section>
+
   <div id="err" class="err hidden"></div>
 </div>
 <script src="game.js"></script>

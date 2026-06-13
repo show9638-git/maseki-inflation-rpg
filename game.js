@@ -1,103 +1,913 @@
 
 (() => {
 "use strict";
-const DATA = {"gacha":[{"id":"g001","type":"equip","name":"獣族量産鱗1","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g002","type":"equip","name":"獣族量産鱗2","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g003","type":"equip","name":"竜族量産外套3","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g004","type":"equip","name":"人族量産魔石4","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g005","type":"equip","name":"共通量産核5","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g006","type":"equip","name":"竜族量産鱗6","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g007","type":"equip","name":"竜族量産核7","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g008","type":"equip","name":"共通量産剣8","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g009","type":"equip","name":"竜族量産宝珠9","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g010","type":"equip","name":"獣族量産核10","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g011","type":"equip","name":"獣族量産鎧11","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g012","type":"equip","name":"竜族量産魔石12","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g013","type":"equip","name":"共通量産外套13","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g014","type":"equip","name":"共通量産鎧14","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g015","type":"equip","name":"人族量産爪15","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g016","type":"equip","name":"竜族量産指輪16","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g017","type":"equip","name":"獣族量産核17","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g018","type":"equip","name":"獣族量産核18","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g019","type":"equip","name":"竜族量産指輪19","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g020","type":"equip","name":"人族量産紋章20","rare":"N","race":"human","bonus":{"speed":0.006}},{"id":"g021","type":"equip","name":"獣族量産紋章21","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g022","type":"equip","name":"竜族量産鱗22","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g023","type":"equip","name":"共通量産指輪23","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g024","type":"equip","name":"共通量産爪24","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g025","type":"equip","name":"共通量産核25","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g026","type":"equip","name":"共通量産外套26","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g027","type":"equip","name":"人族量産剣27","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g028","type":"equip","name":"共通量産宝珠28","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g029","type":"equip","name":"竜族量産核29","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g030","type":"equip","name":"竜族量産宝珠30","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g031","type":"equip","name":"竜族量産鱗31","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g032","type":"equip","name":"竜族量産核32","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g033","type":"equip","name":"獣族量産指輪33","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g034","type":"equip","name":"人族量産剣34","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g035","type":"equip","name":"獣族量産鎧35","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g036","type":"equip","name":"共通量産爪36","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g037","type":"equip","name":"竜族量産宝珠37","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g038","type":"equip","name":"竜族量産剣38","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g039","type":"equip","name":"共通量産魔石39","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g040","type":"equip","name":"獣族量産魔石40","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g041","type":"equip","name":"人族量産鎧41","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g042","type":"equip","name":"共通量産紋章42","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g043","type":"equip","name":"竜族量産魔石43","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g044","type":"equip","name":"共通量産核44","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g045","type":"equip","name":"竜族量産外套45","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g046","type":"equip","name":"人族量産爪46","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g047","type":"equip","name":"竜族量産魔石47","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g048","type":"equip","name":"人族量産核48","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g049","type":"equip","name":"人族量産核49","rare":"N","race":"human","bonus":{"speed":0.006}},{"id":"g050","type":"equip","name":"竜族量産核50","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g051","type":"equip","name":"獣族量産鱗51","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g052","type":"equip","name":"竜族量産核52","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g053","type":"equip","name":"獣族量産鎧53","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g054","type":"equip","name":"共通量産鎧54","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g055","type":"equip","name":"人族量産爪55","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g056","type":"equip","name":"共通量産鱗56","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g057","type":"equip","name":"人族量産紋章57","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g058","type":"equip","name":"獣族量産紋章58","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g059","type":"equip","name":"獣族量産核59","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g060","type":"equip","name":"人族量産魔石60","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g061","type":"equip","name":"共通量産指輪61","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g062","type":"equip","name":"竜族量産魔石62","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g063","type":"equip","name":"獣族量産宝珠63","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g064","type":"equip","name":"竜族量産紋章64","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g065","type":"equip","name":"共通量産鎧65","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g066","type":"equip","name":"獣族量産鱗66","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g067","type":"equip","name":"獣族量産剣67","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g068","type":"equip","name":"獣族量産鎧68","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g069","type":"equip","name":"人族量産爪69","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g070","type":"equip","name":"共通量産剣70","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g071","type":"equip","name":"竜族量産指輪71","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g072","type":"equip","name":"獣族量産剣72","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g073","type":"equip","name":"竜族量産鎧73","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g074","type":"equip","name":"共通量産魔石74","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g075","type":"equip","name":"竜族量産外套75","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g076","type":"equip","name":"人族量産宝珠76","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g077","type":"equip","name":"共通量産紋章77","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g078","type":"equip","name":"獣族量産指輪78","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g079","type":"equip","name":"共通量産宝珠79","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g080","type":"equip","name":"竜族量産核80","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g081","type":"equip","name":"獣族量産剣81","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g082","type":"equip","name":"人族量産魔石82","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g083","type":"equip","name":"共通量産爪83","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g084","type":"equip","name":"獣族量産指輪84","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g085","type":"equip","name":"獣族量産鎧85","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g086","type":"equip","name":"人族量産宝珠86","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g087","type":"equip","name":"人族量産爪87","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g088","type":"equip","name":"獣族量産魔石88","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g089","type":"equip","name":"獣族量産爪89","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g090","type":"equip","name":"共通量産核90","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g091","type":"equip","name":"共通量産爪91","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g092","type":"equip","name":"人族量産指輪92","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g093","type":"equip","name":"獣族量産剣93","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g094","type":"equip","name":"共通量産剣94","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g095","type":"equip","name":"人族量産宝珠95","rare":"N","race":"human","bonus":{"speed":0.006}},{"id":"g096","type":"equip","name":"竜族量産外套96","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g097","type":"equip","name":"人族量産鎧97","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g098","type":"equip","name":"竜族量産爪98","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g099","type":"equip","name":"共通量産鎧99","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g100","type":"equip","name":"獣族量産鎧100","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g101","type":"equip","name":"人族量産剣101","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g102","type":"equip","name":"竜族量産鎧102","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g103","type":"equip","name":"人族量産魔石103","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g104","type":"equip","name":"共通量産紋章104","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g105","type":"equip","name":"竜族量産魔石105","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g106","type":"equip","name":"人族量産鎧106","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g107","type":"equip","name":"竜族量産紋章107","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g108","type":"equip","name":"共通量産外套108","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g109","type":"equip","name":"人族量産紋章109","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g110","type":"equip","name":"人族量産紋章110","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g111","type":"equip","name":"竜族量産剣111","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g112","type":"equip","name":"獣族量産核112","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g113","type":"equip","name":"人族量産魔石113","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g114","type":"equip","name":"獣族量産剣114","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g115","type":"equip","name":"人族量産宝珠115","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g116","type":"equip","name":"共通量産爪116","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g117","type":"equip","name":"共通量産外套117","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g118","type":"equip","name":"獣族量産指輪118","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g119","type":"equip","name":"共通量産鱗119","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g120","type":"equip","name":"獣族量産核120","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g121","type":"equip","name":"獣族量産外套121","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g122","type":"equip","name":"人族量産紋章122","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g123","type":"equip","name":"共通量産鎧123","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g124","type":"equip","name":"人族量産鎧124","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g125","type":"equip","name":"獣族量産剣125","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g126","type":"equip","name":"共通量産指輪126","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g127","type":"equip","name":"竜族量産鱗127","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g128","type":"equip","name":"竜族量産核128","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g129","type":"equip","name":"竜族量産外套129","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g130","type":"equip","name":"竜族量産紋章130","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g131","type":"equip","name":"共通量産紋章131","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g132","type":"equip","name":"人族量産指輪132","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g133","type":"equip","name":"竜族量産剣133","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g134","type":"equip","name":"人族量産外套134","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g135","type":"equip","name":"竜族量産爪135","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g136","type":"equip","name":"共通量産鎧136","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g137","type":"equip","name":"竜族量産核137","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g138","type":"equip","name":"人族量産鎧138","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g139","type":"equip","name":"共通量産指輪139","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g140","type":"equip","name":"竜族量産宝珠140","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g141","type":"equip","name":"共通量産核141","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g142","type":"equip","name":"竜族量産核142","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g143","type":"equip","name":"人族量産魔石143","rare":"N","race":"human","bonus":{"speed":0.006}},{"id":"g144","type":"equip","name":"獣族量産爪144","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g145","type":"equip","name":"共通量産指輪145","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g146","type":"equip","name":"獣族量産核146","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g147","type":"equip","name":"共通量産爪147","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g148","type":"equip","name":"共通量産宝珠148","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g149","type":"equip","name":"竜族量産外套149","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g150","type":"equip","name":"竜族量産爪150","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g151","type":"equip","name":"獣族量産外套151","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g152","type":"equip","name":"共通量産宝珠152","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g153","type":"equip","name":"共通量産魔石153","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g154","type":"equip","name":"人族量産爪154","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g155","type":"equip","name":"人族量産鎧155","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g156","type":"equip","name":"獣族量産核156","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g157","type":"equip","name":"竜族量産宝珠157","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g158","type":"equip","name":"共通量産鱗158","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g159","type":"equip","name":"共通量産核159","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g160","type":"equip","name":"獣族量産鱗160","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g161","type":"equip","name":"竜族量産紋章161","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g162","type":"equip","name":"竜族量産魔石162","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g163","type":"equip","name":"竜族量産爪163","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g164","type":"equip","name":"人族量産鎧164","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g165","type":"equip","name":"人族量産外套165","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g166","type":"equip","name":"竜族量産鎧166","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g167","type":"equip","name":"獣族量産宝珠167","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g168","type":"equip","name":"共通量産紋章168","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g169","type":"equip","name":"竜族量産剣169","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g170","type":"equip","name":"共通量産指輪170","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g171","type":"equip","name":"人族量産紋章171","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g172","type":"equip","name":"人族量産紋章172","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g173","type":"equip","name":"竜族量産宝珠173","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g174","type":"equip","name":"獣族量産鎧174","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g175","type":"equip","name":"共通量産宝珠175","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g176","type":"equip","name":"竜族量産魔石176","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g177","type":"equip","name":"獣族量産紋章177","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g178","type":"equip","name":"人族量産指輪178","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g179","type":"equip","name":"人族量産指輪179","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g180","type":"equip","name":"人族量産指輪180","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g181","type":"equip","name":"人族量産爪181","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g182","type":"equip","name":"獣族量産指輪182","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g183","type":"equip","name":"人族量産核183","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g184","type":"equip","name":"竜族量産爪184","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g185","type":"equip","name":"共通量産爪185","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g186","type":"equip","name":"人族量産紋章186","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g187","type":"equip","name":"竜族量産鱗187","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g188","type":"equip","name":"竜族量産鎧188","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g189","type":"equip","name":"竜族量産鎧189","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g190","type":"equip","name":"共通量産外套190","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g191","type":"equip","name":"竜族量産魔石191","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g192","type":"equip","name":"人族量産核192","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g193","type":"equip","name":"共通量産鱗193","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g194","type":"equip","name":"共通量産宝珠194","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g195","type":"equip","name":"竜族量産紋章195","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g196","type":"equip","name":"竜族量産外套196","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g197","type":"equip","name":"共通量産鱗197","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g198","type":"equip","name":"共通量産指輪198","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g199","type":"equip","name":"共通量産爪199","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g200","type":"equip","name":"人族量産剣200","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g201","type":"equip","name":"獣族量産核201","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g202","type":"equip","name":"竜族量産宝珠202","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g203","type":"equip","name":"共通量産魔石203","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g204","type":"equip","name":"竜族量産紋章204","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g205","type":"equip","name":"共通量産剣205","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g206","type":"equip","name":"共通量産魔石206","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g207","type":"equip","name":"共通量産鱗207","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g208","type":"equip","name":"竜族量産外套208","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g209","type":"equip","name":"共通量産爪209","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g210","type":"equip","name":"獣族量産爪210","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g211","type":"equip","name":"共通量産指輪211","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g212","type":"equip","name":"人族量産魔石212","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g213","type":"equip","name":"獣族量産魔石213","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g214","type":"equip","name":"共通量産鎧214","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g215","type":"equip","name":"獣族量産核215","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g216","type":"equip","name":"獣族量産紋章216","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g217","type":"equip","name":"竜族量産剣217","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g218","type":"equip","name":"獣族量産核218","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g219","type":"equip","name":"共通量産紋章219","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g220","type":"equip","name":"共通量産鎧220","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g221","type":"equip","name":"竜族量産鎧221","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g222","type":"equip","name":"獣族量産紋章222","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g223","type":"equip","name":"人族量産鱗223","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g224","type":"equip","name":"竜族量産魔石224","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g225","type":"equip","name":"獣族量産紋章225","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g226","type":"equip","name":"獣族量産核226","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g227","type":"equip","name":"竜族量産魔石227","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g228","type":"equip","name":"共通量産剣228","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g229","type":"equip","name":"竜族量産指輪229","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g230","type":"equip","name":"人族量産鱗230","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g231","type":"equip","name":"獣族量産魔石231","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g232","type":"equip","name":"竜族量産剣232","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g233","type":"equip","name":"共通量産鱗233","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g234","type":"equip","name":"竜族量産指輪234","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g235","type":"equip","name":"共通量産外套235","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g236","type":"equip","name":"人族量産核236","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g237","type":"equip","name":"竜族量産魔石237","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g238","type":"equip","name":"獣族量産核238","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g239","type":"equip","name":"人族量産爪239","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g240","type":"equip","name":"人族量産魔石240","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g241","type":"equip","name":"獣族量産指輪241","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g242","type":"equip","name":"人族量産爪242","rare":"N","race":"human","bonus":{"speed":0.006}},{"id":"g243","type":"equip","name":"人族量産剣243","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g244","type":"equip","name":"竜族量産紋章244","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g245","type":"equip","name":"人族量産核245","rare":"N","race":"human","bonus":{"speed":0.006}},{"id":"g246","type":"equip","name":"人族量産鱗246","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g247","type":"equip","name":"人族量産剣247","rare":"N","race":"human","bonus":{"speed":0.006}},{"id":"g248","type":"equip","name":"人族量産剣248","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g249","type":"equip","name":"共通量産爪249","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g250","type":"equip","name":"共通量産指輪250","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g251","type":"equip","name":"共通量産魔石251","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g252","type":"equip","name":"人族量産剣252","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g253","type":"equip","name":"人族量産爪253","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g254","type":"equip","name":"獣族量産核254","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g255","type":"equip","name":"獣族量産鱗255","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g256","type":"equip","name":"獣族量産鱗256","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g257","type":"equip","name":"共通量産紋章257","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g258","type":"equip","name":"人族量産魔石258","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g259","type":"equip","name":"獣族量産核259","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g260","type":"equip","name":"獣族量産宝珠260","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g261","type":"equip","name":"共通量産魔石261","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g262","type":"equip","name":"竜族量産鎧262","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g263","type":"equip","name":"竜族量産外套263","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g264","type":"equip","name":"共通量産爪264","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g265","type":"equip","name":"共通量産紋章265","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g266","type":"equip","name":"人族量産核266","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g267","type":"equip","name":"竜族量産剣267","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g268","type":"equip","name":"共通量産鱗268","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g269","type":"equip","name":"獣族量産指輪269","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g270","type":"equip","name":"共通量産核270","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g271","type":"equip","name":"共通量産核271","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g272","type":"equip","name":"人族量産紋章272","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g273","type":"equip","name":"共通量産核273","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g274","type":"equip","name":"竜族量産爪274","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g275","type":"equip","name":"竜族量産鎧275","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g276","type":"equip","name":"人族量産魔石276","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g277","type":"equip","name":"獣族量産鎧277","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g278","type":"equip","name":"竜族量産紋章278","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g279","type":"equip","name":"人族量産剣279","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g280","type":"equip","name":"竜族量産鱗280","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g281","type":"equip","name":"共通量産外套281","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g282","type":"equip","name":"人族量産鱗282","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g283","type":"equip","name":"獣族量産爪283","rare":"N","race":"beast","bonus":{"speed":0.006}},{"id":"g284","type":"equip","name":"人族量産紋章284","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g285","type":"equip","name":"獣族量産紋章285","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g286","type":"equip","name":"竜族量産魔石286","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g287","type":"equip","name":"竜族量産魔石287","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g288","type":"equip","name":"共通量産爪288","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g289","type":"equip","name":"共通量産指輪289","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g290","type":"equip","name":"共通量産外套290","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g291","type":"equip","name":"竜族量産宝珠291","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g292","type":"equip","name":"共通量産指輪292","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g293","type":"equip","name":"獣族量産紋章293","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g294","type":"equip","name":"獣族量産紋章294","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g295","type":"equip","name":"共通量産魔石295","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g296","type":"equip","name":"共通量産宝珠296","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g297","type":"equip","name":"共通量産爪297","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g298","type":"equip","name":"共通量産紋章298","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g299","type":"equip","name":"共通量産魔石299","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g300","type":"equip","name":"人族量産紋章300","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g301","type":"equip","name":"獣族量産外套301","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g302","type":"equip","name":"共通量産鱗302","rare":"N","race":null,"bonus":{"atk":0.006}},{"id":"g303","type":"equip","name":"人族量産鱗303","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g304","type":"equip","name":"竜族量産指輪304","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g305","type":"equip","name":"共通量産鱗305","rare":"N","race":null,"bonus":{"growth":0.006}},{"id":"g306","type":"equip","name":"人族量産魔石306","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g307","type":"equip","name":"共通量産外套307","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g308","type":"equip","name":"竜族量産宝珠308","rare":"N","race":"dragon","bonus":{"magnet":0.006}},{"id":"g309","type":"equip","name":"獣族量産爪309","rare":"N","race":"beast","bonus":{"hp":0.006}},{"id":"g310","type":"equip","name":"獣族量産外套310","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g311","type":"equip","name":"共通量産爪311","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g312","type":"equip","name":"竜族量産外套312","rare":"N","race":"dragon","bonus":{"growth":0.006}},{"id":"g313","type":"equip","name":"竜族量産魔石313","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g314","type":"equip","name":"獣族量産爪314","rare":"N","race":"beast","bonus":{"growth":0.006}},{"id":"g315","type":"equip","name":"人族量産外套315","rare":"N","race":"human","bonus":{"atk":0.006}},{"id":"g316","type":"equip","name":"共通量産爪316","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g317","type":"equip","name":"人族量産爪317","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g318","type":"equip","name":"共通量産魔石318","rare":"N","race":null,"bonus":{"speed":0.006}},{"id":"g319","type":"equip","name":"人族量産魔石319","rare":"N","race":"human","bonus":{"hp":0.006}},{"id":"g320","type":"equip","name":"竜族量産剣320","rare":"N","race":"dragon","bonus":{"atk":0.006}},{"id":"g321","type":"equip","name":"獣族量産魔石321","rare":"N","race":"beast","bonus":{"magnet":0.006}},{"id":"g322","type":"equip","name":"獣族量産紋章322","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g323","type":"equip","name":"人族量産外套323","rare":"N","race":"human","bonus":{"magnet":0.006}},{"id":"g324","type":"equip","name":"共通量産魔石324","rare":"N","race":null,"bonus":{"magnet":0.006}},{"id":"g325","type":"equip","name":"共通量産宝珠325","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g326","type":"equip","name":"竜族量産爪326","rare":"N","race":"dragon","bonus":{"hp":0.006}},{"id":"g327","type":"equip","name":"共通量産外套327","rare":"N","race":null,"bonus":{"hp":0.006}},{"id":"g328","type":"equip","name":"獣族量産紋章328","rare":"N","race":"beast","bonus":{"atk":0.006}},{"id":"g329","type":"equip","name":"人族量産鎧329","rare":"N","race":"human","bonus":{"growth":0.006}},{"id":"g330","type":"equip","name":"竜族量産指輪330","rare":"N","race":"dragon","bonus":{"speed":0.006}},{"id":"g331","type":"equip","name":"竜族希少剣1","rare":"R","race":"dragon","bonus":{"magnet":0.014}},{"id":"g332","type":"equip","name":"竜族希少外套2","rare":"R","race":"dragon","bonus":{"growth":0.014}},{"id":"g333","type":"equip","name":"獣族希少鎧3","rare":"R","race":"beast","bonus":{"atk":0.014}},{"id":"g334","type":"equip","name":"獣族希少鎧4","rare":"R","race":"beast","bonus":{"magnet":0.014}},{"id":"g335","type":"equip","name":"共通希少宝珠5","rare":"R","race":null,"bonus":{"hp":0.014}},{"id":"g336","type":"equip","name":"竜族希少核6","rare":"R","race":"dragon","bonus":{"speed":0.014}},{"id":"g337","type":"equip","name":"共通希少鎧7","rare":"R","race":null,"bonus":{"growth":0.014}},{"id":"g338","type":"equip","name":"竜族希少魔石8","rare":"R","race":"dragon","bonus":{"magnet":0.014}},{"id":"g339","type":"equip","name":"人族希少指輪9","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g340","type":"equip","name":"人族希少鱗10","rare":"R","race":"human","bonus":{"hp":0.014}},{"id":"g341","type":"equip","name":"人族希少核11","rare":"R","race":"human","bonus":{"hp":0.014}},{"id":"g342","type":"equip","name":"人族希少鱗12","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g343","type":"equip","name":"竜族希少魔石13","rare":"R","race":"dragon","bonus":{"speed":0.014}},{"id":"g344","type":"equip","name":"共通希少外套14","rare":"R","race":null,"bonus":{"magnet":0.014}},{"id":"g345","type":"equip","name":"人族希少魔石15","rare":"R","race":"human","bonus":{"magnet":0.014}},{"id":"g346","type":"equip","name":"人族希少核16","rare":"R","race":"human","bonus":{"growth":0.014}},{"id":"g347","type":"equip","name":"獣族希少剣17","rare":"R","race":"beast","bonus":{"magnet":0.014}},{"id":"g348","type":"equip","name":"竜族希少鱗18","rare":"R","race":"dragon","bonus":{"hp":0.014}},{"id":"g349","type":"equip","name":"竜族希少鎧19","rare":"R","race":"dragon","bonus":{"speed":0.014}},{"id":"g350","type":"equip","name":"人族希少剣20","rare":"R","race":"human","bonus":{"magnet":0.014}},{"id":"g351","type":"equip","name":"人族希少魔石21","rare":"R","race":"human","bonus":{"hp":0.014}},{"id":"g352","type":"equip","name":"人族希少核22","rare":"R","race":"human","bonus":{"hp":0.014}},{"id":"g353","type":"equip","name":"人族希少核23","rare":"R","race":"human","bonus":{"hp":0.014}},{"id":"g354","type":"equip","name":"竜族希少紋章24","rare":"R","race":"dragon","bonus":{"speed":0.014}},{"id":"g355","type":"equip","name":"竜族希少宝珠25","rare":"R","race":"dragon","bonus":{"growth":0.014}},{"id":"g356","type":"equip","name":"共通希少鎧26","rare":"R","race":null,"bonus":{"hp":0.014}},{"id":"g357","type":"equip","name":"共通希少剣27","rare":"R","race":null,"bonus":{"magnet":0.014}},{"id":"g358","type":"equip","name":"獣族希少核28","rare":"R","race":"beast","bonus":{"growth":0.014}},{"id":"g359","type":"equip","name":"竜族希少魔石29","rare":"R","race":"dragon","bonus":{"magnet":0.014}},{"id":"g360","type":"equip","name":"共通希少爪30","rare":"R","race":null,"bonus":{"growth":0.014}},{"id":"g361","type":"equip","name":"竜族希少鱗31","rare":"R","race":"dragon","bonus":{"growth":0.014}},{"id":"g362","type":"equip","name":"竜族希少爪32","rare":"R","race":"dragon","bonus":{"magnet":0.014}},{"id":"g363","type":"equip","name":"人族希少剣33","rare":"R","race":"human","bonus":{"magnet":0.014}},{"id":"g364","type":"equip","name":"獣族希少剣34","rare":"R","race":"beast","bonus":{"magnet":0.014}},{"id":"g365","type":"equip","name":"共通希少外套35","rare":"R","race":null,"bonus":{"atk":0.014}},{"id":"g366","type":"equip","name":"人族希少紋章36","rare":"R","race":"human","bonus":{"hp":0.014}},{"id":"g367","type":"equip","name":"人族希少紋章37","rare":"R","race":"human","bonus":{"atk":0.014}},{"id":"g368","type":"equip","name":"人族希少指輪38","rare":"R","race":"human","bonus":{"growth":0.014}},{"id":"g369","type":"equip","name":"獣族希少指輪39","rare":"R","race":"beast","bonus":{"growth":0.014}},{"id":"g370","type":"equip","name":"人族希少外套40","rare":"R","race":"human","bonus":{"growth":0.014}},{"id":"g371","type":"equip","name":"人族希少外套41","rare":"R","race":"human","bonus":{"growth":0.014}},{"id":"g372","type":"equip","name":"共通希少爪42","rare":"R","race":null,"bonus":{"hp":0.014}},{"id":"g373","type":"equip","name":"人族希少爪43","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g374","type":"equip","name":"竜族希少鱗44","rare":"R","race":"dragon","bonus":{"atk":0.014}},{"id":"g375","type":"equip","name":"獣族希少外套45","rare":"R","race":"beast","bonus":{"atk":0.014}},{"id":"g376","type":"equip","name":"共通希少宝珠46","rare":"R","race":null,"bonus":{"magnet":0.014}},{"id":"g377","type":"equip","name":"獣族希少紋章47","rare":"R","race":"beast","bonus":{"growth":0.014}},{"id":"g378","type":"equip","name":"共通希少紋章48","rare":"R","race":null,"bonus":{"speed":0.014}},{"id":"g379","type":"equip","name":"竜族希少魔石49","rare":"R","race":"dragon","bonus":{"speed":0.014}},{"id":"g380","type":"equip","name":"人族希少鱗50","rare":"R","race":"human","bonus":{"atk":0.014}},{"id":"g381","type":"equip","name":"獣族希少指輪51","rare":"R","race":"beast","bonus":{"atk":0.014}},{"id":"g382","type":"equip","name":"獣族希少爪52","rare":"R","race":"beast","bonus":{"magnet":0.014}},{"id":"g383","type":"equip","name":"人族希少爪53","rare":"R","race":"human","bonus":{"growth":0.014}},{"id":"g384","type":"equip","name":"獣族希少鎧54","rare":"R","race":"beast","bonus":{"hp":0.014}},{"id":"g385","type":"equip","name":"獣族希少剣55","rare":"R","race":"beast","bonus":{"magnet":0.014}},{"id":"g386","type":"equip","name":"竜族希少剣56","rare":"R","race":"dragon","bonus":{"growth":0.014}},{"id":"g387","type":"equip","name":"人族希少指輪57","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g388","type":"equip","name":"人族希少魔石58","rare":"R","race":"human","bonus":{"atk":0.014}},{"id":"g389","type":"equip","name":"人族希少外套59","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g390","type":"equip","name":"獣族希少外套60","rare":"R","race":"beast","bonus":{"atk":0.014}},{"id":"g391","type":"equip","name":"獣族希少剣61","rare":"R","race":"beast","bonus":{"atk":0.014}},{"id":"g392","type":"equip","name":"獣族希少魔石62","rare":"R","race":"beast","bonus":{"speed":0.014}},{"id":"g393","type":"equip","name":"竜族希少紋章63","rare":"R","race":"dragon","bonus":{"atk":0.014}},{"id":"g394","type":"equip","name":"竜族希少鎧64","rare":"R","race":"dragon","bonus":{"speed":0.014}},{"id":"g395","type":"equip","name":"獣族希少指輪65","rare":"R","race":"beast","bonus":{"speed":0.014}},{"id":"g396","type":"equip","name":"獣族希少剣66","rare":"R","race":"beast","bonus":{"hp":0.014}},{"id":"g397","type":"equip","name":"竜族希少鱗67","rare":"R","race":"dragon","bonus":{"growth":0.014}},{"id":"g398","type":"equip","name":"共通希少外套68","rare":"R","race":null,"bonus":{"magnet":0.014}},{"id":"g399","type":"equip","name":"人族希少核69","rare":"R","race":"human","bonus":{"growth":0.014}},{"id":"g400","type":"equip","name":"竜族希少宝珠70","rare":"R","race":"dragon","bonus":{"hp":0.014}},{"id":"g401","type":"equip","name":"竜族希少鎧71","rare":"R","race":"dragon","bonus":{"atk":0.014}},{"id":"g402","type":"equip","name":"獣族希少爪72","rare":"R","race":"beast","bonus":{"growth":0.014}},{"id":"g403","type":"equip","name":"獣族希少鎧73","rare":"R","race":"beast","bonus":{"atk":0.014}},{"id":"g404","type":"equip","name":"共通希少紋章74","rare":"R","race":null,"bonus":{"hp":0.014}},{"id":"g405","type":"equip","name":"人族希少紋章75","rare":"R","race":"human","bonus":{"magnet":0.014}},{"id":"g406","type":"equip","name":"人族希少剣76","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g407","type":"equip","name":"人族希少外套77","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g408","type":"equip","name":"共通希少爪78","rare":"R","race":null,"bonus":{"hp":0.014}},{"id":"g409","type":"equip","name":"人族希少剣79","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g410","type":"equip","name":"獣族希少鎧80","rare":"R","race":"beast","bonus":{"magnet":0.014}},{"id":"g411","type":"equip","name":"人族希少外套81","rare":"R","race":"human","bonus":{"hp":0.014}},{"id":"g412","type":"equip","name":"獣族希少紋章82","rare":"R","race":"beast","bonus":{"hp":0.014}},{"id":"g413","type":"equip","name":"竜族希少指輪83","rare":"R","race":"dragon","bonus":{"speed":0.014}},{"id":"g414","type":"equip","name":"人族希少紋章84","rare":"R","race":"human","bonus":{"atk":0.014}},{"id":"g415","type":"equip","name":"共通希少魔石85","rare":"R","race":null,"bonus":{"atk":0.014}},{"id":"g416","type":"equip","name":"人族希少鎧86","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g417","type":"equip","name":"獣族希少宝珠87","rare":"R","race":"beast","bonus":{"speed":0.014}},{"id":"g418","type":"equip","name":"共通希少魔石88","rare":"R","race":null,"bonus":{"atk":0.014}},{"id":"g419","type":"equip","name":"竜族希少指輪89","rare":"R","race":"dragon","bonus":{"atk":0.014}},{"id":"g420","type":"equip","name":"共通希少外套90","rare":"R","race":null,"bonus":{"hp":0.014}},{"id":"g421","type":"equip","name":"人族希少剣91","rare":"R","race":"human","bonus":{"growth":0.014}},{"id":"g422","type":"equip","name":"共通希少宝珠92","rare":"R","race":null,"bonus":{"hp":0.014}},{"id":"g423","type":"equip","name":"共通希少鎧93","rare":"R","race":null,"bonus":{"speed":0.014}},{"id":"g424","type":"equip","name":"共通希少鱗94","rare":"R","race":null,"bonus":{"growth":0.014}},{"id":"g425","type":"equip","name":"獣族希少鱗95","rare":"R","race":"beast","bonus":{"hp":0.014}},{"id":"g426","type":"equip","name":"共通希少魔石96","rare":"R","race":null,"bonus":{"hp":0.014}},{"id":"g427","type":"equip","name":"人族希少魔石97","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g428","type":"equip","name":"獣族希少核98","rare":"R","race":"beast","bonus":{"magnet":0.014}},{"id":"g429","type":"equip","name":"人族希少指輪99","rare":"R","race":"human","bonus":{"speed":0.014}},{"id":"g430","type":"equip","name":"共通希少紋章100","rare":"R","race":null,"bonus":{"growth":0.014}},{"id":"g431","type":"equip","name":"竜族英雄紋章1","rare":"SR","race":"dragon","bonus":{"speed":0.028,"atk":0.0154}},{"id":"g432","type":"equip","name":"竜族英雄剣2","rare":"SR","race":"dragon","bonus":{"magnet":0.028,"atk":0.0154}},{"id":"g433","type":"equip","name":"獣族英雄紋章3","rare":"SR","race":"beast","bonus":{"atk":0.028,"magnet":0.0154}},{"id":"g434","type":"equip","name":"竜族英雄剣4","rare":"SR","race":"dragon","bonus":{"magnet":0.028,"atk":0.0154}},{"id":"g435","type":"equip","name":"獣族英雄核5","rare":"SR","race":"beast","bonus":{"growth":0.028,"speed":0.0154}},{"id":"g436","type":"equip","name":"共通英雄指輪6","rare":"SR","race":null,"bonus":{"magnet":0.028,"atk":0.0154}},{"id":"g437","type":"equip","name":"獣族英雄紋章7","rare":"SR","race":"beast","bonus":{"speed":0.028,"hp":0.0154}},{"id":"g438","type":"equip","name":"獣族英雄宝珠8","rare":"SR","race":"beast","bonus":{"hp":0.028,"speed":0.0154}},{"id":"g439","type":"equip","name":"竜族英雄核9","rare":"SR","race":"dragon","bonus":{"hp":0.028,"magnet":0.0154}},{"id":"g440","type":"equip","name":"竜族英雄指輪10","rare":"SR","race":"dragon","bonus":{"hp":0.028,"magnet":0.0154}},{"id":"g441","type":"equip","name":"人族英雄核11","rare":"SR","race":"human","bonus":{"atk":0.028,"magnet":0.0154}},{"id":"g442","type":"equip","name":"竜族英雄紋章12","rare":"SR","race":"dragon","bonus":{"magnet":0.028,"hp":0.0154}},{"id":"g443","type":"equip","name":"人族英雄剣13","rare":"SR","race":"human","bonus":{"speed":0.028,"hp":0.0154}},{"id":"g444","type":"equip","name":"竜族英雄鎧14","rare":"SR","race":"dragon","bonus":{"magnet":0.028,"hp":0.0154}},{"id":"g445","type":"equip","name":"人族英雄鱗15","rare":"SR","race":"human","bonus":{"magnet":0.028,"growth":0.0154}},{"id":"g446","type":"equip","name":"人族英雄爪16","rare":"SR","race":"human","bonus":{"speed":0.028,"growth":0.0154}},{"id":"g447","type":"equip","name":"竜族英雄剣17","rare":"SR","race":"dragon","bonus":{"speed":0.028,"atk":0.0154}},{"id":"g448","type":"equip","name":"共通英雄爪18","rare":"SR","race":null,"bonus":{"magnet":0.028,"atk":0.0154}},{"id":"g449","type":"equip","name":"共通英雄紋章19","rare":"SR","race":null,"bonus":{"magnet":0.028,"hp":0.0154}},{"id":"g450","type":"equip","name":"共通英雄魔石20","rare":"SR","race":null,"bonus":{"magnet":0.028,"hp":0.0154}},{"id":"g451","type":"equip","name":"人族英雄紋章21","rare":"SR","race":"human","bonus":{"growth":0.028,"hp":0.0154}},{"id":"g452","type":"equip","name":"獣族英雄核22","rare":"SR","race":"beast","bonus":{"growth":0.028,"atk":0.0154}},{"id":"g453","type":"equip","name":"竜族英雄魔石23","rare":"SR","race":"dragon","bonus":{"growth":0.028,"hp":0.0154}},{"id":"g454","type":"equip","name":"獣族英雄鱗24","rare":"SR","race":"beast","bonus":{"hp":0.028,"atk":0.0154}},{"id":"g455","type":"equip","name":"共通英雄外套25","rare":"SR","race":null,"bonus":{"magnet":0.028,"speed":0.0154}},{"id":"g456","type":"equip","name":"共通英雄鎧26","rare":"SR","race":null,"bonus":{"magnet":0.028,"growth":0.0154}},{"id":"g457","type":"equip","name":"竜族英雄鎧27","rare":"SR","race":"dragon","bonus":{"atk":0.028,"hp":0.0154}},{"id":"g458","type":"equip","name":"人族英雄宝珠28","rare":"SR","race":"human","bonus":{"speed":0.028,"growth":0.0154}},{"id":"g459","type":"equip","name":"人族英雄指輪29","rare":"SR","race":"human","bonus":{"atk":0.028,"magnet":0.0154}},{"id":"g460","type":"equip","name":"獣族英雄宝珠30","rare":"SR","race":"beast","bonus":{"hp":0.028,"atk":0.0154}},{"id":"g461","type":"equip","name":"獣族英雄核31","rare":"SR","race":"beast","bonus":{"atk":0.028,"hp":0.0154}},{"id":"g462","type":"equip","name":"竜族英雄鎧32","rare":"SR","race":"dragon","bonus":{"growth":0.028,"hp":0.0154}},{"id":"g463","type":"equip","name":"竜族英雄爪33","rare":"SR","race":"dragon","bonus":{"growth":0.028,"hp":0.0154}},{"id":"g464","type":"equip","name":"竜族英雄外套34","rare":"SR","race":"dragon","bonus":{"magnet":0.028,"growth":0.0154}},{"id":"g465","type":"equip","name":"人族英雄鎧35","rare":"SR","race":"human","bonus":{"speed":0.028,"atk":0.0154}},{"id":"g466","type":"equip","name":"人族英雄鱗36","rare":"SR","race":"human","bonus":{"speed":0.028,"hp":0.0154}},{"id":"g467","type":"equip","name":"人族英雄核37","rare":"SR","race":"human","bonus":{"atk":0.028,"magnet":0.0154}},{"id":"g468","type":"equip","name":"竜族英雄魔石38","rare":"SR","race":"dragon","bonus":{"speed":0.028,"magnet":0.0154}},{"id":"g469","type":"equip","name":"人族英雄鱗39","rare":"SR","race":"human","bonus":{"atk":0.028,"growth":0.0154}},{"id":"g470","type":"equip","name":"人族英雄紋章40","rare":"SR","race":"human","bonus":{"magnet":0.028,"speed":0.0154}},{"id":"g471","type":"equip","name":"人族英雄鎧41","rare":"SR","race":"human","bonus":{"speed":0.028,"atk":0.0154}},{"id":"g472","type":"equip","name":"人族英雄剣42","rare":"SR","race":"human","bonus":{"atk":0.028,"speed":0.0154}},{"id":"g473","type":"equip","name":"共通英雄指輪43","rare":"SR","race":null,"bonus":{"magnet":0.028,"growth":0.0154}},{"id":"g474","type":"equip","name":"共通英雄紋章44","rare":"SR","race":null,"bonus":{"speed":0.028,"hp":0.0154}},{"id":"g475","type":"equip","name":"人族英雄鎧45","rare":"SR","race":"human","bonus":{"growth":0.028,"magnet":0.0154}},{"id":"g476","type":"equip","name":"人族英雄紋章46","rare":"SR","race":"human","bonus":{"speed":0.028,"atk":0.0154}},{"id":"g477","type":"equip","name":"竜族英雄指輪47","rare":"SR","race":"dragon","bonus":{"atk":0.028,"magnet":0.0154}},{"id":"g478","type":"equip","name":"獣族英雄魔石48","rare":"SR","race":"beast","bonus":{"growth":0.028,"speed":0.0154}},{"id":"g479","type":"equip","name":"竜族英雄宝珠49","rare":"SR","race":"dragon","bonus":{"hp":0.028,"growth":0.0154}},{"id":"g480","type":"equip","name":"人族英雄核50","rare":"SR","race":"human","bonus":{"growth":0.028,"atk":0.0154}},{"id":"g481","type":"equip","name":"共通神話魔石1","rare":"SSR","race":null,"bonus":{"magnet":0.05,"growth":0.0275}},{"id":"g482","type":"equip","name":"人族神話爪2","rare":"SSR","race":"human","bonus":{"speed":0.05,"atk":0.0275}},{"id":"g483","type":"equip","name":"人族神話指輪3","rare":"SSR","race":"human","bonus":{"growth":0.05,"hp":0.0275}},{"id":"g484","type":"equip","name":"共通神話鱗4","rare":"SSR","race":null,"bonus":{"magnet":0.05,"speed":0.0275}},{"id":"g485","type":"equip","name":"竜族神話宝珠5","rare":"SSR","race":"dragon","bonus":{"speed":0.05,"growth":0.0275}},{"id":"g486","type":"equip","name":"獣族神話鎧6","rare":"SSR","race":"beast","bonus":{"hp":0.05,"growth":0.0275}},{"id":"g487","type":"equip","name":"人族神話宝珠7","rare":"SSR","race":"human","bonus":{"magnet":0.05,"growth":0.0275}},{"id":"g488","type":"equip","name":"獣族神話紋章8","rare":"SSR","race":"beast","bonus":{"atk":0.05,"speed":0.0275}},{"id":"g489","type":"equip","name":"人族神話爪9","rare":"SSR","race":"human","bonus":{"hp":0.05,"atk":0.0275}},{"id":"g490","type":"equip","name":"共通神話指輪10","rare":"SSR","race":null,"bonus":{"growth":0.05,"speed":0.0275}},{"id":"g491","type":"equip","name":"人族神話魔石11","rare":"SSR","race":"human","bonus":{"atk":0.05,"speed":0.0275}},{"id":"g492","type":"equip","name":"共通神話鎧12","rare":"SSR","race":null,"bonus":{"magnet":0.05,"growth":0.0275}},{"id":"g493","type":"equip","name":"獣族究極魔石1","rare":"UR","race":"beast","bonus":{"hp":0.085,"speed":0.0468}},{"id":"g494","type":"equip","name":"竜族究極剣2","rare":"UR","race":"dragon","bonus":{"speed":0.085,"growth":0.0468}},{"id":"g495","type":"equip","name":"人族究極爪3","rare":"UR","race":"human","bonus":{"atk":0.085,"hp":0.0468}},{"id":"g496","type":"equip","name":"人族究極外套4","rare":"UR","race":"human","bonus":{"hp":0.085,"speed":0.0468}},{"id":"g497","type":"skin","name":"獣族スキンスキン1","rare":"SKIN","race":"beast","bonus":{"growth":0.055,"magnet":0.0303}},{"id":"g498","type":"skin","name":"獣族スキンスキン2","rare":"SKIN","race":"beast","bonus":{"growth":0.055,"atk":0.0303}},{"id":"g499","type":"skin","name":"竜族スキンスキン3","rare":"SKIN","race":"dragon","bonus":{"hp":0.055,"speed":0.0303}},{"id":"g500","type":"equip","name":"共通量産魔石500","rare":"N","race":null,"bonus":{"atk":0.006}}],"skills":[{"id":"orb","name":"魔石弾","group":"common","desc":"近い敵へ高速弾。","kind":"projectile"},{"id":"blade","name":"守護剣","group":"common","desc":"周囲を回る剣。","kind":"orbit"},{"id":"aura","name":"魔力波動","group":"common","desc":"周囲へ定期攻撃。","kind":"pulse"},{"id":"laser","name":"星光レーザー","group":"common","desc":"直線貫通レーザー。","kind":"laser"},{"id":"bomb","name":"魔石爆弾","group":"common","desc":"近い敵周辺で爆発。","kind":"meteor"},{"id":"needle","name":"貫通針","group":"common","desc":"細い貫通弾を連射。","kind":"projectile"},{"id":"shield","name":"反撃障壁","group":"common","desc":"接触時に反撃しHP微回復。","kind":"pulse"},{"id":"chain","name":"連鎖雷","group":"common","desc":"敵から敵へ連鎖。","kind":"chain"},{"id":"mine","name":"魔石地雷","group":"common","desc":"周囲に地雷を置く。","kind":"mine"},{"id":"nova","name":"新星爆発","group":"common","desc":"広範囲を吹き飛ばす。","kind":"nova"},{"id":"slash","name":"人王斬","group":"human","desc":"前方へ斬撃。","kind":"projectile"},{"id":"banner","name":"英雄旗","group":"human","desc":"回復と強化。","kind":"buff"},{"id":"star","name":"星導陣","group":"human","desc":"魔石を引き寄せる。","kind":"buff"},{"id":"spear","name":"聖槍投げ","group":"human","desc":"高速貫通槍。","kind":"projectile"},{"id":"guard","name":"王盾反射","group":"human","desc":"周囲反撃。","kind":"pulse"},{"id":"cross","name":"十字聖光","group":"human","desc":"十字方向攻撃。","kind":"cross"},{"id":"judgement","name":"裁きの光","group":"human","desc":"近い敵へ落雷。","kind":"meteor"},{"id":"command","name":"号令","group":"human","desc":"全スキルの回転を短縮。","kind":"buff"},{"id":"valor","name":"勇気の刃","group":"human","desc":"HPが高いほど火力増。","kind":"projectile"},{"id":"sanctuary","name":"聖域","group":"human","desc":"広い継続ダメージ。","kind":"nova"},{"id":"claw","name":"獣爪雷撃","group":"beast","desc":"近距離範囲攻撃。","kind":"pulse"},{"id":"dash","name":"突進波","group":"beast","desc":"移動方向へ衝撃波。","kind":"projectile"},{"id":"howl","name":"獣王咆哮","group":"beast","desc":"全方位弾。","kind":"nova"},{"id":"fang","name":"裂牙","group":"beast","desc":"近い敵へ牙撃。","kind":"projectile"},{"id":"pounce","name":"跳襲","group":"beast","desc":"ランダム敵へ突撃波。","kind":"projectile"},{"id":"thunder","name":"雷爪嵐","group":"beast","desc":"周囲雷撃。","kind":"pulse"},{"id":"wild","name":"野性解放","group":"beast","desc":"速度と攻撃強化。","kind":"buff"},{"id":"pack","name":"群狼影","group":"beast","desc":"分身弾。","kind":"projectile"},{"id":"roar","name":"覇獣咆哮","group":"beast","desc":"敵を削る大咆哮。","kind":"nova"},{"id":"hunt","name":"狩猟本能","group":"beast","desc":"撃破時Gold増加。","kind":"buff"},{"id":"fire","name":"竜炎弾","group":"dragon","desc":"高威力の炎弾。","kind":"projectile"},{"id":"meteor","name":"竜星落下","group":"dragon","desc":"敵周辺に隕石。","kind":"meteor"},{"id":"breath","name":"竜神ブレス","group":"dragon","desc":"前方貫通炎。","kind":"laser"},{"id":"scale","name":"竜鱗障壁","group":"dragon","desc":"防御と反撃。","kind":"pulse"},{"id":"tail","name":"竜尾旋風","group":"dragon","desc":"周囲薙ぎ払い。","kind":"orbit"},{"id":"flare","name":"爆炎核","group":"dragon","desc":"巨大爆発。","kind":"nova"},{"id":"storm","name":"雷竜嵐","group":"dragon","desc":"雷弾をばら撒く。","kind":"projectile"},{"id":"ancient","name":"古竜詠唱","group":"dragon","desc":"全体火力強化。","kind":"buff"},{"id":"fangfire","name":"炎牙","group":"dragon","desc":"近距離炎撃。","kind":"pulse"},{"id":"apocalypse","name":"終焉竜星","group":"dragon","desc":"超広範囲隕石。","kind":"meteor"}]};
-const SAVE="maseki_tensei_survivor_v04";
-const $=id=>document.getElementById(id);
-const fmt=n=>Math.floor(n||0).toLocaleString("ja-JP");
-const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-const d2=(a,b,c,d)=>{let x=a-c,y=b-d;return x*x+y*y};
+const DATA = {"skills":[{"id":"orb","name":"魔石弾","group":"common","desc":"近い敵へ高速弾。","kind":"projectile","color":"#ffd76a"},{"id":"blade","name":"守護剣","group":"common","desc":"周囲を回る剣。","kind":"orbit","color":"#70dcff"},{"id":"aura","name":"魔力波動","group":"common","desc":"周囲へ定期攻撃。","kind":"pulse","color":"#ff72ce"},{"id":"laser","name":"星光レーザー","group":"common","desc":"直線貫通レーザー。","kind":"laser","color":"#ffe66d"},{"id":"bomb","name":"魔石爆弾","group":"common","desc":"近い敵周辺で爆発。","kind":"meteor","color":"#ff9f1c"},{"id":"needle","name":"貫通針","group":"common","desc":"細い貫通弾を連射。","kind":"projectile","color":"#b8f2e6"},{"id":"shield","name":"反撃障壁","group":"common","desc":"接触時に反撃しHP微回復。","kind":"pulse","color":"#9bf6ff"},{"id":"chain","name":"連鎖雷","group":"common","desc":"敵から敵へ連鎖。","kind":"chain","color":"#caffbf"},{"id":"mine","name":"魔石地雷","group":"common","desc":"周囲に地雷を置く。","kind":"mine","color":"#f6bd60"},{"id":"nova","name":"新星爆発","group":"common","desc":"広範囲を吹き飛ばす。","kind":"nova","color":"#f28482"},{"id":"slash","name":"人王斬","group":"human","desc":"前方へ斬撃。","kind":"projectile","color":"#ffffff"},{"id":"banner","name":"英雄旗","group":"human","desc":"回復と強化。","kind":"buff","color":"#ffd76a"},{"id":"star","name":"星導陣","group":"human","desc":"魔石を引き寄せる。","kind":"buff","color":"#70dcff"},{"id":"spear","name":"聖槍投げ","group":"human","desc":"高速貫通槍。","kind":"projectile","color":"#fefae0"},{"id":"guard","name":"王盾反射","group":"human","desc":"周囲反撃。","kind":"pulse","color":"#a8dadc"},{"id":"cross","name":"十字聖光","group":"human","desc":"十字方向攻撃。","kind":"cross","color":"#f1faee"},{"id":"judgement","name":"裁きの光","group":"human","desc":"近い敵へ落雷。","kind":"meteor","color":"#f4d35e"},{"id":"command","name":"号令","group":"human","desc":"全スキルの回転を短縮。","kind":"buff","color":"#ffc857"},{"id":"valor","name":"勇気の刃","group":"human","desc":"HPが高いほど火力増。","kind":"projectile","color":"#faf0ca"},{"id":"sanctuary","name":"聖域","group":"human","desc":"広い継続ダメージ。","kind":"nova","color":"#d8f3dc"},{"id":"claw","name":"獣爪雷撃","group":"beast","desc":"近距離範囲攻撃。","kind":"pulse","color":"#74f5a3"},{"id":"dash","name":"突進波","group":"beast","desc":"移動方向へ衝撃波。","kind":"projectile","color":"#95d5b2"},{"id":"howl","name":"獣王咆哮","group":"beast","desc":"全方位弾。","kind":"nova","color":"#52b788"},{"id":"fang","name":"裂牙","group":"beast","desc":"近い敵へ牙撃。","kind":"projectile","color":"#d8f3dc"},{"id":"pounce","name":"跳襲","group":"beast","desc":"ランダム敵へ突撃波。","kind":"projectile","color":"#b7e4c7"},{"id":"thunder","name":"雷爪嵐","group":"beast","desc":"周囲雷撃。","kind":"pulse","color":"#c7f9cc"},{"id":"wild","name":"野性解放","group":"beast","desc":"速度と攻撃強化。","kind":"buff","color":"#74c69d"},{"id":"pack","name":"群狼影","group":"beast","desc":"分身弾。","kind":"projectile","color":"#40916c"},{"id":"roar","name":"覇獣咆哮","group":"beast","desc":"敵を削る大咆哮。","kind":"nova","color":"#2d6a4f"},{"id":"hunt","name":"狩猟本能","group":"beast","desc":"撃破時Gold増加。","kind":"buff","color":"#95d5b2"},{"id":"fire","name":"竜炎弾","group":"dragon","desc":"高威力の炎弾。","kind":"projectile","color":"#ff6b6b"},{"id":"meteor","name":"竜星落下","group":"dragon","desc":"敵周辺に隕石。","kind":"meteor","color":"#f77f00"},{"id":"breath","name":"竜神ブレス","group":"dragon","desc":"前方貫通炎。","kind":"laser","color":"#e63946"},{"id":"scale","name":"竜鱗障壁","group":"dragon","desc":"防御と反撃。","kind":"pulse","color":"#f94144"},{"id":"tail","name":"竜尾旋風","group":"dragon","desc":"周囲薙ぎ払い。","kind":"orbit","color":"#f3722c"},{"id":"flare","name":"爆炎核","group":"dragon","desc":"巨大爆発。","kind":"nova","color":"#f8961e"},{"id":"storm","name":"雷竜嵐","group":"dragon","desc":"雷弾をばら撒く。","kind":"projectile","color":"#f9844a"},{"id":"ancient","name":"古竜詠唱","group":"dragon","desc":"全体火力強化。","kind":"buff","color":"#f9c74f"},{"id":"fangfire","name":"炎牙","group":"dragon","desc":"近距離炎撃。","kind":"pulse","color":"#f94144"},{"id":"apocalypse","name":"終焉竜星","group":"dragon","desc":"超広範囲隕石。","kind":"meteor","color":"#f3722c"}],"items":[{"id":"map","name":"地図","color":"#ffe066","desc":"ミニマップを右上に表示。アイテム位置も見える。"},{"id":"heal30","name":"回復薬","color":"#80ed99","desc":"HPを30%回復。"},{"id":"heal100","name":"秘薬","color":"#57cc99","desc":"HPを100%回復。"},{"id":"buff","name":"強化薬","color":"#ff922b","desc":"60秒間、攻撃・移動速度+30%。"},{"id":"book","name":"秘伝書","color":"#9b5de5","desc":"獲得可能なスキルをランダム取得。"},{"id":"growth","name":"成長薬","color":"#4cc9f0","desc":"60秒間、獲得経験値+20%。"},{"id":"magnet","name":"磁石","color":"#4895ef","desc":"散らばる魔石を一斉収集。"},{"id":"giant","name":"巨大化の種","color":"#ff4d6d","desc":"30秒間、サイズと攻撃サイズ2倍。"},{"id":"gold","name":"金貨袋","color":"#ffd166","desc":"Goldを獲得。"},{"id":"chest","name":"宝箱","color":"#c77dff","desc":"Gold大量獲得 + 低確率で追加アイテム。"},{"id":"xp","name":"経験の書","color":"#90e0ef","desc":"即座に経験値獲得。"},{"id":"shield","name":"守り札","color":"#caf0f8","desc":"10秒間、無敵。"},{"id":"speed","name":"俊足薬","color":"#06d6a0","desc":"45秒間、移動速度+50%。"},{"id":"bomb","name":"爆弾","color":"#ef476f","desc":"画面内の敵へ大ダメージ。"},{"id":"whistle","name":"召喚笛","color":"#ffbe0b","desc":"ランダムな追加アイテムをその場に呼ぶ。"},{"id":"luck","name":"幸運のコイン","color":"#ffe066","desc":"60秒間、Gold獲得量+50%。"},{"id":"revive","name":"復活の羽","color":"#f1faee","desc":"一度だけ自動復活。"},{"id":"freeze","name":"時の砂","color":"#a8dadc","desc":"8秒間、敵の動きを大きく鈍らせる。"},{"id":"harvest","name":"収穫の鎌","color":"#84a59d","desc":"60秒間、アイテム湧きが早くなる。"},{"id":"bless","name":"祝福石","color":"#e9c46a","desc":"30秒間、全ステータス上昇。"}]};
+const SAVE = "maseki_tensei_survivor_v05";
+const TILE = 24, MAP_W = 64, MAP_H = 64, WORLD_W = MAP_W*TILE, WORLD_H = MAP_H*TILE;
+const $ = id => document.getElementById(id);
+const fmt = n => Math.floor(n||0).toLocaleString("ja-JP");
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const dist2 = (a,b,c,d) => { const x=a-c,y=b-d; return x*x+y*y; };
+const rand = (a,b) => a + Math.random()*(b-a);
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+const SKILLS = DATA.skills;
+const ITEMS = DATA.items;
+const GACHA = (() => {
+  const items = [];
+  const add = (count, rare, type, racePool, prefix, bonusBase) => {
+    for(let i=1;i<=count;i++) {
+      const race = racePool === "all" ? null : pick(racePool);
+      const statKeys = ["atk","hp","speed","magnet","growth"];
+      const k1 = pick(statKeys);
+      const k2 = pick(statKeys.filter(k => k!==k1));
+      const bonus = { [k1]: bonusBase };
+      if(["SR","SSR","UR","SKIN"].includes(rare)) bonus[k2] = +(bonusBase*0.6).toFixed(4);
+      items.push({
+        id: "g"+String(items.length+1).padStart(3,"0"),
+        type, rare, race,
+        name: `${race ? ({human:"人族",beast:"獣族",dragon:"竜族"}[race]) : "共通"}${prefix}${i}`,
+        bonus
+      });
+    }
+  };
+  add(330,"N","equip","all","量産装備",0.006);
+  add(100,"R","equip","all","希少装備",0.014);
+  add(50,"SR","equip",["human","beast","dragon"],"英雄装備",0.028);
+  add(12,"SSR","equip",["human","beast","dragon"],"神話装備",0.05);
+  add(5,"UR","equip",["human","beast","dragon"],"究極装備",0.085);
+  add(3,"SKIN","skin",["human","beast","dragon"],"スキン",0.055);
+  return items.slice(0,500);
+})();
 
-const RACES=[
-{id:"human",name:"人族",color:"#ffd76a",sub:"#70dcff",desc:"万能型。共通スキルの伸びが良く、経験値と回収範囲が高い。",bonus:{hp:1.08,atk:1.08,speed:1.08,magnet:1.13,growth:1.18},syn:["魔石弾","守護剣","万能"]},
-{id:"beast",name:"獣族",color:"#74f5a3",sub:"#ffd76a",desc:"高速近接型。獣爪・突進・雷撃で敵群を裂く。",bonus:{hp:1.16,atk:1.22,speed:1.25,magnet:1.1,growth:1.0},syn:["獣爪","雷撃","突進"]},
-{id:"dragon",name:"竜族",color:"#ff6b6b",sub:"#ffd76a",desc:"高HP高火力型。竜炎・ブレス・隕石で焼き払う。",bonus:{hp:1.35,atk:1.28,speed:.98,magnet:1.0,growth:1.0},syn:["竜炎","ブレス","隕石"]}
+const RACES = [
+  {id:"human",name:"人族",color:"#ffd76a",sub:"#70dcff",desc:"万能型。進化ドットは人間専用で丁寧に描画。",bonus:{hp:1.10,atk:1.08,speed:1.08,magnet:1.12,growth:1.18}},
+  {id:"beast",name:"獣族",color:"#74f5a3",sub:"#caffbf",desc:"高速近接型。突進と爪で殲滅。",bonus:{hp:1.18,atk:1.22,speed:1.24,magnet:1.08,growth:1.02}},
+  {id:"dragon",name:"竜族",color:"#ff6b6b",sub:"#ffd6a5",desc:"高火力高耐久型。ブレスと隕石で焼く。",bonus:{hp:1.34,atk:1.28,speed:1.0,magnet:1.0,growth:1.0}}
 ];
-const SKILLS=DATA.skills;
-const GACHA=DATA.gacha;
-const UPS=[
-{id:"hp",name:"最大HP",desc:"最大HP +10%",base:8,max:25},
-{id:"atk",name:"攻撃力",desc:"攻撃力 +8%",base:10,max:25},
-{id:"speed",name:"移動速度",desc:"移動速度 +4%",base:12,max:20},
-{id:"magnet",name:"回収範囲",desc:"経験値回収範囲 +10%",base:9,max:20},
-{id:"growth",name:"成長力",desc:"獲得経験値 +6%",base:14,max:20},
-{id:"choice",name:"選択肢",desc:"レベルアップ選択肢 +1",base:80,max:2}
+
+const UPS = [
+  {id:"hp",name:"最大HP",desc:"最大HP +10%",base:8,max:25},
+  {id:"atk",name:"攻撃力",desc:"攻撃力 +8%",base:10,max:25},
+  {id:"speed",name:"移動速度",desc:"移動速度 +4%",base:12,max:20},
+  {id:"magnet",name:"回収範囲",desc:"経験値回収範囲 +10%",base:9,max:20},
+  {id:"growth",name:"成長力",desc:"獲得経験値 +6%",base:14,max:20},
+  {id:"choice",name:"選択肢",desc:"レベルアップ選択肢 +1",base:80,max:2}
 ];
 
-let meta,selected="human",g=null,raf=null,last=0,paused=false,soundOn=true;
-let input={active:false,x:0,y:0,dx:0,dy:0},keys={},audio=null,bgmTimer=null,choiceTimer=null,choiceRemain=0,currentChoices=[];
+let meta, selected = "human", g = null, raf = null, last = 0, paused = false, soundOn = true;
+let input = {active:false,x:0,y:0,dx:0,dy:0}, keys = {}, audio = null, bgmTimer = null, choiceTimer = null, choiceRemain = 0, currentChoices = [];
 
-function safe(fn){try{fn()}catch(e){console.error(e);$("err").classList.remove("hidden");$("err").textContent="エラー: "+(e.message||e)}}
-function newMeta(){return{pts:0,gold:0,spent:{},owned:{},best:0,bestTime:0,bestKills:0,bestLv:1,sound:true}}
-function load(){try{meta=JSON.parse(localStorage.getItem(SAVE))||newMeta()}catch{meta=newMeta()} if(meta.gold==null)meta.gold=0;if(!meta.owned)meta.owned={};if(meta.sound==null)meta.sound=true;soundOn=meta.sound}
-function save(){localStorage.setItem(SAVE,JSON.stringify(meta))}
-function ulv(id){return meta.spent[id]||0}
-function uval(id){let l=ulv(id);if(id==="hp")return 1+l*.10;if(id==="atk")return 1+l*.08;if(id==="speed")return 1+l*.04;if(id==="magnet")return 1+l*.10;if(id==="growth")return 1+l*.06;if(id==="choice")return l;return 1}
-function dupBonus(n){if(n>=10000)return 5;if(n>=1000)return 3;if(n>=100)return 2;if(n>=10)return 1.5;return 1}
-function ownedBonus(raceId){let b={hp:1,atk:1,speed:1,magnet:1,growth:1};for(const [id,n] of Object.entries(meta.owned||{})){let it=GACHA.find(x=>x.id===id);if(!it||!it.bonus)continue;if(it.race&&it.race!==raceId)continue;let m=dupBonus(n);for(const [k,v] of Object.entries(it.bonus))b[k]=(b[k]||1)+v*m}return b}
-function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id).classList.add("active");render()}
+function safe(fn) { try { fn(); } catch (e) { console.error(e); $("err").classList.remove("hidden"); $("err").textContent = "エラー: " + (e.message || e); } }
+function newMeta() { return { pts:0, gold:0, spent:{}, owned:{}, best:0, bestTime:0, bestKills:0, bestLv:1, sound:true }; }
+function load() { try { meta = JSON.parse(localStorage.getItem(SAVE)) || newMeta(); } catch { meta = newMeta(); } if(meta.gold==null) meta.gold=0; if(!meta.owned) meta.owned={}; if(meta.sound==null) meta.sound=true; soundOn = meta.sound; }
+function save() { localStorage.setItem(SAVE, JSON.stringify(meta)); }
+function ulv(id) { return meta.spent[id] || 0; }
+function uval(id) {
+  const l = ulv(id);
+  if(id==="hp") return 1+l*0.10;
+  if(id==="atk") return 1+l*0.08;
+  if(id==="speed") return 1+l*0.04;
+  if(id==="magnet") return 1+l*0.10;
+  if(id==="growth") return 1+l*0.06;
+  if(id==="choice") return l;
+  return 1;
+}
+function dupBonus(n) { if(n>=10000) return 5; if(n>=1000) return 3; if(n>=100) return 2; if(n>=10) return 1.5; return 1; }
+function ownedBonus(raceId) {
+  const b = {hp:1,atk:1,speed:1,magnet:1,growth:1};
+  for(const [id,n] of Object.entries(meta.owned||{})) {
+    const it = GACHA.find(x=>x.id===id); if(!it || !it.bonus) continue;
+    if(it.race && it.race !== raceId) continue;
+    const m = dupBonus(n);
+    for(const [k,v] of Object.entries(it.bonus)) b[k] = (b[k] || 1) + v * m;
+  }
+  return b;
+}
+function show(id) { document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active")); $(id).classList.add("active"); render(); }
 
-function initAudio(){if(audio||!soundOn)return;audio=new (window.AudioContext||window.webkitAudioContext)()}
-function beep(type="hit"){if(!soundOn)return;initAudio();if(!audio)return;let o=audio.createOscillator(),gain=audio.createGain(),now=audio.currentTime;o.connect(gain);gain.connect(audio.destination);let f=type==="gold"?880:type==="lv"?440:type==="dead"?220:type==="shot"?660:180;o.type=type==="shot"?"square":type==="lv"?"sawtooth":"triangle";o.frequency.setValueAtTime(f,now);if(type==="dead")o.frequency.exponentialRampToValueAtTime(55,now+.45);if(type==="lv")o.frequency.exponentialRampToValueAtTime(960,now+.18);gain.gain.setValueAtTime(type==="dead"?.07:.03,now);gain.gain.exponentialRampToValueAtTime(.001,now+(type==="dead"?.5:.12));o.start(now);o.stop(now+.55)}
-function startBgm(){if(!soundOn)return;initAudio();stopBgm();let notes=[220,277,330,440,392,330,277,247],i=0;bgmTimer=setInterval(()=>{if(!audio||paused||!g||g.over)return;let now=audio.currentTime,o=audio.createOscillator(),gain=audio.createGain();o.type="square";o.frequency.setValueAtTime(notes[i%notes.length],now);o.connect(gain);gain.connect(audio.destination);gain.gain.setValueAtTime(.016,now);gain.gain.exponentialRampToValueAtTime(.001,now+.26);o.start(now);o.stop(now+.3);i++},180)}
-function stopBgm(){if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null}}
+function initAudio() { if(audio || !soundOn) return; audio = new (window.AudioContext || window.webkitAudioContext)(); }
+function beep(type="hit") {
+  if(!soundOn) return; initAudio(); if(!audio) return;
+  const o = audio.createOscillator(), gain = audio.createGain(), now = audio.currentTime;
+  o.connect(gain); gain.connect(audio.destination);
+  let f = type==="gold" ? 880 : type==="lv" ? 440 : type==="dead" ? 220 : type==="shot" ? 660 : 180;
+  o.type = type==="shot" ? "square" : type==="lv" ? "sawtooth" : "triangle";
+  o.frequency.setValueAtTime(f, now);
+  if(type==="dead") o.frequency.exponentialRampToValueAtTime(55, now+0.45);
+  if(type==="lv") o.frequency.exponentialRampToValueAtTime(960, now+0.18);
+  gain.gain.setValueAtTime(type==="dead" ? 0.06 : 0.03, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + (type==="dead"?0.45:0.12));
+  o.start(now); o.stop(now + (type==="dead"?0.5:0.15));
+}
+function startBgm() {
+  if(!soundOn) return; initAudio(); stopBgm();
+  const notes = [220,277,330,392,440,392,330,277], bass = [110,110,138,98];
+  let i = 0;
+  bgmTimer = setInterval(() => {
+    if(!audio || paused || !g || g.over) return;
+    let now = audio.currentTime;
+    let o1 = audio.createOscillator(), g1 = audio.createGain();
+    let o2 = audio.createOscillator(), g2 = audio.createGain();
+    o1.type = "square"; o2.type = "triangle";
+    o1.frequency.setValueAtTime(notes[i % notes.length], now);
+    o2.frequency.setValueAtTime(bass[i % bass.length], now);
+    o1.connect(g1); o2.connect(g2); g1.connect(audio.destination); g2.connect(audio.destination);
+    g1.gain.setValueAtTime(0.014, now); g2.gain.setValueAtTime(0.012, now);
+    g1.gain.exponentialRampToValueAtTime(0.001, now+0.25); g2.gain.exponentialRampToValueAtTime(0.001, now+0.38);
+    o1.start(now); o2.start(now); o1.stop(now+0.26); o2.stop(now+0.4); i++;
+  }, 180);
+}
+function stopBgm() { if(bgmTimer) { clearInterval(bgmTimer); bgmTimer = null; } }
 
-function render(){$("metaPts").textContent=fmt(meta.pts);$("bestScore").textContent=fmt(meta.best);$("ptsText").textContent=fmt(meta.pts);$("goldText").textContent=fmt(meta.gold);$("goldGacha").textContent=fmt(meta.gold);$("soundText").textContent=soundOn?"ON":"OFF";
-$("raceCards").innerHTML=RACES.map(r=>`<button type="button" class="card ${selected===r.id?"selected":""}" data-race="${r.id}"><h3>${r.name}</h3><p>${r.desc}</p>${r.syn.map(s=>`<span class="tag">${s}</span>`).join("")}</button>`).join("");
-$("upgradeCards").innerHTML=UPS.map(u=>{let l=ulv(u.id),c=Math.floor(u.base*Math.pow(1.45,l)),m=l>=u.max;return `<div class="card"><h3>${u.name} Lv${l}/${u.max}</h3><p>${u.desc}</p><button type="button" data-up="${u.id}" ${m||meta.pts<c?"disabled":""}>${m?"最大":"強化 "+fmt(c)+"pt"}</button></div>`}).join("");renderInventory()}
-function renderInventory(){let owned=Object.entries(meta.owned||{}).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,120);$("inventoryCards").innerHTML=owned.length?owned.map(([id,n])=>{let it=GACHA.find(x=>x.id===id),step=n>=10000?"+10000":n>=1000?"+1000":n>=100?"+100":n>=10?"+10":"通常";return `<div class="card"><h3>${it.name} <span class="tag">${it.rare}</span></h3><p>${it.type==="skin"?"スキン":"装備"} / ${it.race?RACES.find(r=>r.id===it.race).name:"全種族"}<br>所持：+${n}<br>強化段階：${step}</p></div>`}).join(""):'<div class="card"><p>まだ所持品なし</p></div>'}
-function rarityRoll(){let r=Math.random();if(r<.001)return"SKIN";if(r<.006)return"UR";if(r<.016)return"SSR";if(r<.116)return"SR";if(r<.316)return"R";return"N"}
-function roll(n){let cost=100*n;if(meta.gold<cost){$("gachaResult").textContent="Gold不足";return}meta.gold-=cost;let got=[];for(let i=0;i<n;i++){let rare=rarityRoll(),pool=GACHA.filter(x=>x.rare===rare);let it=pool[Math.floor(Math.random()*pool.length)]||GACHA[0];meta.owned[it.id]=(meta.owned[it.id]||0)+1;if(i<30)got.push(`${it.rare}:${it.name}+${meta.owned[it.id]}`)}save();$("gachaResult").innerHTML=got.map(x=>`<span class="tag">${x}</span>`).join("")+(n>30?`<p>ほか${n-30}件</p>`:"");render();beep("lv")}
-
-function startGame(){initAudio();startBgm();const race=RACES.find(r=>r.id===selected)||RACES[0],ob=ownedBonus(race.id);const cv=$("cv"),ctx=cv.getContext("2d"),dpr=Math.max(1,Math.min(2,devicePixelRatio||1));cv.width=Math.floor(innerWidth*dpr);cv.height=Math.floor(innerHeight*dpr);cv.style.width=innerWidth+"px";cv.style.height=innerHeight+"px";ctx.setTransform(dpr,0,0,dpr,0,0);
-let starter=selected==="human"?["orb","slash"]:selected==="beast"?["claw","dash"]:["fire","breath"];g={ctx,cv,w:innerWidth,h:innerHeight,race,time:0,score:0,kills:0,runGold:0,over:false,spawn:0,boss:38,enemyPower:1,
-player:{x:innerWidth/2,y:innerHeight/2,r:16,hp:145*race.bonus.hp*uval("hp")*ob.hp,maxHp:145*race.bonus.hp*uval("hp")*ob.hp,atk:18*race.bonus.atk*uval("atk")*ob.atk,speed:238*race.bonus.speed*uval("speed")*ob.speed,magnet:115*race.bonus.magnet*uval("magnet")*ob.magnet,lv:1,xp:0,next:18,phase:0,inv:0},
-enemies:[],gems:[],goldDrops:[],shots:[],fx:[],skills:Object.fromEntries(starter.map(id=>[id,{id,lv:1,cd:0,evo:false}]))};paused=false;$("pause").textContent="II";show("game");$("touchHint").style.opacity="1";setTimeout(()=>$("touchHint").style.opacity=".25",2000);last=performance.now();if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
-
-function moveVec(){let x=0,y=0;if(keys.ArrowLeft||keys.KeyA)x--;if(keys.ArrowRight||keys.KeyD)x++;if(keys.ArrowUp||keys.KeyW)y--;if(keys.ArrowDown||keys.KeyS)y++;x+=input.dx;y+=input.dy;let l=Math.hypot(x,y);if(l>1){x/=l;y/=l}return{x,y}}
-function spawn(boss=false){let side=Math.floor(Math.random()*4),m=60,x=side===0?-m:side===1?g.w+m:Math.random()*g.w,y=side===2?-m:side===3?g.h+m:Math.random()*g.h;let sc=Math.pow(1.025,g.time)*Math.pow(1.11,Math.floor(g.time/30));let kind=boss?"boss":Math.random()<.16?"fast":Math.random()<.14?"tank":"normal";let hp=(boss?1400:kind==="tank"?150:kind==="fast"?48:72)*sc,r=boss?48:kind==="tank"?22:kind==="fast"?12:16;g.enemies.push({x,y,r,kind,boss,hp,maxHp:hp,spd:(boss?54:kind==="fast"?150:kind==="tank"?62:96)*(1+g.time/180),dmg:(boss?42:12+g.time/28)*Math.pow(1.018,g.time),color:boss?"#ffd76a":kind==="fast"?"#70dcff":kind==="tank"?"#b56cff":"#ff6b6b"})}
-function effect(x,y,t,c="#ffd76a"){g.fx.push({x,y,t,c,life:.45,a:0})}
-function gainXp(v){let p=g.player,ob=ownedBonus(g.race.id);p.xp+=v*(g.race.bonus.growth||1)*uval("growth")*ob.growth;while(p.xp>=p.next){p.xp-=p.next;p.lv++;p.next=Math.floor(p.next*1.24+14);p.maxHp+=16;p.hp=Math.min(p.maxHp,p.hp+25);levelUp()}}
-function levelUp(){beep("lv");let p=g.player,n=p.lv>=45?4:p.lv>=28?3:p.lv>=14?2:p.lv>=6?1:0;if(n>p.phase){p.phase=n;effect(p.x,p.y,["第一進化","第二進化","第三進化","神化"][n-1],"#fff")}paused=true;let pool=SKILLS.filter(s=>s.group==="common"||s.group===g.race.id);let count=Math.min(pool.length,3+uval("choice"));currentChoices=pool.sort(()=>Math.random()-.5).slice(0,count);$("choices").innerHTML=currentChoices.map(s=>{let cur=g.skills[s.id]?.lv||0;return `<button type="button" class="choice" data-skill="${s.id}"><h3>${s.name} ${cur?`Lv${cur}→${cur+1}`:"NEW"}</h3><p>${s.desc}</p><span class="tag">${s.group==="common"?"共通":g.race.name}</span>${cur>=5?'<span class="tag">進化候補</span>':""}</button>`}).join("");$("levelup").classList.add("active");startChoiceTimer()}
-function startChoiceTimer(){choiceRemain=3.0;$("choiceTimer").textContent=choiceRemain.toFixed(1);if(choiceTimer)clearInterval(choiceTimer);choiceTimer=setInterval(()=>{choiceRemain-=.1;$("choiceTimer").textContent=Math.max(0,choiceRemain).toFixed(1);if(choiceRemain<=0){clearInterval(choiceTimer);choiceTimer=null;let pick=currentChoices[Math.floor(Math.random()*currentChoices.length)];if(pick)chooseSkill(pick.id)}},100)}
-function chooseSkill(id){if(choiceTimer){clearInterval(choiceTimer);choiceTimer=null}let s=g.skills[id]||{id,lv:0,cd:0,evo:false};s.lv++;let def=SKILLS.find(x=>x.id===id);if(s.lv>=6&&(def.group==="common"||def.group===g.race.id)){s.evo=true;effect(g.player.x,g.player.y,"進化:"+def.name)}g.skills[id]=s;$("levelup").classList.remove("active");paused=false;last=performance.now()}
-
-function fireShot(a,spd,r,dmg,life,p,c){let pl=g.player;g.shots.push({x:pl.x,y:pl.y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,r,dmg,life,p,c})}
-function area(x,y,rad,dmg,label,c){g.enemies.forEach(e=>{if(d2(x,y,e.x,e.y)<rad*rad){e.hp-=dmg;if(Math.random()<.12)effect(e.x,e.y,label,c)}})}
-function shoot(sk,dt){let p=g.player;sk.cd-=dt;if(sk.cd>0)return;let lv=sk.lv,evo=sk.evo,atk=p.atk*(1+lv*.24)*(evo?1.65:1);let near=g.enemies.slice().sort((a,b)=>d2(p.x,p.y,a.x,a.y)-d2(p.x,p.y,b.x,b.y))[0];let a=near?Math.atan2(near.y-p.y,near.x-p.x):Math.random()*Math.PI*2;
- const kind=(SKILLS.find(x=>x.id===sk.id)||{kind:"projectile"}).kind;
- if(kind==="projectile"){sk.cd=Math.max(.16,.42-lv*.018);let n=evo?3:1;for(let i=0;i<n;i++)fireShot(a+(i-(n-1)/2)*.25,380+lv*12,7+lv*.4,atk*1.35,1.2,evo?4:2,sk.id.includes("fire")||sk.id.includes("dragon")?"#ff6b6b":g.race.color);beep("shot")}
- if(kind==="orbit"){sk.cd=.16;area(p.x,p.y,55+lv*9+(evo?40:0),atk*.58,"斬","#70dcff")}
- if(kind==="pulse"){sk.cd=Math.max(.25,.7-lv*.025);area(p.x,p.y,88+lv*13+(evo?70:0),atk*1.45,"撃",g.race.color);beep("hit")}
- if(kind==="laser"){sk.cd=Math.max(.35,.9-lv*.03);g.fx.push({laser:true,x:p.x,y:p.y,a2:a,c:g.race.color,life:.18,a:0});g.enemies.forEach(e=>{let dx=e.x-p.x,dy=e.y-p.y,along=dx*Math.cos(a)+dy*Math.sin(a),side=Math.abs(-dx*Math.sin(a)+dy*Math.cos(a));if(along>0&&along<420+lv*28&&side<24+lv*4)e.hp-=atk*2.1})}
- if(kind==="meteor"){sk.cd=Math.max(.45,1.05-lv*.04);let n=1+Math.floor(lv/2)+(evo?3:0);for(let i=0;i<n;i++){let e=g.enemies[Math.floor(Math.random()*g.enemies.length)];if(!e)continue;let rad=42+lv*5;g.fx.push({x:e.x,y:e.y,t:"爆",c:"#ffd76a",life:.25,a:0,circle:true,rr:rad});area(e.x,e.y,rad,atk*1.9,"爆","#ffd76a")}beep("hit")}
- if(kind==="chain"){sk.cd=Math.max(.38,.85-lv*.03);g.enemies.slice(0,5+lv+(evo?8:0)).forEach(e=>{e.hp-=atk*1.2;effect(e.x,e.y,"雷","#70dcff")})}
- if(kind==="mine"){sk.cd=Math.max(.3,.75-lv*.025);area(p.x+(Math.random()-.5)*180,p.y+(Math.random()-.5)*180,50+lv*4,atk*1.5,"地雷","#ffd76a")}
- if(kind==="nova"){sk.cd=Math.max(.7,1.6-lv*.05);area(p.x,p.y,135+lv*14+(evo?90:0),atk*2.0,"新星","#ff72ce");beep("hit")}
- if(kind==="cross"){sk.cd=Math.max(.35,.78-lv*.03);[0,Math.PI/2,Math.PI,Math.PI*1.5].forEach(aa=>fireShot(aa,420,8,atk*1.4,1.0,evo?4:2,"#ffd76a"))}
- if(kind==="buff"){sk.cd=1.6; p.hp=Math.min(p.maxHp,p.hp+3+lv); p.atk+=.02; effect(p.x,p.y,"強化","#ffd76a")}
+function render() {
+  $("metaPts").textContent = fmt(meta.pts);
+  $("bestScore").textContent = fmt(meta.best);
+  $("ptsText").textContent = fmt(meta.pts);
+  $("goldText").textContent = fmt(meta.gold);
+  $("goldGacha").textContent = fmt(meta.gold);
+  $("soundText").textContent = soundOn ? "ON" : "OFF";
+  $("raceCards").innerHTML = RACES.map(r => `<button type="button" class="card ${selected===r.id?"selected":""}" data-race="${r.id}"><h3>${r.name}</h3><p>${r.desc}</p></button>`).join("");
+  $("upgradeCards").innerHTML = UPS.map(u => {
+    const l = ulv(u.id), c = Math.floor(u.base*Math.pow(1.45,l)), m = l>=u.max;
+    return `<div class="card"><h3>${u.name} Lv${l}/${u.max}</h3><p>${u.desc}</p><button type="button" data-up="${u.id}" ${m||meta.pts<c?"disabled":""}>${m?"最大":"強化 "+fmt(c)+"pt"}</button></div>`;
+  }).join("");
+  renderInventory();
+}
+function renderInventory() {
+  const owned = Object.entries(meta.owned||{}).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,120);
+  $("inventoryCards").innerHTML = owned.length ? owned.map(([id,n]) => {
+    const it = GACHA.find(x=>x.id===id), step = n>=10000?"+10000":n>=1000?"+1000":n>=100?"+100":n>=10?"+10":"通常";
+    return `<div class="card"><h3>${it.name} <span class="tag">${it.rare}</span></h3><p>${it.type==="skin"?"スキン":"装備"} / ${it.race ? RACES.find(r=>r.id===it.race).name : "全種族"}<br>所持：+${n}<br>強化段階：${step}</p></div>`;
+  }).join("") : `<div class="card"><p>まだ所持アイテムがありません。</p></div>`;
+}
+function rarityRoll() {
+  const r = Math.random();
+  if(r < 0.001) return "SKIN";
+  if(r < 0.006) return "UR";
+  if(r < 0.016) return "SSR";
+  if(r < 0.116) return "SR";
+  if(r < 0.316) return "R";
+  return "N";
+}
+function roll(n) {
+  const cost = 100*n;
+  if(meta.gold < cost) { $("gachaResult").textContent = "Gold不足"; return; }
+  meta.gold -= cost;
+  const got = [];
+  for(let i=0;i<n;i++) {
+    const rare = rarityRoll();
+    const pool = GACHA.filter(x=>x.rare===rare);
+    const it = pool[Math.floor(Math.random()*pool.length)] || GACHA[0];
+    meta.owned[it.id] = (meta.owned[it.id] || 0) + 1;
+    if(i < 30) got.push(`${it.rare}:${it.name}+${meta.owned[it.id]}`);
+  }
+  save();
+  $("gachaResult").innerHTML = got.map(x=>`<span class="tag">${x}</span>`).join("") + (n>30?`<p>ほか${n-30}件</p>`:"");
+  render(); beep("lv");
 }
 
-function update(dt){if(paused||!g||g.over)return;let p=g.player;g.time+=dt;g.score+=dt*10+p.lv*dt*5;g.spawn-=dt;if(g.spawn<=0){g.spawn=Math.max(.035,.34-g.time/260);for(let i=0;i<1+Math.floor(g.time/28);i++)spawn(false)}g.boss-=dt;if(g.boss<=0){g.boss=45;spawn(true);effect(p.x,p.y-40,"ボス出現","#ffd76a")}
- let mv=moveVec();p.x=clamp(p.x+mv.x*p.speed*dt,18,g.w-18);p.y=clamp(p.y+mv.y*p.speed*dt,18,g.h-18);if(p.inv>0)p.inv-=dt;Object.values(g.skills).forEach(s=>shoot(s,dt));
- g.enemies.forEach(e=>{let a=Math.atan2(p.y-e.y,p.x-e.x);e.x+=Math.cos(a)*e.spd*dt;e.y+=Math.sin(a)*e.spd*dt;let rr=e.r+p.r;if(d2(e.x,e.y,p.x,p.y)<rr*rr&&p.inv<=0){p.hp-=e.dmg;p.inv=.22;effect(p.x,p.y,"-"+Math.floor(e.dmg),"#ff6b6b");beep("hit");if(p.hp<=0)die()}});
- g.shots.forEach(s=>{s.x+=s.vx*dt;s.y+=s.vy*dt;s.life-=dt;g.enemies.forEach(e=>{if(s.life<=0||s.p<=0)return;let rr=s.r+e.r;if(d2(s.x,s.y,e.x,e.y)<rr*rr){e.hp-=s.dmg;s.p--;effect(e.x,e.y,Math.floor(s.dmg),"#fff")}})});g.shots=g.shots.filter(s=>s.life>0&&s.p>0&&s.x>-80&&s.x<g.w+80&&s.y>-80&&s.y<g.h+80);
- let dead=g.enemies.filter(e=>e.hp<=0);dead.forEach(e=>{g.kills++;let gold=e.boss?80+Math.floor(g.time/3):4+Math.floor(Math.random()*5)+Math.floor(g.time/45);g.runGold+=gold;meta.gold+=gold;save();if(Math.random()<.2)beep("gold");g.score+=e.boss?7000:100+g.time;let n=e.boss?22:1+(Math.random()<.22?1:0);for(let i=0;i<n;i++)g.gems.push({x:e.x+(Math.random()-.5)*36,y:e.y+(Math.random()-.5)*36,r:e.boss?6:4,v:e.boss?18:4});g.goldDrops.push({x:e.x,y:e.y,t:"+"+gold+"G",a:0})});g.enemies=g.enemies.filter(e=>e.hp>0);
- g.gems.forEach(m=>{let dd=Math.sqrt(d2(m.x,m.y,p.x,p.y));if(dd<p.magnet){m.x+=(p.x-m.x)*dt*10;m.y+=(p.y-m.y)*dt*10}if(dd<p.r+m.r+9){m.pick=true;gainXp(m.v)}});g.gems=g.gems.filter(m=>!m.pick);
- g.fx.forEach(f=>f.a+=dt);g.fx=g.fx.filter(f=>f.a<f.life);g.goldDrops.forEach(f=>f.a+=dt);g.goldDrops=g.goldDrops.filter(f=>f.a<.65);hud()}
-function draw(){if(!g)return;let c=g.ctx,p=g.player;c.clearRect(0,0,g.w,g.h);c.fillStyle="#050814";c.fillRect(0,0,g.w,g.h);c.strokeStyle="#1b2a46";c.globalAlpha=.28;for(let x=(-g.time*90)%60;x<g.w;x+=60){c.beginPath();c.moveTo(x,0);c.lineTo(x,g.h);c.stroke()}for(let y=(-g.time*90)%60;y<g.h;y+=60){c.beginPath();c.moveTo(0,y);c.lineTo(g.w,y);c.stroke()}c.globalAlpha=1;
- g.gems.forEach(m=>{c.fillStyle="#70dcff";c.beginPath();c.arc(m.x,m.y,m.r,0,7);c.fill()});g.shots.forEach(s=>{c.fillStyle=s.c;c.beginPath();c.arc(s.x,s.y,s.r,0,7);c.fill()});
- g.enemies.forEach(e=>{c.save();c.translate(e.x,e.y);c.fillStyle=e.color;if(e.boss){c.shadowColor="#ffd76a";c.shadowBlur=20;c.beginPath();for(let i=0;i<8;i++){let a=i*Math.PI/4+g.time,rr=e.r*(i%2?.75:1.15);c.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}c.closePath();c.fill()}else if(e.kind==="tank")c.fillRect(-e.r,-e.r,e.r*2,e.r*2);else{c.beginPath();c.arc(0,0,e.r,0,7);c.fill()}c.shadowBlur=0;c.fillStyle="#000a";c.fillRect(-e.r,-e.r-9,e.r*2,4);c.fillStyle="#74f5a3";c.fillRect(-e.r,-e.r-9,e.r*2*(e.hp/e.maxHp),4);c.restore()});
- drawPlayer(c,p,g.race);g.fx.forEach(f=>{c.save();c.globalAlpha=1-f.a/f.life;if(f.laser){c.translate(f.x,f.y);c.rotate(f.a2);c.strokeStyle=f.c;c.lineWidth=22;c.beginPath();c.moveTo(0,0);c.lineTo(500,0);c.stroke()}else if(f.circle){c.strokeStyle=f.c;c.lineWidth=4;c.beginPath();c.arc(f.x,f.y,f.rr*(f.a/f.life),0,7);c.stroke()}else{c.fillStyle=f.c;c.font="bold 16px system-ui";c.textAlign="center";c.fillText(f.t,f.x,f.y-f.a*40)}c.restore()});g.goldDrops.forEach(f=>{c.save();c.globalAlpha=1-f.a/.65;c.fillStyle="#ffd76a";c.font="bold 14px system-ui";c.textAlign="center";c.fillText(f.t,f.x,f.y-f.a*36);c.restore()})}
-function drawPlayer(c,p,r){c.save();c.translate(p.x,p.y);let ph=p.phase;if(ph){c.globalAlpha=.42;c.strokeStyle=r.sub;c.lineWidth=3;c.beginPath();c.arc(0,0,28+ph*9,0,7);c.stroke();c.globalAlpha=1}if(r.id==="beast"&&ph){c.fillStyle=r.sub;c.beginPath();c.moveTo(-8,-10);c.lineTo(-18,-28-ph*4);c.lineTo(-2,-14);c.fill();c.beginPath();c.moveTo(8,-10);c.lineTo(18,-28-ph*4);c.lineTo(2,-14);c.fill()}if(r.id==="dragon"&&ph){c.fillStyle=r.sub;c.beginPath();c.moveTo(-10,0);c.lineTo(-36,-20-ph*6);c.lineTo(-20,14);c.fill();c.beginPath();c.moveTo(10,0);c.lineTo(36,-20-ph*6);c.lineTo(20,14);c.fill()}c.fillStyle=r.color;c.beginPath();c.arc(0,0,p.r+ph*2,0,7);c.fill();c.strokeStyle=r.sub;c.lineWidth=3;c.stroke();c.fillStyle="#07101e";c.fillRect(-6,-3,4,4);c.fillRect(4,-3,4,4);c.restore()}
-function hud(){let p=g.player;$("time").textContent=Math.floor(g.time/60)+":"+String(Math.floor(g.time%60)).padStart(2,"0");$("lv").textContent=p.lv;$("kills").textContent=fmt(g.kills);$("score").textContent=fmt(g.score);$("runGold").textContent=fmt(g.runGold);$("hpbar").style.width=clamp(p.hp/p.maxHp*100,0,100)+"%";$("xpbar").style.width=clamp(p.xp/p.next*100,0,100)+"%";$("skills").innerHTML=Object.values(g.skills).map(s=>`<span>${SKILLS.find(x=>x.id===s.id).name} Lv${s.lv}${s.evo?"★":""}</span>`).join("")}
-function loop(now){let dt=Math.min(.033,(now-last)/1000||0);last=now;safe(()=>{update(dt);draw()});if(g&&!g.over)raf=requestAnimationFrame(loop)}
-function die(){if(!g||g.over)return;beep("dead");stopBgm();g.over=true;if(raf)cancelAnimationFrame(raf);if(choiceTimer)clearInterval(choiceTimer);let p=g.player,score=Math.floor(g.score+g.kills*15+p.lv*140+g.time*30+g.runGold*4),pts=Math.floor(Math.pow(score,.55)+g.time+p.lv*2);meta.pts+=pts;meta.best=Math.max(meta.best,score);meta.bestTime=Math.max(meta.bestTime,g.time);meta.bestKills=Math.max(meta.bestKills,g.kills);meta.bestLv=Math.max(meta.bestLv,p.lv);save();$("resultText").innerHTML=`<div class="stats"><div><b>スコア</b><span>${fmt(score)}</span></div><div><b>獲得pt</b><span>${fmt(pts)}</span></div><div><b>獲得Gold</b><span>${fmt(g.runGold)}</span></div><div><b>総Gold</b><span>${fmt(meta.gold)}</span></div><div><b>撃破</b><span>${fmt(g.kills)}</span></div><div><b>Lv</b><span>${p.lv}</span></div></div>`;$("result").classList.add("active")}
-function spend(id){let u=UPS.find(x=>x.id===id),l=ulv(id),c=Math.floor(u.base*Math.pow(1.45,l));if(l>=u.max||meta.pts<c)return;meta.pts-=c;meta.spent[id]=l+1;save();render()}
-function setup(){$("goRace").onclick=()=>show("race");$("goUpgrades").onclick=()=>show("upgrades");$("goGacha").onclick=()=>show("gacha");document.querySelectorAll(".back").forEach(b=>b.onclick=()=>show("title"));$("start").onclick=startGame;$("backTitle").onclick=()=>{$("result").classList.remove("active");g=null;show("title")};$("roll1").onclick=()=>roll(1);$("roll10").onclick=()=>roll(10);$("roll100").onclick=()=>roll(100);
-$("resetSave").onclick=()=>{if(confirm("保存を初期化しますか？")){localStorage.removeItem(SAVE);load();render()}};$("toggleSound").onclick=()=>{soundOn=!soundOn;meta.sound=soundOn;save();if(!soundOn)stopBgm();else beep("lv");render()};$("pause").onclick=()=>{paused=!paused;$("pause").textContent=paused?"▶":"II";last=performance.now()};
-document.addEventListener("click",e=>{let r=e.target.closest("[data-race]");if(r){selected=r.dataset.race;render()}let u=e.target.closest("[data-up]");if(u)spend(u.dataset.up);let s=e.target.closest("[data-skill]");if(s)chooseSkill(s.dataset.skill)});
-addEventListener("keydown",e=>keys[e.code]=true);addEventListener("keyup",e=>keys[e.code]=false);const cv=$("cv");cv.addEventListener("pointerdown",e=>{input.active=true;input.x=e.clientX;input.y=e.clientY;cv.setPointerCapture(e.pointerId);$("touchHint").style.opacity=".15";e.preventDefault()});cv.addEventListener("pointermove",e=>{if(!input.active)return;let dx=e.clientX-input.x,dy=e.clientY-input.y,l=Math.hypot(dx,dy),dead=4,max=54;if(l<dead){input.dx=0;input.dy=0}else{input.dx=dx/Math.max(l,max);input.dy=dy/Math.max(l,max)}e.preventDefault()});const end=e=>{input.active=false;input.dx=0;input.dy=0;e.preventDefault()};cv.addEventListener("pointerup",end);cv.addEventListener("pointercancel",end);
-addEventListener("resize",()=>{if(!g)return;let cv=$("cv"),dpr=Math.max(1,Math.min(2,devicePixelRatio||1));g.w=innerWidth;g.h=innerHeight;cv.width=Math.floor(g.w*dpr);cv.height=Math.floor(g.h*dpr);cv.style.width=g.w+"px";cv.style.height=g.h+"px";g.ctx.setTransform(dpr,0,0,dpr,0,0)})}
-document.addEventListener("DOMContentLoaded",()=>safe(()=>{load();setup();render()}));
+function buildMap() {
+  const tiles = Array.from({length:MAP_H},()=>Array(MAP_W).fill(0));
+  for(let y=0;y<MAP_H;y++) {
+    for(let x=0;x<MAP_W;x++) {
+      let edge = x===0||y===0||x===MAP_W-1||y===MAP_H-1;
+      if(edge) tiles[y][x] = 2;
+      else {
+        let r = Math.random();
+        tiles[y][x] = r < 0.04 ? 1 : r < 0.055 ? 3 : 0; // 0 grass,1 dirt,3 flowers
+      }
+    }
+  }
+  // paths
+  for(let x=2;x<MAP_W-2;x++) tiles[Math.floor(MAP_H/2)][x] = 1;
+  for(let y=2;y<MAP_H-2;y++) tiles[y][Math.floor(MAP_W/2)] = 1;
+  const obstacles = [];
+  for(let i=0;i<240;i++) {
+    const x = Math.floor(rand(2, MAP_W-2)), y = Math.floor(rand(2, MAP_H-2));
+    if(tiles[y][x]===1 && Math.random()<0.6) continue;
+    const t = Math.random() < 0.5 ? "tree" : "rock";
+    obstacles.push({x,y,w:1,h:1,type:t});
+  }
+  for(let i=0;i<30;i++) {
+    const x = Math.floor(rand(3, MAP_W-5)), y = Math.floor(rand(3, MAP_H-5));
+    obstacles.push({x,y,w:2,h:2,type:"ruin"});
+  }
+  return {tiles, obstacles};
+}
+function tileAt(px, py) {
+  const tx = Math.floor(px / TILE), ty = Math.floor(py / TILE);
+  if(tx<0||ty<0||tx>=MAP_W||ty>=MAP_H) return 2;
+  return g.map.tiles[ty][tx];
+}
+function obstacleRect(ob) {
+  return {x: ob.x*TILE, y: ob.y*TILE, w: ob.w*TILE, h: ob.h*TILE};
+}
+function isWalkable(px, py, r) {
+  const points = [
+    [px-r,py-r],[px+r,py-r],[px-r,py+r],[px+r,py+r],[px,py]
+  ];
+  for(const [x,y] of points) {
+    const t = tileAt(x,y);
+    if(t===2) return false;
+  }
+  for(const ob of g.map.obstacles) {
+    const rc = obstacleRect(ob);
+    if(px+r > rc.x && px-r < rc.x+rc.w && py+r > rc.y && py-r < rc.y+rc.h) return false;
+  }
+  return true;
+}
+function randomWalkablePos() {
+  for(let i=0;i<500;i++) {
+    const x = rand(2*TILE, WORLD_W-2*TILE), y = rand(2*TILE, WORLD_H-2*TILE);
+    if(isWalkable(x,y,10)) return {x,y};
+  }
+  return {x:WORLD_W/2,y:WORLD_H/2};
+}
+
+function newGame() {
+  const race = RACES.find(r=>r.id===selected) || RACES[0];
+  const ob = ownedBonus(race.id);
+  const map = buildMap();
+  const pos = {x:WORLD_W/2, y:WORLD_H/2};
+  const baseHp = 150*race.bonus.hp*uval("hp")*ob.hp, baseAtk = 18*race.bonus.atk*uval("atk")*ob.atk, baseSpeed = 238*race.bonus.speed*uval("speed")*ob.speed;
+  const starter = selected==="human" ? ["orb","slash"] : selected==="beast" ? ["claw","dash"] : ["fire","breath"];
+  return {
+    map,
+    race,
+    time:0, score:0, kills:0, runGold:0, over:false, spawn:0, boss:35, itemSpawn:4,
+    view:{x:0,y:0},
+    player: {
+      x: pos.x, y: pos.y, r: 12, hp:baseHp, maxHp:baseHp, atk:baseAtk, speed:baseSpeed, magnet:125*race.bonus.magnet*uval("magnet")*ob.magnet,
+      lv:1, xp:0, next:18, phase:0, inv:0, sizeMul:1, atkMul:1, xpMul:1, goldMul:1, revive:false, minimap:false
+    },
+    buffs: [],
+    enemies: [],
+    gems: [],
+    items: [],
+    shots: [],
+    fx: [],
+    floater: [],
+    freezeMul:1,
+    skills: Object.fromEntries(starter.map(id=>[id,{id,lv:1,cd:0,evo:false}]))
+  };
+}
+function startGame() {
+  initAudio(); startBgm();
+  const cv = $("cv"), ctx = cv.getContext("2d"), dpr = Math.max(1, Math.min(2, devicePixelRatio||1));
+  cv.width = Math.floor(innerWidth*dpr); cv.height = Math.floor(innerHeight*dpr); cv.style.width = innerWidth+"px"; cv.style.height = innerHeight+"px"; ctx.setTransform(dpr,0,0,dpr,0,0);
+  g = newGame(); g.ctx = ctx; g.cv = cv; g.w = innerWidth; g.h = innerHeight;
+  paused=false; $("pause").textContent="II"; show("game"); $("touchHint").style.opacity="1"; setTimeout(() => $("touchHint").style.opacity=".25", 2000);
+  last = performance.now(); if(raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
+}
+
+function moveVec() {
+  let x=0,y=0;
+  if(keys.ArrowLeft||keys.KeyA) x--;
+  if(keys.ArrowRight||keys.KeyD) x++;
+  if(keys.ArrowUp||keys.KeyW) y--;
+  if(keys.ArrowDown||keys.KeyS) y++;
+  x += input.dx; y += input.dy;
+  const l = Math.hypot(x,y); if(l>1) { x/=l; y/=l; }
+  return {x,y};
+}
+function updateView() {
+  g.view.x = clamp(g.player.x - g.w/2, 0, WORLD_W-g.w);
+  g.view.y = clamp(g.player.y - g.h/2, 0, WORLD_H-g.h);
+}
+function spawnEnemy(boss=false) {
+  let tries = 0, x, y;
+  do {
+    const angle = Math.random()*Math.PI*2, dist = Math.max(g.w,g.h)*0.6 + Math.random()*120;
+    x = g.player.x + Math.cos(angle)*dist;
+    y = g.player.y + Math.sin(angle)*dist;
+    x = clamp(x, 20, WORLD_W-20); y = clamp(y,20,WORLD_H-20);
+    tries++;
+  } while(!isWalkable(x,y,16) && tries < 50);
+  const sc = Math.pow(1.026,g.time) * Math.pow(1.12, Math.floor(g.time/28));
+  const kind = boss ? "boss" : Math.random()<0.18 ? "fast" : Math.random()<0.16 ? "tank" : "normal";
+  const hp = (boss?1600:kind==="tank"?180:kind==="fast"?55:80)*sc;
+  const r = boss?22:kind==="tank"?18:kind==="fast"?10:13;
+  g.enemies.push({
+    x,y,r,kind,boss,hp,maxHp:hp,spd:(boss?54:kind==="fast"?158:kind==="tank"?66:92)*(1+g.time/220),dmg:(boss?34:10+g.time/40)*sc*0.18,
+    color: boss ? "#ffd76a" : kind==="fast" ? "#74f5a3" : kind==="tank" ? "#ef476f" : "#9d4edd"
+  });
+}
+function effect(x,y,t,c="#ffd76a") { g.fx.push({x,y,t,c,life:.45,a:0}); }
+function floating(x,y,t,c="#ffd76a") { g.floater.push({x,y,t,c,life:.7,a:0}); }
+
+function gainXp(v) {
+  const p = g.player, ob = ownedBonus(g.race.id);
+  p.xp += v * (g.race.bonus.growth||1) * uval("growth") * ob.growth * p.xpMul;
+  while(p.xp >= p.next) {
+    p.xp -= p.next; p.lv++; p.next = Math.floor(p.next*1.24 + 14); p.maxHp += 16; p.hp = Math.min(p.maxHp, p.hp+25);
+    levelUp();
+  }
+}
+function applyBuff(id, sec) {
+  const old = g.buffs.find(b=>b.id===id);
+  if(old) old.t = Math.max(old.t, sec);
+  else g.buffs.push({id, t:sec});
+  recalcBuffs();
+}
+function recalcBuffs() {
+  const p = g.player;
+  p.sizeMul = 1; p.atkMul = 1; p.xpMul = 1; p.goldMul = 1; g.freezeMul = 1;
+  for(const b of g.buffs) {
+    if(b.id==="buff") { p.atkMul *= 1.3; p.speedBuff = 1.3; }
+    if(b.id==="growth") p.xpMul *= 1.2;
+    if(b.id==="giant") { p.sizeMul *= 2; p.atkMul *= 1.25; }
+    if(b.id==="speed") p.speedBuff = Math.max(p.speedBuff||1, 1.5);
+    if(b.id==="luck") p.goldMul *= 1.5;
+    if(b.id==="bless") { p.atkMul *= 1.2; p.xpMul *= 1.2; p.speedBuff = Math.max(p.speedBuff||1,1.2); }
+    if(b.id==="freeze") g.freezeMul = 0.22;
+  }
+  p.speedBuff = p.speedBuff || 1;
+}
+function randomAllowedSkill() {
+  const pool = SKILLS.filter(s=>s.group==="common" || s.group===g.race.id);
+  return pick(pool);
+}
+function grantRandomSkill() {
+  const s = randomAllowedSkill();
+  if(s) chooseSkill(s.id, true);
+}
+function applyItem(item) {
+  const p = g.player;
+  switch(item.id) {
+    case "map": p.minimap = true; break;
+    case "heal30": p.hp = Math.min(p.maxHp, p.hp + p.maxHp*0.30); break;
+    case "heal100": p.hp = p.maxHp; break;
+    case "buff": applyBuff("buff", 60); break;
+    case "book": grantRandomSkill(); break;
+    case "growth": applyBuff("growth",60); break;
+    case "magnet":
+      g.gems.forEach(m => m.pull = true);
+      break;
+    case "giant": applyBuff("giant",30); break;
+    case "gold": g.runGold += 25; meta.gold += 25; save(); break;
+    case "chest":
+      g.runGold += 120; meta.gold += 120; save();
+      if(Math.random() < 0.35) spawnItemNearPlayer();
+      break;
+    case "xp": gainXp(28 + p.lv*2); break;
+    case "shield": p.inv = Math.max(p.inv, 10); break;
+    case "speed": applyBuff("speed",45); break;
+    case "bomb":
+      g.enemies.forEach(e => e.hp -= e.maxHp*0.45 + p.atk*2);
+      effect(p.x,p.y,"爆","#ff4d6d");
+      break;
+    case "whistle":
+      for(let i=0;i<2;i++) spawnItemNearPlayer();
+      break;
+    case "luck": applyBuff("luck",60); break;
+    case "revive": p.revive = true; break;
+    case "freeze": applyBuff("freeze",8); break;
+    case "harvest": applyBuff("harvest",60); break;
+    case "bless": applyBuff("bless",30); break;
+  }
+  floating(item.x, item.y, item.name, item.color);
+  beep("gold");
+}
+function itemSpawnInterval() {
+  return g.buffs.find(b=>b.id==="harvest") ? 2.5 : 5.5;
+}
+function spawnItem(kindId=null) {
+  const kind = kindId ? ITEMS.find(i=>i.id===kindId) : pick(ITEMS);
+  const pos = randomWalkablePos();
+  g.items.push({...kind, x:pos.x, y:pos.y, r:10, ttl:50});
+}
+function spawnItemNearPlayer() {
+  for(let i=0;i<20;i++) {
+    const x = clamp(g.player.x + rand(-180,180), 20, WORLD_W-20);
+    const y = clamp(g.player.y + rand(-180,180), 20, WORLD_H-20);
+    if(isWalkable(x,y,10)) {
+      const kind = pick(ITEMS);
+      g.items.push({...kind, x,y,r:10,ttl:40});
+      break;
+    }
+  }
+}
+function levelUp() {
+  beep("lv");
+  const p = g.player;
+  const n = p.lv>=45 ? 4 : p.lv>=28 ? 3 : p.lv>=14 ? 2 : p.lv>=6 ? 1 : 0;
+  if(n > p.phase) { p.phase = n; effect(p.x,p.y,["第一進化","第二進化","第三進化","神化"][n-1],"#fff"); }
+  paused = true;
+  const pool = SKILLS.filter(s=>s.group==="common" || s.group===g.race.id);
+  const count = Math.min(pool.length, 3 + uval("choice"));
+  currentChoices = pool.sort(()=>Math.random()-0.5).slice(0, count);
+  $("choices").innerHTML = currentChoices.map(s => {
+    const cur = g.skills[s.id]?.lv || 0;
+    return `<button type="button" class="choice" data-skill="${s.id}"><h3>${s.name} ${cur?`Lv${cur}`:"NEW"}</h3><p>${s.desc}</p></button>`;
+  }).join("");
+  $("levelup").classList.add("active");
+  startChoiceTimer();
+}
+function startChoiceTimer() {
+  choiceRemain = 3.0; $("choiceTimer").textContent = choiceRemain.toFixed(1);
+  if(choiceTimer) clearInterval(choiceTimer);
+  choiceTimer = setInterval(() => {
+    choiceRemain -= 0.1;
+    $("choiceTimer").textContent = Math.max(0, choiceRemain).toFixed(1);
+    if(choiceRemain <= 0) {
+      clearInterval(choiceTimer); choiceTimer = null;
+      const pickSkill = currentChoices[Math.floor(Math.random()*currentChoices.length)];
+      if(pickSkill) chooseSkill(pickSkill.id, false);
+    }
+  }, 100);
+}
+function chooseSkill(id, viaItem=false) {
+  if(choiceTimer) { clearInterval(choiceTimer); choiceTimer = null; }
+  const s = g.skills[id] || {id,lv:0,cd:0,evo:false};
+  s.lv++;
+  const def = SKILLS.find(x=>x.id===id);
+  if(s.lv >= 6 && (def.group==="common" || def.group===g.race.id)) { s.evo = true; effect(g.player.x,g.player.y, "進化:"+def.name, def.color||"#fff"); }
+  g.skills[id] = s;
+  if(!viaItem) {
+    $("levelup").classList.remove("active");
+    paused = false; last = performance.now();
+  }
+}
+
+function fireShot(a, spd, r, dmg, life, p, c, sizeMul=1) {
+  const pl = g.player;
+  g.shots.push({x:pl.x,y:pl.y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,r:r*pl.sizeMul*sizeMul,dmg,life,p,c});
+}
+function area(x,y,rad,dmg,label,c) {
+  g.enemies.forEach(e => {
+    if(dist2(x,y,e.x,e.y) < rad*rad) {
+      e.hp -= dmg;
+      if(Math.random() < 0.12) effect(e.x,e.y,label,c);
+    }
+  });
+}
+function shoot(sk, dt) {
+  const p = g.player;
+  sk.cd -= dt;
+  if(sk.cd > 0) return;
+  const lv = sk.lv, evo = sk.evo;
+  let atk = p.atk * p.atkMul * (1 + lv*0.24) * (evo ? 1.65 : 1);
+  if(sk.id==="valor" && p.hp/p.maxHp > 0.8) atk *= 1.25;
+  const near = g.enemies.slice().sort((a,b)=>dist2(p.x,p.y,a.x,a.y)-dist2(p.x,p.y,b.x,b.y))[0];
+  const a = near ? Math.atan2(near.y-p.y, near.x-p.x) : Math.random()*Math.PI*2;
+  const def = SKILLS.find(x=>x.id===sk.id) || {kind:"projectile", color:"#fff"};
+  const color = def.color || g.race.color;
+
+  if(def.kind==="projectile") {
+    sk.cd = Math.max(0.16, 0.42 - lv*0.018);
+    const n = evo ? 3 : 1;
+    for(let i=0;i<n;i++) fireShot(a+(i-(n-1)/2)*0.25, 380+lv*12, 6+lv*0.35, atk*1.35, 1.2, evo?4:2, color);
+    beep("shot");
+  }
+  if(def.kind==="orbit") {
+    sk.cd = 0.18;
+    area(p.x,p.y,(56+lv*9+(evo?40:0))*p.sizeMul, atk*0.60, "斬", color);
+  }
+  if(def.kind==="pulse") {
+    sk.cd = Math.max(0.25, 0.72-lv*0.025);
+    area(p.x,p.y,(90+lv*13+(evo?70:0))*p.sizeMul, atk*1.4, "撃", color);
+    beep("hit");
+  }
+  if(def.kind==="laser") {
+    sk.cd = Math.max(0.35,0.9-lv*0.03);
+    g.fx.push({laser:true,x:p.x,y:p.y,a2:a,c:color,life:0.18,a:0,w:22*p.sizeMul});
+    g.enemies.forEach(e => {
+      const dx=e.x-p.x, dy=e.y-p.y, along=dx*Math.cos(a)+dy*Math.sin(a), side=Math.abs(-dx*Math.sin(a)+dy*Math.cos(a));
+      if(along>0 && along<420+lv*28 && side<(24+lv*4)*p.sizeMul) e.hp -= atk*2.1;
+    });
+  }
+  if(def.kind==="meteor") {
+    sk.cd = Math.max(0.45,1.05-lv*0.04);
+    const n = 1+Math.floor(lv/2)+(evo?3:0);
+    for(let i=0;i<n;i++) {
+      const e = g.enemies[Math.floor(Math.random()*g.enemies.length)];
+      if(!e) continue;
+      const rad = (42+lv*5)*p.sizeMul;
+      g.fx.push({x:e.x,y:e.y,t:"爆",c:color,life:0.25,a:0,circle:true,rr:rad});
+      area(e.x,e.y,rad,atk*1.95,"爆",color);
+    }
+    beep("hit");
+  }
+  if(def.kind==="chain") {
+    sk.cd = Math.max(0.38,0.85-lv*0.03);
+    g.enemies.slice(0,Math.min(g.enemies.length,5+lv+(evo?8:0))).forEach(e=>{e.hp-=atk*1.25; effect(e.x,e.y,"雷",color);});
+  }
+  if(def.kind==="mine") {
+    sk.cd = Math.max(0.3,0.75-lv*0.025);
+    area(p.x+rand(-160,160), p.y+rand(-160,160), 52+lv*4, atk*1.55, "地雷", color);
+  }
+  if(def.kind==="nova") {
+    sk.cd = Math.max(0.7,1.6-lv*0.05);
+    area(p.x,p.y,(135+lv*14+(evo?90:0))*p.sizeMul, atk*2.0, "新星", color);
+    beep("hit");
+  }
+  if(def.kind==="cross") {
+    sk.cd = Math.max(0.35,0.78-lv*0.03);
+    [0,Math.PI/2,Math.PI,Math.PI*1.5].forEach(aa=>fireShot(aa,420,8,atk*1.4,1.0,evo?4:2,color));
+  }
+  if(def.kind==="buff") {
+    sk.cd = 1.5;
+    p.hp = Math.min(p.maxHp, p.hp+3+lv);
+    effect(p.x,p.y,"強化",color);
+    if(sk.id==="command") {
+      Object.values(g.skills).forEach(ss => ss.cd *= 0.85);
+    }
+    if(sk.id==="star") {
+      g.gems.forEach(m => m.pull=true);
+    }
+    if(sk.id==="wild") applyBuff("speed", 3);
+    if(sk.id==="hunt") applyBuff("luck", 3);
+  }
+}
+
+function update(dt) {
+  if(paused || !g || g.over) return;
+  const p = g.player;
+  // buffs
+  g.buffs.forEach(b => b.t -= dt);
+  g.buffs = g.buffs.filter(b => b.t > 0);
+  recalcBuffs();
+
+  g.time += dt;
+  g.score += dt*12 + p.lv*dt*6;
+
+  // spawn enemies
+  g.spawn -= dt;
+  if(g.spawn <= 0) {
+    g.spawn = Math.max(0.035, 0.34 - g.time/260);
+    for(let i=0;i<1+Math.floor(g.time/28);i++) spawnEnemy(false);
+  }
+  g.boss -= dt;
+  if(g.boss <= 0) {
+    g.boss = 45; spawnEnemy(true); effect(p.x,p.y-40,"ボス出現","#ffd76a");
+  }
+
+  // spawn items
+  g.itemSpawn -= dt;
+  if(g.itemSpawn <= 0) {
+    g.itemSpawn = itemSpawnInterval();
+    if(g.items.length < 12) spawnItem();
+  }
+
+  // movement with collision
+  const mv = moveVec();
+  const speed = p.speed * (p.speedBuff||1);
+  let nx = p.x + mv.x * speed * dt, ny = p.y + mv.y * speed * dt;
+  const pr = p.r * p.sizeMul;
+  if(isWalkable(nx, p.y, pr)) p.x = nx;
+  if(isWalkable(p.x, ny, pr)) p.y = ny;
+  if(p.inv > 0) p.inv -= dt;
+
+  Object.values(g.skills).forEach(s => shoot(s,dt));
+
+  // enemy update
+  g.enemies.forEach(e => {
+    const a = Math.atan2(p.y-e.y, p.x-e.x);
+    e.x += Math.cos(a)*e.spd*dt*g.freezeMul;
+    e.y += Math.sin(a)*e.spd*dt*g.freezeMul;
+    const rr = e.r + pr;
+    if(dist2(e.x,e.y,p.x,p.y) < rr*rr && p.inv <= 0) {
+      p.hp -= e.dmg;
+      p.inv = 0.22;
+      effect(p.x,p.y,"-"+Math.floor(e.dmg),"#ff6b6b");
+      beep("hit");
+      if(p.hp <= 0) {
+        if(p.revive) {
+          p.revive = false;
+          p.hp = p.maxHp*0.5;
+          p.inv = 3;
+          floating(p.x,p.y,"復活!","#f1faee");
+        } else die();
+      }
+    }
+  });
+
+  // shots
+  g.shots.forEach(s => {
+    s.x += s.vx*dt; s.y += s.vy*dt; s.life -= dt;
+    g.enemies.forEach(e => {
+      if(s.life<=0 || s.p<=0) return;
+      const rr = s.r + e.r;
+      if(dist2(s.x,s.y,e.x,e.y) < rr*rr) {
+        e.hp -= s.dmg; s.p--; effect(e.x,e.y,Math.floor(s.dmg),"#fff");
+      }
+    });
+  });
+  g.shots = g.shots.filter(s=>s.life>0 && s.p>0 && s.x>-80 && s.x<WORLD_W+80 && s.y>-80 && s.y<WORLD_H+80);
+
+  // dead enemies
+  const dead = g.enemies.filter(e=>e.hp<=0);
+  dead.forEach(e => {
+    g.kills++;
+    const gold = Math.floor((e.boss ? 80+g.time/3 : 4+Math.random()*5+g.time/45) * p.goldMul);
+    g.runGold += gold; meta.gold += gold; save();
+    if(Math.random()<0.2) beep("gold");
+    g.score += e.boss ? 7000 : 100+g.time;
+    const n = e.boss ? 22 : 1+(Math.random()<0.22?1:0);
+    for(let i=0;i<n;i++) g.gems.push({x:e.x+rand(-18,18), y:e.y+rand(-18,18), r:e.boss?6:4, v:e.boss?18:4, pull:false});
+    g.floater.push({x:e.x,y:e.y,t:"+"+gold+"G",c:"#ffd76a",life:0.7,a:0});
+    // low chance item drop
+    if(Math.random() < (e.boss ? 0.65 : 0.035)) spawnItemNearPlayer();
+  });
+  g.enemies = g.enemies.filter(e=>e.hp>0);
+
+  // gems
+  g.gems.forEach(m => {
+    const dd = Math.sqrt(dist2(m.x,m.y,p.x,p.y));
+    if(dd < p.magnet || m.pull) {
+      m.x += (p.x-m.x)*dt*10;
+      m.y += (p.y-m.y)*dt*10;
+    }
+    if(dd < pr+m.r+9) { m.pick = true; gainXp(m.v); }
+  });
+  g.gems = g.gems.filter(m=>!m.pick);
+
+  // items
+  g.items.forEach(it => {
+    it.ttl -= dt;
+    if(dist2(it.x,it.y,p.x,p.y) < Math.pow(pr+it.r+4,2)) {
+      it.pick = true; applyItem(it);
+    }
+  });
+  g.items = g.items.filter(it => !it.pick && it.ttl > 0);
+
+  // effects
+  g.fx.forEach(f=>f.a+=dt); g.fx = g.fx.filter(f=>f.a<f.life);
+  g.floater.forEach(f=>f.a+=dt); g.floater = g.floater.filter(f=>f.a<f.life);
+
+  updateView();
+  hud();
+}
+
+function drawTile(c, t, x, y) {
+  if(t===0) { c.fillStyle="#2f7d32"; c.fillRect(x,y,TILE,TILE); c.fillStyle="#39963d"; c.fillRect(x+2,y+2,4,4); c.fillStyle="#266c29"; c.fillRect(x+14,y+12,5,5); }
+  if(t===1) { c.fillStyle="#8d6e63"; c.fillRect(x,y,TILE,TILE); c.fillStyle="#a1887f"; c.fillRect(x+5,y+5,3,3); c.fillRect(x+14,y+10,4,4); }
+  if(t===2) { c.fillStyle="#1d3557"; c.fillRect(x,y,TILE,TILE); c.fillStyle="#457b9d"; c.fillRect(x+3,y+3,18,18); }
+  if(t===3) { c.fillStyle="#2f7d32"; c.fillRect(x,y,TILE,TILE); c.fillStyle="#ff99c8"; c.fillRect(x+5,y+5,3,3); c.fillStyle="#bde0fe"; c.fillRect(x+15,y+10,3,3); c.fillStyle="#f1fa8c"; c.fillRect(x+10,y+16,3,3); }
+}
+function drawObstacle(c, ob, vx, vy) {
+  const x = ob.x*TILE - vx, y = ob.y*TILE - vy;
+  if(ob.type==="tree") {
+    c.fillStyle="#5b3a29"; c.fillRect(x+9,y+12,6,12);
+    c.fillStyle="#2d6a4f"; c.fillRect(x+4,y+2,16,12);
+    c.fillStyle="#40916c"; c.fillRect(x+2,y+5,20,8);
+  } else if(ob.type==="rock") {
+    c.fillStyle="#6c757d"; c.fillRect(x+3,y+8,18,12);
+    c.fillStyle="#adb5bd"; c.fillRect(x+7,y+6,10,6);
+  } else {
+    c.fillStyle="#6d6875"; c.fillRect(x,y,ob.w*TILE,ob.h*TILE);
+    c.fillStyle="#b8c0c8"; c.fillRect(x+2,y+2,ob.w*TILE-4,ob.h*TILE-4);
+    c.fillStyle="#8d99ae"; c.fillRect(x+6,y+6,ob.w*TILE-12,ob.h*TILE-12);
+  }
+}
+function drawSkillIcon(c, def, x, y, size) {
+  const s = size;
+  c.fillStyle = "#0a0f1c"; c.fillRect(x,y,s,s);
+  c.fillStyle = def.color || "#fff";
+  // simple pixel-ish icon by kind
+  if(def.kind==="projectile") { c.fillRect(x+s*0.18,y+s*0.42,s*0.55,s*0.14); c.fillRect(x+s*0.62,y+s*0.32,s*0.14,s*0.34); }
+  else if(def.kind==="orbit") { c.strokeStyle=def.color; c.lineWidth=2; c.beginPath(); c.arc(x+s/2,y+s/2,s*0.26,0,Math.PI*2); c.stroke(); c.fillRect(x+s*0.75,y+s*0.45,4,4); }
+  else if(def.kind==="pulse") { c.fillRect(x+s*0.4,y+s*0.2,s*0.2,s*0.6); c.fillRect(x+s*0.2,y+s*0.4,s*0.6,s*0.2); }
+  else if(def.kind==="laser") { c.fillRect(x+s*0.12,y+s*0.46,s*0.76,s*0.08); }
+  else if(def.kind==="meteor") { c.beginPath(); c.arc(x+s*0.35,y+s*0.35,s*0.16,0,Math.PI*2); c.fill(); c.fillRect(x+s*0.48,y+s*0.48,s*0.24,s*0.1); }
+  else if(def.kind==="chain") { c.fillRect(x+s*0.2,y+s*0.25,s*0.12,s*0.12); c.fillRect(x+s*0.42,y+s*0.42,s*0.12,s*0.12); c.fillRect(x+s*0.64,y+s*0.58,s*0.12,s*0.12); }
+  else if(def.kind==="mine") { c.fillRect(x+s*0.3,y+s*0.3,s*0.4,s*0.4); c.fillRect(x+s*0.44,y+s*0.12,s*0.12,s*0.18); }
+  else if(def.kind==="nova") { c.beginPath(); c.arc(x+s*0.5,y+s*0.5,s*0.18,0,Math.PI*2); c.fill(); c.fillRect(x+s*0.48,y+s*0.12,s*0.04,s*0.76); c.fillRect(x+s*0.12,y+s*0.48,s*0.76,s*0.04); }
+  else if(def.kind==="cross") { c.fillRect(x+s*0.44,y+s*0.16,s*0.12,s*0.68); c.fillRect(x+s*0.16,y+s*0.44,s*0.68,s*0.12); }
+  else { c.fillRect(x+s*0.3,y+s*0.3,s*0.4,s*0.4); }
+}
+function drawItem(c, item, vx, vy) {
+  const x = item.x - vx, y = item.y - vy;
+  c.fillStyle = "#08131f"; c.fillRect(x-8,y-8,16,16);
+  c.fillStyle = item.color; c.fillRect(x-6,y-6,12,12);
+  c.fillStyle = "#fff"; c.fillRect(x-2,y-2,4,4);
+}
+function drawEnemy(c, e, vx, vy) {
+  const x = e.x - vx, y = e.y - vy;
+  c.save(); c.translate(x,y);
+  c.fillStyle = e.color;
+  if(e.boss) {
+    c.beginPath();
+    for(let i=0;i<8;i++) {
+      let a=i*Math.PI/4 + g.time, rr=e.r*(i%2?0.75:1.15);
+      if(i===0) c.moveTo(Math.cos(a)*rr,Math.sin(a)*rr); else c.lineTo(Math.cos(a)*rr,Math.sin(a)*rr);
+    }
+    c.closePath(); c.fill();
+  } else if(e.kind==="tank") {
+    c.fillRect(-e.r,-e.r,e.r*2,e.r*2);
+  } else {
+    c.beginPath(); c.arc(0,0,e.r,0,Math.PI*2); c.fill();
+  }
+  c.fillStyle = "#000a"; c.fillRect(-e.r,-e.r-8,e.r*2,4);
+  c.fillStyle = "#74f5a3"; c.fillRect(-e.r,-e.r-8,e.r*2*(e.hp/e.maxHp),4);
+  c.restore();
+}
+function drawHumanSprite(c, x, y, phase, scale=1) {
+  const px = 4*scale;
+  const skin = "#f1c27d", white = "#ffffff", black = "#1a1a1a", gold="#ffd76a", blue="#70dcff";
+  // wings/auras per phase
+  if(phase>=1) {
+    c.fillStyle = phase>=3 ? blue : "#cfe8ff";
+    c.fillRect(x-4*px,y+2*px,2*px,5*px); c.fillRect(x+6*px,y+2*px,2*px,5*px);
+    c.fillStyle = phase>=4 ? "#ff72ce" : gold;
+    c.fillRect(x-6*px,y+4*px,2*px,4*px); c.fillRect(x+8*px,y+4*px,2*px,4*px);
+  }
+  // body base
+  c.fillStyle = skin; c.fillRect(x+2*px,y,2*px,2*px); // head
+  c.fillStyle = black; c.fillRect(x+1*px,y,1*px,2*px); c.fillRect(x+4*px,y,1*px,2*px);
+  c.fillStyle = white; c.fillRect(x+2*px,y+0.5*px,0.5*px,0.5*px); c.fillRect(x+3.5*px,y+0.5*px,0.5*px,0.5*px);
+  c.fillStyle = phase>=2 ? gold : white; c.fillRect(x+2*px,y+2*px,2*px,1*px); // collar
+  c.fillStyle = phase>=3 ? blue : white; c.fillRect(x+1*px,y+3*px,4*px,3*px); // torso
+  c.fillStyle = phase>=4 ? "#ff72ce" : black; c.fillRect(x+1*px,y+6*px,1*px,3*px); c.fillRect(x+4*px,y+6*px,1*px,3*px); // legs
+  c.fillStyle = skin; c.fillRect(x,y+3*px,1*px,3*px); c.fillRect(x+5*px,y+3*px,1*px,3*px); // arms
+  c.fillStyle = phase>=2 ? gold : "#a8dadc"; c.fillRect(x+6*px,y+3.5*px,3*px,1*px); c.fillRect(x+8*px,y+2.5*px,1*px,3*px); // sword
+  if(phase>=3) { c.fillStyle = "#ffffff"; c.fillRect(x+7*px,y+1*px,1*px,1*px); c.fillRect(x+8*px,y+1*px,1*px,1*px); }
+  if(phase>=4) { c.fillStyle="#ffd76a"; c.fillRect(x-1*px,y-1*px,8*px,1*px); }
+}
+function drawBeastSprite(c, x, y, phase, scale=1) {
+  const px=4*scale; c.fillStyle="#5c3d2e"; c.fillRect(x+1*px,y+2*px,4*px,4*px); c.fillStyle="#74f5a3"; c.fillRect(x+2*px,y+1*px,2*px,1*px); c.fillRect(x,y+2*px,1*px,2*px); c.fillRect(x+5*px,y+2*px,1*px,2*px); c.fillStyle="#fff"; c.fillRect(x+2*px,y+3*px,1*px,1*px); c.fillRect(x+3*px,y+3*px,1*px,1*px); if(phase>=2) {c.fillStyle="#caffbf"; c.fillRect(x+1*px,y+6*px,4*px,1*px);} }
+function drawDragonSprite(c, x, y, phase, scale=1) {
+  const px=4*scale; c.fillStyle="#ff6b6b"; c.fillRect(x+1*px,y+2*px,4*px,4*px); c.fillRect(x+5*px,y+3*px,2*px,1*px); c.fillStyle="#ffd6a5"; c.fillRect(x+2*px,y+1*px,1*px,1*px); c.fillRect(x+3*px,y+1*px,1*px,1*px); if(phase>=2) { c.fillStyle="#f77f00"; c.fillRect(x,y+2*px,1*px,3*px); c.fillRect(x+6*px,y+2*px,1*px,3*px); } if(phase>=4) { c.fillStyle="#fff"; c.fillRect(x+7*px,y+3*px,2*px,1*px); } }
+function drawPlayer(c, p, vx, vy) {
+  const x = p.x - vx, y = p.y - vy;
+  c.save();
+  if(p.inv > 0) { c.globalAlpha = 0.75 + Math.sin(g.time*15)*0.25; }
+  // aura
+  if(p.phase) {
+    c.strokeStyle = g.race.sub; c.globalAlpha = 0.35; c.lineWidth = 3;
+    c.beginPath(); c.arc(x,y,(24+p.phase*8)*p.sizeMul,0,Math.PI*2); c.stroke();
+    c.globalAlpha = 1;
+  }
+  const pxsize = p.sizeMul;
+  if(g.race.id==="human") drawHumanSprite(c, x-12*pxsize, y-18*pxsize, p.phase, pxsize);
+  else if(g.race.id==="beast") drawBeastSprite(c, x-12*pxsize, y-18*pxsize, p.phase, pxsize);
+  else drawDragonSprite(c, x-12*pxsize, y-18*pxsize, p.phase, pxsize);
+  c.restore();
+}
+function drawMiniMap(c) {
+  if(!g.player.minimap) return;
+  const w = 120, h = 120, x = g.w - w - 10, y = 128;
+  c.save();
+  c.globalAlpha = 0.92;
+  c.fillStyle = "#050814cc"; c.fillRect(x,y,w,h);
+  c.strokeStyle = "#ffffff33"; c.strokeRect(x,y,w,h);
+  // world base
+  c.fillStyle = "#2f7d32"; c.fillRect(x+4,y+4,w-8,h-8);
+  c.fillStyle = "#8d6e63";
+  c.fillRect(x+4 + (MAP_W/2)*(w-8)/MAP_W - 1, y+4, 2, h-8);
+  c.fillRect(x+4, y+4 + (MAP_H/2)*(h-8)/MAP_H - 1, w-8, 2);
+  // obstacles
+  c.fillStyle = "#6c757d";
+  g.map.obstacles.slice(0,300).forEach(ob => {
+    const ox = x+4 + ob.x*(w-8)/MAP_W, oy = y+4 + ob.y*(h-8)/MAP_H;
+    c.fillRect(ox,oy,Math.max(1,ob.w),Math.max(1,ob.h));
+  });
+  // items
+  c.fillStyle = "#ffe066";
+  g.items.forEach(it => {
+    const ix = x+4 + it.x*(w-8)/WORLD_W, iy = y+4 + it.y*(h-8)/WORLD_H;
+    c.fillRect(ix-1, iy-1, 3, 3);
+  });
+  // player
+  c.fillStyle = "#ff4d6d";
+  const px = x+4 + g.player.x*(w-8)/WORLD_W, py = y+4 + g.player.y*(h-8)/WORLD_H;
+  c.fillRect(px-2, py-2, 5, 5);
+  c.restore();
+}
+function draw() {
+  if(!g) return;
+  const c = g.ctx, p = g.player, vx = g.view.x, vy = g.view.y;
+  c.clearRect(0,0,g.w,g.h);
+  // visible tile bounds
+  const sx = Math.floor(vx/TILE), ex = Math.min(MAP_W-1, Math.ceil((vx+g.w)/TILE));
+  const sy = Math.floor(vy/TILE), ey = Math.min(MAP_H-1, Math.ceil((vy+g.h)/TILE));
+  for(let ty=sy; ty<=ey; ty++) {
+    for(let tx=sx; tx<=ex; tx++) drawTile(c, g.map.tiles[ty][tx], tx*TILE-vx, ty*TILE-vy);
+  }
+  g.map.obstacles.forEach(ob => {
+    const ox = ob.x*TILE, oy = ob.y*TILE;
+    if(ox+ob.w*TILE < vx || oy+ob.h*TILE < vy || ox > vx+g.w || oy > vy+g.h) return;
+    drawObstacle(c, ob, vx, vy);
+  });
+  // items
+  g.items.forEach(it => drawItem(c,it,vx,vy));
+  // gems
+  g.gems.forEach(m => { c.fillStyle="#70dcff"; c.beginPath(); c.arc(m.x-vx,m.y-vy,m.r,0,Math.PI*2); c.fill(); });
+  // shots
+  g.shots.forEach(s => { c.fillStyle=s.c; c.beginPath(); c.arc(s.x-vx,s.y-vy,s.r,0,Math.PI*2); c.fill(); });
+  // enemies
+  g.enemies.forEach(e => drawEnemy(c,e,vx,vy));
+  // player
+  drawPlayer(c,p,vx,vy);
+
+  // effects
+  g.fx.forEach(f => {
+    c.save(); c.globalAlpha = 1-f.a/f.life;
+    if(f.laser) {
+      c.translate(f.x-vx,f.y-vy); c.rotate(f.a2); c.strokeStyle=f.c; c.lineWidth=f.w||22; c.beginPath(); c.moveTo(0,0); c.lineTo(500,0); c.stroke();
+    } else if(f.circle) {
+      c.strokeStyle=f.c; c.lineWidth=4; c.beginPath(); c.arc(f.x-vx,f.y-vy,f.rr*(f.a/f.life),0,Math.PI*2); c.stroke();
+    } else {
+      c.fillStyle=f.c; c.font="bold 16px system-ui"; c.textAlign="center"; c.fillText(f.t, f.x-vx, f.y-vy-f.a*40);
+    }
+    c.restore();
+  });
+  g.floater.forEach(f => {
+    c.save(); c.globalAlpha = 1-f.a/f.life; c.fillStyle=f.c; c.font="bold 14px system-ui"; c.textAlign="center"; c.fillText(f.t, f.x-vx, f.y-vy-f.a*36); c.restore();
+  });
+
+  // skill HUD with pixel icons
+  const skillList = Object.values(g.skills);
+  let bx = 10, by = g.h - 54;
+  skillList.slice(0,8).forEach((s, idx) => {
+    const def = SKILLS.find(x=>x.id===s.id);
+    const x = bx + idx*44;
+    c.fillStyle = "#050814cc"; c.fillRect(x,by,40,40); c.strokeStyle="#ffffff22"; c.strokeRect(x,by,40,40);
+    drawSkillIcon(c, def, x+4, by+4, 22);
+    c.fillStyle = "#fff"; c.font="10px system-ui"; c.textAlign="center"; c.fillText("Lv"+s.lv, x+20, by+34);
+  });
+
+  drawMiniMap(c);
+}
+
+function hud() {
+  const p = g.player;
+  $("time").textContent = Math.floor(g.time/60)+":"+String(Math.floor(g.time%60)).padStart(2,"0");
+  $("lv").textContent = p.lv;
+  $("kills").textContent = fmt(g.kills);
+  $("score").textContent = fmt(g.score);
+  $("runGold").textContent = fmt(g.runGold);
+  $("hpbar").style.width = clamp(p.hp/p.maxHp*100,0,100)+"%";
+  $("xpbar").style.width = clamp(p.xp/p.next*100,0,100)+"%";
+  $("buffs").innerHTML = g.buffs.map(b => `<span>${ITEMS.find(i=>i.id===b.id)?.name || b.id} ${b.t.toFixed(0)}s</span>`).join("") + (p.revive ? `<span>復活待機</span>` : ``) + (p.minimap ? `<span>ミニマップ</span>` : ``);
+}
+function loop(now) {
+  const dt = Math.min(0.033, (now-last)/1000 || 0);
+  last = now;
+  safe(() => { update(dt); draw(); });
+  if(g && !g.over) raf = requestAnimationFrame(loop);
+}
+function die() {
+  if(!g || g.over) return;
+  beep("dead"); stopBgm(); g.over = true; if(raf) cancelAnimationFrame(raf); if(choiceTimer) clearInterval(choiceTimer);
+  const p = g.player;
+  const score = Math.floor(g.score + g.kills*15 + p.lv*140 + g.time*30 + g.runGold*4);
+  const pts = Math.floor(Math.pow(score,0.55) + g.time + p.lv*2);
+  meta.pts += pts; meta.best = Math.max(meta.best, score); meta.bestTime = Math.max(meta.bestTime, g.time); meta.bestKills = Math.max(meta.bestKills, g.kills); meta.bestLv = Math.max(meta.bestLv, p.lv); save();
+  $("resultText").innerHTML = `<div class="stats"><div><b>スコア</b><span>${fmt(score)}</span></div><div><b>転生pt</b><span>+${fmt(pts)}</span></div><div><b>撃破数</b><span>${fmt(g.kills)}</span></div><div><b>到達Lv</b><span>${fmt(p.lv)}</span></div></div>`;
+  $("result").classList.add("active");
+}
+
+function spend(id) {
+  const u = UPS.find(x=>x.id===id), l = ulv(id), c = Math.floor(u.base*Math.pow(1.45,l));
+  if(l>=u.max || meta.pts<c) return;
+  meta.pts -= c; meta.spent[id] = l+1; save(); render();
+}
+
+function setup() {
+  $("goRace").onclick = () => show("race");
+  $("goUpgrades").onclick = () => show("upgrades");
+  $("goGacha").onclick = () => show("gacha");
+  document.querySelectorAll(".back").forEach(b=>b.onclick=()=>show("title"));
+  $("start").onclick = startGame;
+  $("backTitle").onclick = () => { $("result").classList.remove("active"); g = null; show("title"); };
+  $("roll1").onclick = () => roll(1);
+  $("roll10").onclick = () => roll(10);
+  $("roll100").onclick = () => roll(100);
+  $("resetSave").onclick = () => { if(confirm("保存を初期化しますか？")) { localStorage.removeItem(SAVE); load(); render(); } };
+  $("toggleSound").onclick = () => { soundOn=!soundOn; meta.sound=soundOn; save(); if(!soundOn) stopBgm(); else beep("lv"); render(); };
+  $("pause").onclick = () => { paused=!paused; $("pause").textContent = paused ? "▶" : "II"; last = performance.now(); };
+
+  document.addEventListener("click", e => {
+    const r = e.target.closest("[data-race]"); if(r) { selected = r.dataset.race; render(); }
+    const u = e.target.closest("[data-up]"); if(u) spend(u.dataset.up);
+    const s = e.target.closest("[data-skill]"); if(s) chooseSkill(s.dataset.skill, false);
+  });
+
+  addEventListener("keydown", e => keys[e.code] = true);
+  addEventListener("keyup", e => keys[e.code] = false);
+
+  const cv = $("cv");
+  cv.addEventListener("pointerdown", e => {
+    input.active = true; input.x = e.clientX; input.y = e.clientY; cv.setPointerCapture(e.pointerId); $("touchHint").style.opacity=".15"; e.preventDefault();
+  });
+  cv.addEventListener("pointermove", e => {
+    if(!input.active) return;
+    const dx = e.clientX-input.x, dy = e.clientY-input.y, l = Math.hypot(dx,dy), dead = 4, max = 54;
+    if(l < dead) { input.dx = 0; input.dy = 0; }
+    else { input.dx = dx/Math.max(l,max); input.dy = dy/Math.max(l,max); }
+    e.preventDefault();
+  });
+  const end = e => { input.active=false; input.dx=0; input.dy=0; e.preventDefault(); };
+  cv.addEventListener("pointerup", end);
+  cv.addEventListener("pointercancel", end);
+
+  addEventListener("resize", () => {
+    if(!g) return;
+    const cv = $("cv"), dpr = Math.max(1, Math.min(2, devicePixelRatio||1));
+    g.w = innerWidth; g.h = innerHeight; cv.width = Math.floor(g.w*dpr); cv.height = Math.floor(g.h*dpr); cv.style.width = g.w+"px"; cv.style.height = g.h+"px"; g.ctx.setTransform(dpr,0,0,dpr,0,0); updateView();
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => safe(() => { load(); setup(); render(); }));
 })();
