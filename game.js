@@ -59,7 +59,7 @@ GAME.items.forEach(it=>{
     if(it.slot==="acc") it.fx.exp = (it.fx.exp||0) + .25;
   }
 });
-const SAVE_KEY = "maseki_rebuild_v25";
+const SAVE_KEY = "maseki_rebuild_v251";
 const IMG_KEY = "maseki_rebuild_v23_img_";
 const $ = id => document.getElementById(id);
 
