@@ -1,12 +1,12 @@
 
 (()=>{"use strict";
 const DATA={"skills":[{"id":"c0","name":"魔石弾","group":"common","kind":"projectile","color":"#ffd76a"},{"id":"c1","name":"守護剣","group":"common","kind":"orbit","color":"#70dcff"},{"id":"c2","name":"魔力波動","group":"common","kind":"pulse","color":"#ff72ce"},{"id":"c3","name":"星光レーザー","group":"common","kind":"laser","color":"#ffe66d"},{"id":"c4","name":"魔石爆弾","group":"common","kind":"meteor","color":"#ff9f1c"},{"id":"c5","name":"貫通針","group":"common","kind":"projectile","color":"#ffd76a"},{"id":"c6","name":"反撃障壁","group":"common","kind":"pulse","color":"#70dcff"},{"id":"c7","name":"連鎖雷","group":"common","kind":"chain","color":"#ff72ce"},{"id":"c8","name":"魔石地雷","group":"common","kind":"mine","color":"#ffe66d"},{"id":"c9","name":"新星爆発","group":"common","kind":"nova","color":"#ff9f1c"},{"id":"h0","name":"人王斬","group":"human","kind":"projectile","color":"#fefae0"},{"id":"h1","name":"英雄旗","group":"human","kind":"buff","color":"#fefae0"},{"id":"h2","name":"星導陣","group":"human","kind":"buff","color":"#fefae0"},{"id":"h3","name":"聖槍投げ","group":"human","kind":"projectile","color":"#fefae0"},{"id":"h4","name":"王盾反射","group":"human","kind":"pulse","color":"#fefae0"},{"id":"h5","name":"十字聖光","group":"human","kind":"cross","color":"#fefae0"},{"id":"h6","name":"裁きの光","group":"human","kind":"meteor","color":"#fefae0"},{"id":"h7","name":"号令","group":"human","kind":"buff","color":"#fefae0"},{"id":"h8","name":"勇気の刃","group":"human","kind":"projectile","color":"#fefae0"},{"id":"h9","name":"聖域","group":"human","kind":"nova","color":"#fefae0"}],"items":[{"id":"map","name":"地図","color":"#ffe066"},{"id":"heal30","name":"回復薬","color":"#80ed99"},{"id":"heal100","name":"秘薬","color":"#57cc99"},{"id":"buff","name":"強化薬","color":"#ff922b"},{"id":"book","name":"秘伝書","color":"#9b5de5"},{"id":"growth","name":"成長薬","color":"#4cc9f0"},{"id":"magnet","name":"磁石","color":"#4895ef"},{"id":"giant","name":"巨大化の種","color":"#ff4d6d"},{"id":"gold","name":"金貨袋","color":"#ffd166"},{"id":"chest","name":"宝箱","color":"#c77dff"},{"id":"xp","name":"経験の書","color":"#90e0ef"},{"id":"shield","name":"守り札","color":"#caf0f8"},{"id":"speed","name":"俊足薬","color":"#06d6a0"},{"id":"bomb","name":"爆弾","color":"#ef476f"},{"id":"whistle","name":"召喚笛","color":"#ffbe0b"},{"id":"luck","name":"幸運のコイン","color":"#ffe066"},{"id":"revive","name":"復活の羽","color":"#f1faee"},{"id":"freeze","name":"時の砂","color":"#a8dadc"},{"id":"harvest","name":"収穫の鎌","color":"#84a59d"},{"id":"bless","name":"祝福石","color":"#e9c46a"}]};
-const TILE=32, MAP_W=72, MAP_H=72, WORLD_W=MAP_W*TILE, WORLD_H=MAP_H*TILE;
-const SAVE="maseki_tensei_survivor_v0121";
-const ASSET={tiles:"assets/tile_atlas.png",human:"assets/human_sheet.png",skill:"assets/skill_fx_sheet.png",enemy:"assets/enemy_sheet.png"};
+const TILE=32, MAP_W=48, MAP_H=32, WORLD_W=1536, WORLD_H=1024;
+const SAVE="maseki_tensei_survivor_v013";
+const ASSET={tiles:"assets/tile_atlas.png",stage:"assets/stage_sky_palace_v013.png",human:"assets/human_sheet.png",skill:"assets/skill_fx_sheet.png",enemy:"assets/enemy_sheet.png"};
 const IMG={}; const $=id=>document.getElementById(id), fmt=n=>Math.floor(n||0).toLocaleString("ja-JP"), clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), d2=(a,b,c,d)=>{let x=a-c,y=b-d;return x*x+y*y}, rand=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
 const SKILLS=DATA.skills, ITEMS=DATA.items;
-function loadImg(s){let im=new Image();im.src=s;return im}function preload(){if(!IMG.tiles)IMG.tiles=loadImg(ASSET.tiles);if(!IMG.human)IMG.human=loadImg(ASSET.human);if(!IMG.skill)IMG.skill=loadImg(ASSET.skill);if(!IMG.enemy)IMG.enemy=loadImg(ASSET.enemy)}
+function loadImg(s){let im=new Image();im.src=s;return im}function preload(){if(!IMG.tiles)IMG.tiles=loadImg(ASSET.tiles);if(!IMG.stage)IMG.stage=loadImg(ASSET.stage);if(!IMG.human)IMG.human=loadImg(ASSET.human);if(!IMG.skill)IMG.skill=loadImg(ASSET.skill);if(!IMG.enemy)IMG.enemy=loadImg(ASSET.enemy)}
 const UPS=[["hp","最大HP",8],["atk","攻撃力",10],["speed","移動速度",12],["magnet","回収範囲",9],["growth","成長力",14],["goldRate","Gold取得率",16],["choice","選択肢",80]].map(x=>({id:x[0],name:x[1],base:x[2],max:x[0]=="choice"?10:1000}));
 let meta,g=null,raf=0,last=0,input={active:false,x:0,y:0,dx:0,dy:0},keys={},paused=false,soundOn=true,choiceTimer=0,choiceRemain=0,currentChoices=[],audio=null;
 function safe(fn){try{fn()}catch(e){console.error(e);$("err").classList.remove("hidden");$("err").textContent="エラー:"+e.message}}
@@ -20,51 +20,113 @@ function render(){$("pts").textContent=fmt(meta.pts);$("pts2").textContent=fmt(m
 function beep(t="hit"){if(!soundOn)return;if(!audio)audio=new(AudioContext||webkitAudioContext)();let o=audio.createOscillator(),ga=audio.createGain(),now=audio.currentTime;o.connect(ga);ga.connect(audio.destination);o.type=t=="shot"?"square":"triangle";o.frequency.value=t=="lv"?650:t=="gold"?880:t=="dead"?160:320;ga.gain.setValueAtTime(.035,now);ga.gain.exponentialRampToValueAtTime(.001,now+.13);o.start(now);o.stop(now+.15)}
 function rectFill(a,x1,y1,x2,y2,v){for(let y=y1;y<=y2;y++)for(let x=x1;x<=x2;x++)if(x>=0&&y>=0&&x<MAP_W&&y<MAP_H)a[y][x]=v}
 function border(a,x1,y1,x2,y2){rectFill(a,x1,y1,x2,y2,1);for(let x=x1;x<=x2;x++){a[y1][x]=2;a[y2][x]=2}for(let y=y1;y<=y2;y++){a[y][x1]=2;a[y][x2]=2}}
-function buildMap(){let t=Array.from({length:MAP_H},()=>Array(MAP_W).fill(1));
-  // map base is all temple floor, so black void does not fill the play area.
-  // decorative main roads
-  rectFill(t,34,0,37,MAP_H-1,3);
-  rectFill(t,0,35,MAP_W-1,38,3);
-  rectFill(t,12,15,60,18,3);
-  rectFill(t,12,54,60,58,3);
-
-  // clear rooms and walls
-  border(t,27,5,44,20); border(t,27,51,44,66);
-  border(t,5,30,22,43); border(t,49,30,66,43);
-  border(t,8,8,24,24); border(t,47,8,63,24);
-  border(t,8,48,24,64); border(t,47,48,63,64);
-
-  // open gates
-  rectFill(t,34,18,37,20,3); rectFill(t,34,51,37,53,3);
-  rectFill(t,21,35,23,38,3); rectFill(t,49,35,51,38,3);
-  rectFill(t,16,23,19,25,3); rectFill(t,52,23,55,25,3);
-  rectFill(t,16,47,19,49,3); rectFill(t,52,47,55,49,3);
-
-  // buildings clearly separated
-  rectFill(t,31,9,40,15,4);
-  rectFill(t,31,58,40,63,4);
-  rectFill(t,11,33,17,40,4);
-  rectFill(t,55,33,61,40,4);
-  rectFill(t,12,12,19,18,4);
-  rectFill(t,52,12,59,18,4);
-  rectFill(t,12,53,19,60,4);
-  rectFill(t,52,53,59,60,4);
-
-  // pillars, away from spawn
-  [[26,26],[45,26],[26,45],[45,45],[24,36],[47,36],[36,24],[36,47]].forEach(p=>t[p[1]][p[0]]=7);
-
-  // stairs / crystal markers
-  rectFill(t,34,20,37,24,5); rectFill(t,34,48,37,52,5);
-  [[35,35],[36,35],[35,36],[36,36],[13,35],[58,35],[35,13],[35,59],[16,16],[55,16],[16,56],[55,56]].forEach(p=>t[p[1]][p[0]]=6);
-  return{tiles:t}
+function buildMap(){
+  // v0.13: 生成済みの完成マップ画像を背景に使うため、タイル描画用の配列は使わない。
+  return {tiles:[]}
 }
-function tileAt(px,py){let x=Math.floor(px/TILE),y=Math.floor(py/TILE);if(x<0||y<0||x>=MAP_W||y>=MAP_H)return 0;return g.map.tiles[y][x]}function block(t){return t==0||t==2||t==4||t==7}function walk(px,py,r){let cr=Math.max(7,r*.45),pts=[[px-cr,py-cr],[px+cr,py-cr],[px-cr,py+cr],[px+cr,py+cr],[px,py]];return !pts.some(p=>block(tileAt(p[0],p[1])))}function randPos(){for(let i=0;i<500;i++){let x=rand(70,WORLD_W-70),y=rand(70,WORLD_H-70);if(walk(x,y,10))return{x,y}}return{x:36*TILE+16,y:36*TILE+16}}
-function startGame(){preload();let cv=$("cv"),ctx=cv.getContext("2d"),dpr=Math.max(1,Math.min(2,devicePixelRatio||1));cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cv.style.width=innerWidth+"px";cv.style.height=innerHeight+"px";ctx.setTransform(dpr,0,0,dpr,0,0);let ob=obonus(),hp=160*uval("hp")*ob.hp;g={ctx,cv,w:innerWidth,h:innerHeight,map:buildMap(),view:{x:0,y:0},time:0,score:0,kills:0,runGold:0,spawn:0,boss:30,itemSpawn:8,over:false,freeze:1,buffs:[],enemies:[],gems:[],items:[],shots:[],fx:[],float:[],skills:{c0:{id:"c0",lv:1,cd:0},h0:{id:"h0",lv:1,cd:0}},p:{x:36*TILE+16,y:36*TILE+16,r:13,hp,maxHp:hp,atk:20*uval("atk")*ob.atk,spd:250*uval("speed")*ob.speed,magnet:125*uval("magnet")*ob.magnet,lv:1,xp:0,next:18,phase:0,inv:0,walk:0,frame:0,dir:0,size:1,atkMul:1,xpMul:1,goldMul:1,cdr:ob.cdr,power:ob.power,barrier:ob.barrier,minimap:false,revive:false}};paused=false;$("pause").textContent="II";show("game");last=performance.now();if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
-function spawnEnemy(boss=false){let p=g.p,pos=randPos();if(Math.random()<.8){let a=Math.random()*7,d=Math.max(g.w,g.h)*.55;pos={x:clamp(p.x+Math.cos(a)*d,40,WORLD_W-40),y:clamp(p.y+Math.sin(a)*d,40,WORLD_H-40)};if(!walk(pos.x,pos.y,12))pos=randPos()}let sc=Math.pow(1.06,g.time)*Math.pow(1.38,Math.floor(g.time/18)),kind=boss?"boss":Math.random()<.18?"fast":Math.random()<.16?"tank":"normal",ghost=!boss&&Math.random()<.14;{
-  const ghost = !boss && Math.random() < 0.14;
-  const spriteType = boss ? 9 : ghost ? 1 : Math.floor(Math.random()*8);
-  g.enemies.push({x:pos.x,y:pos.y,r:boss?24:kind=="tank"?18:kind=="fast"?10:13,kind,boss,ghost,spriteType,hp:(boss?2200:kind=="tank"?260:kind=="fast"?75:115)*sc,max:(boss?2200:kind=="tank"?260:kind=="fast"?75:115)*sc,spd:(boss?96:kind=="fast"?260:kind=="tank"?120:178)*(1+g.time/110),dmg:(boss?105:36+g.time/12)*sc*.38,col:ghost?"#c8e7ff":boss?"#ffd76a":kind=="fast"?"#74f5a3":kind=="tank"?"#ef476f":"#9d4edd"})
-}}
+function tileAt(px,py){return 1}
+function block(t){return false}
+
+function inRect(x,y,x1,y1,x2,y2){return x>=x1&&x<=x2&&y>=y1&&y<=y2}
+function inEllipse(x,y,cx,cy,rx,ry){
+  let dx=(x-cx)/rx,dy=(y-cy)/ry;
+  return dx*dx+dy*dy<=1;
+}
+
+// 生成マップの床形状に合わせた当たり判定。
+// 床・通路は歩行可。神殿外周と大型建造物は不可。
+function walk(px,py,r){
+  let x=px,y=py;
+  if(x<55||y<60||x>WORLD_W-55||y>WORLD_H-55)return false;
+
+  let floor=false;
+  // 中央大広場
+  floor = floor || inRect(x,y,360,230,1175,830);
+  floor = floor || inEllipse(x,y,768,530,455,315);
+
+  // 上下広場
+  floor = floor || inRect(x,y,555,70,980,300);
+  floor = floor || inRect(x,y,555,735,980,970);
+
+  // 左右エリア
+  floor = floor || inRect(x,y,80,165,420,415);
+  floor = floor || inRect(x,y,1110,165,1455,415);
+  floor = floor || inRect(x,y,95,610,430,900);
+  floor = floor || inRect(x,y,1105,610,1445,900);
+
+  // 通路
+  floor = floor || inRect(x,y,180,430,1360,610);
+  floor = floor || inRect(x,y,700,90,840,950);
+  floor = floor || inRect(x,y,280,230,1260,330);
+  floor = floor || inRect(x,y,270,720,1260,830);
+
+  if(!floor)return false;
+
+  // 建造物・柱・祭壇の当たり判定
+  const blocks=[
+    [640,75,895,185],     // 上部大神殿
+    [640,835,895,1010],   // 下部階段/外周
+    [70,80,190,185],
+    [1345,80,1490,185],
+    [95,720,245,905],
+    [1295,720,1465,905],
+    [390,300,500,430],
+    [1035,300,1145,430],
+    [385,650,500,780],
+    [1030,650,1145,780],
+    [210,170,325,270],
+    [1210,170,1325,270],
+    [205,720,330,820],
+    [1205,720,1330,820],
+    [720,480,820,575],    // 中央クリスタル台座
+  ];
+
+  for(const b of blocks){
+    if(inRect(x,y,b[0]-r,b[1]-r,b[2]+r,b[3]+r))return false;
+  }
+
+  return true;
+}
+
+function randPos(){
+  for(let i=0;i<500;i++){
+    let x=rand(140,WORLD_W-140),y=rand(130,WORLD_H-130);
+    if(walk(x,y,10))return{x,y};
+  }
+  return{x:768,y:585};
+}
+
+function startGame(){preload();let cv=$("cv"),ctx=cv.getContext("2d"),dpr=Math.max(1,Math.min(2,devicePixelRatio||1));cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cv.style.width=innerWidth+"px";cv.style.height=innerHeight+"px";ctx.setTransform(dpr,0,0,dpr,0,0);let ob=obonus(),hp=220*uval("hp")*ob.hp;g={ctx,cv,w:innerWidth,h:innerHeight,map:buildMap(),view:{x:0,y:0},time:0,score:0,kills:0,runGold:0,spawn:0,boss:30,itemSpawn:8,over:false,freeze:1,buffs:[],enemies:[],gems:[],items:[],shots:[],fx:[],float:[],skills:{c0:{id:"c0",lv:1,cd:0},h0:{id:"h0",lv:1,cd:0}},p:{x:768,y:585,r:13,hp,maxHp:hp,atk:28*uval("atk")*ob.atk,spd:250*uval("speed")*ob.speed,magnet:125*uval("magnet")*ob.magnet,lv:1,xp:0,next:18,phase:0,inv:0,walk:0,frame:0,dir:0,size:1,atkMul:1,xpMul:1,goldMul:1,cdr:ob.cdr,power:ob.power,barrier:ob.barrier,minimap:false,revive:false}};paused=false;$("pause").textContent="II";show("game");last=performance.now();if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
+function spawnEnemy(boss=false){
+  let p=g.p,pos=randPos();
+  if(Math.random()<.8){
+    let a=Math.random()*7,d=Math.max(g.w,g.h)*.55;
+    pos={x:clamp(p.x+Math.cos(a)*d,80,WORLD_W-80),y:clamp(p.y+Math.sin(a)*d,80,WORLD_H-80)};
+    if(!walk(pos.x,pos.y,12))pos=randPos();
+  }
+
+  // 序盤は弱く、1分以降から強烈にインフレ
+  let early=Math.min(1,g.time/60);
+  let sc=Math.pow(1.018,g.time)*Math.pow(1.22,Math.floor(Math.max(0,g.time-45)/20));
+  let kind=boss?"boss":Math.random()<.18?"fast":Math.random()<.16?"tank":"normal";
+  let ghost=!boss&&Math.random()<.12;
+  let spriteType=boss?9:ghost?1:kind=="tank"?7:kind=="fast"?5:Math.floor(Math.random()*6);
+
+  let baseHp=boss?1200:kind=="tank"?95:kind=="fast"?32:45;
+  let baseDmg=boss?28:kind=="tank"?8:kind=="fast"?5:6;
+  let baseSpd=boss?70:kind=="tank"?70:kind=="fast"?145:100;
+
+  g.enemies.push({
+    x:pos.x,y:pos.y,
+    r:boss?24:kind=="tank"?18:kind=="fast"?10:13,
+    kind,boss,ghost,spriteType,
+    hp:baseHp*sc,
+    max:baseHp*sc,
+    spd:baseSpd*(1+g.time/180),
+    dmg:baseDmg*(1+early*0.8)*sc*.38,
+    col:ghost?"#c8e7ff":boss?"#ffd76a":kind=="fast"?"#74f5a3":kind=="tank"?"#ef476f":"#9d4edd"
+  });
+}
 function effect(x,y,t,c="#fff"){g.fx.push({x,y,t,c,a:0,life:.45})}function float(x,y,t,c="#ffd76a"){g.float.push({x,y,t,c,a:0,life:.7})}
 function gainXp(v){let p=g.p;p.xp+=v*uval("growth")*p.xpMul;while(p.xp>=p.next){p.xp-=p.next;p.lv++;p.next=Math.floor(p.next*1.24+14);p.maxHp+=16;p.hp=Math.min(p.maxHp,p.hp+25);levelUp()}}
 function applyBuff(id,sec){let b=g.buffs.find(x=>x.id==id);if(b)b.t=Math.max(b.t,sec);else g.buffs.push({id,t:sec})}function buffs(){let p=g.p;p.size=1;p.atkMul=1;p.xpMul=1;p.goldMul=1;p.speedMul=1;g.freeze=1;for(let b of g.buffs){if(b.id=="buff"){p.atkMul*=1.3;p.speedMul*=1.3}if(b.id=="growth")p.xpMul*=1.2;if(b.id=="giant"){p.size=2;p.atkMul*=1.25}if(b.id=="speed")p.speedMul=Math.max(p.speedMul,1.5);if(b.id=="luck")p.goldMul*=1.5;if(b.id=="freeze")g.freeze=.22;if(b.id=="bless"){p.atkMul*=1.2;p.xpMul*=1.2;p.speedMul=Math.max(p.speedMul,1.2)}}}
@@ -160,11 +222,11 @@ function update(dt){
 
   g.spawn-=dt;
   if(g.spawn<=0){
-    g.spawn=Math.max(.012,.22-g.time/210);
-    for(let i=0;i<1+Math.floor(g.time/12);i++)spawnEnemy(false);
+    g.spawn=Math.max(.035,.55-g.time/240);
+    for(let i=0;i<1+Math.floor(Math.max(0,g.time-35)/22);i++)spawnEnemy(false);
   }
   g.boss-=dt;
-  if(g.boss<=0){g.boss=30;spawnEnemy(true)}
+  if(g.boss<=0){g.boss=55;spawnEnemy(true)}
 
   g.itemSpawn-=dt;
   if(g.itemSpawn<=0){
@@ -253,10 +315,17 @@ function drawTile(c,t,x,y){
   else{c.fillStyle=["#1b2449","#dad4bf","#9aa5c6","#ddd3b6","#6e789d","#c8bfa8","#62d5ff","#ddd7c4"][t]||"#000";c.fillRect(x,y,TILE,TILE)}
 }
 function drawMap(c,vx,vy){
-  c.fillStyle="#111936";c.fillRect(0,0,g.w,g.h);
-  let sx=Math.max(0,Math.floor(vx/TILE)-1),ex=Math.min(MAP_W-1,Math.ceil((vx+g.w)/TILE)+1);
-  let sy=Math.max(0,Math.floor(vy/TILE)-1),ey=Math.min(MAP_H-1,Math.ceil((vy+g.h)/TILE)+1);
-  for(let ty=sy;ty<=ey;ty++)for(let tx=sx;tx<=ex;tx++)drawTile(c,g.map.tiles[ty][tx],tx*TILE-vx,ty*TILE-vy);
+  c.fillStyle="#8ec7ff";
+  c.fillRect(0,0,g.w,g.h);
+
+  if(IMG.stage&&IMG.stage.complete){
+    c.imageSmoothingEnabled=false;
+    c.drawImage(IMG.stage,-vx,-vy,WORLD_W,WORLD_H);
+    c.imageSmoothingEnabled=true;
+  }else{
+    c.fillStyle="#d9d2bd";
+    c.fillRect(-vx,-vy,WORLD_W,WORLD_H);
+  }
 }
 function drawSkillIcon(c,def,x,y,s){
   let idx=Math.abs((def.id||"").split("").reduce((a,ch)=>a+ch.charCodeAt(0),0))%40;
@@ -265,18 +334,25 @@ function drawSkillIcon(c,def,x,y,s){
   else{c.fillStyle=def.color||"#fff";c.fillRect(x,y,s,s)}
 }
 function drawPlayer(c,p,vx,vy){
-  let x=p.x-vx,y=p.y-vy,size=74*(p.size||1)*(p.phase>=4?1.18:1);
+  let x=p.x-vx,y=p.y-vy,size=76*(p.size||1)*(p.phase>=4?1.16:1);
   if(p.inv>0)c.globalAlpha=.75+Math.sin(g.time*15)*.25;
+
   if(p.phase){
     c.strokeStyle="#70dcff";c.globalAlpha=.30;c.lineWidth=3;
     c.beginPath();c.arc(x,y,(25+p.phase*8)*(p.size||1),0,7);c.stroke();c.globalAlpha=1;
   }
+
   if(IMG.human&&IMG.human.complete){
     let row=(Math.min(4,p.phase||0)*4+(p.dir||0));
-    c.save();c.shadowColor="#000";c.shadowBlur=5;c.imageSmoothingEnabled=false;
+    c.save();
+    c.shadowColor="#000";c.shadowBlur=5;
+    c.imageSmoothingEnabled=false;
     c.drawImage(IMG.human,(p.frame||0)*112,row*112,112,112,x-size/2,y-size*.78,size,size);
-    c.imageSmoothingEnabled=true;c.restore();
-  }else{c.fillStyle="#ffd76a";c.fillRect(x-12,y-30,24,38)}
+    c.imageSmoothingEnabled=true;
+    c.restore();
+  }else{
+    c.fillStyle="#ffd76a";c.fillRect(x-12,y-30,24,38);
+  }
   c.globalAlpha=1;
 }
 function draw(){
