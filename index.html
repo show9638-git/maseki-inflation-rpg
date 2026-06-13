@@ -1,12 +1,53 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>魔石神域探索ハクスラ v4.0</title><link rel="stylesheet" href="style.css"></head>
-<body><header class="top"><div><h1>魔石神域探索ハクスラ v4.0</h1><p>パーティ編成 / 種族・職業・二つ名 / 放置探索 / 鑑定 / 神域ボス / 魔石インフレ</p></div><div class="topBtns"><button id="saveBtn">保存</button><button id="loadBtn">読込</button><button id="resetBtn">初期化</button></div></header>
-<main><section class="hero"><div class="bossStage"><img id="mainBossImg" src="" alt=""><div class="bossShade"></div><div class="bossCaption"><b id="mainBossName">神域探索</b><span id="mainBossInfo">準備して探索へ送り出せ</span></div></div><div class="hud"><div><b>階層</b><span id="floorText">1</span></div><div><b>戦力</b><span id="powerText">0</span></div><div><b>Gold</b><span id="goldText">0</span></div><div><b>魔石</b><span id="stoneText">0</span></div><div><b>未鑑定</b><span id="lootText">0</span></div></div></section>
-<nav class="tabs"><button class="tab active" data-tab="explore">探索</button><button class="tab" data-tab="party">編成</button><button class="tab" data-tab="equip">装備</button><button class="tab" data-tab="loot">鑑定</button><button class="tab" data-tab="boss">神域ボス</button><button class="tab" data-tab="codex">図鑑</button></nav>
-<section id="explore" class="panel active"><div class="grid2"><div class="card"><h2>探索先</h2><select id="dungeonSelect"></select><div class="actions"><button id="startBtn">探索開始</button><button id="stopBtn">停止</button><button id="stepBtn">1戦だけ</button></div><div id="dungeonInfo"></div></div><div class="card"><h2>探索ログ</h2><div id="log" class="log"></div></div></div></section>
-<section id="party" class="panel"><div id="partyPanel"></div></section>
-<section id="equip" class="panel"><div class="toolbar"><select id="memberSelect"></select><select id="slotSelect"><option value="weapon">武器</option><option value="armor">防具</option><option value="acc">装飾</option><option value="relic">遺物</option></select><select id="filterSelect"><option value="owned">所持</option><option value="all">全装備</option><option value="shop">購入可能</option><option value="boss">ボス装備</option></select></div><div id="equipPanel"></div></section>
-<section id="loot" class="panel"><div class="card"><h2>未鑑定品</h2><div class="actions"><button id="identifyOne">1個鑑定</button><button id="identifyAll">全部鑑定</button><button id="sellJunk">低Tier売却</button></div></div><div id="lootPanel"></div></section>
-<section id="boss" class="panel"><div id="bossPanel"></div></section>
-<section id="codex" class="panel"><div id="codexPanel"></div></section></main><script src="game.js"></script></body></html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>魔石転生サバイバー v0.1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <section id="screenTitle" class="screen active">
+      <div class="titleBox">
+        <h1>魔石転生サバイバー</h1>
+        <p>ヴァンサバ風 × 種族ビルド × 見た目進化 × 転生強化</p>
+        <div class="menuGrid">
+          <button id="toRaceBtn" type="button">出撃準備</button>
+          <button id="toRebirthBtn" type="button">転生強化</button>
+          <button id="toRecordsBtn" type="button">記録</button>
+        </div>
+        <div class="statusCard">
+          <b>所持転生ポイント</b><span id="metaPointTitle">0</span>
+          <b>最高スコア</b><span id="bestScoreTitle">0</span>
+        </div>
+      </div>
+    </section>
+    <section id="screenRace" class="screen">
+      <header class="screenHeader"><button class="backTitle" type="button">戻る</button><h2>種族選択</h2></header>
+      <div id="raceList" class="cardGrid"></div>
+      <div class="bottomBar"><button id="startGameBtn" type="button">この種族で出撃</button></div>
+    </section>
+    <section id="screenRebirth" class="screen">
+      <header class="screenHeader"><button class="backTitle" type="button">戻る</button><h2>転生強化</h2></header>
+      <div class="pointPanel">転生ポイント：<b id="metaPointText">0</b></div>
+      <div id="upgradeList" class="cardGrid"></div>
+    </section>
+    <section id="screenRecords" class="screen">
+      <header class="screenHeader"><button class="backTitle" type="button">戻る</button><h2>記録</h2></header>
+      <div id="recordPanel" class="records"></div>
+    </section>
+    <section id="screenGame" class="screen gameScreen">
+      <canvas id="gameCanvas"></canvas>
+      <div class="hud"><div><b>TIME</b><span id="hudTime">0:00</span></div><div><b>LV</b><span id="hudLevel">1</span></div><div><b>KILL</b><span id="hudKills">0</span></div><div><b>SCORE</b><span id="hudScore">0</span></div></div>
+      <div class="hpWrap"><div id="hpBar"></div></div><div class="xpWrap"><div id="xpBar"></div></div>
+      <div id="skillHud" class="skillHud"></div><div id="evoText" class="evoText hidden"></div>
+      <div id="stickZone"><div id="stickBase"><div id="stickKnob"></div></div></div>
+      <button id="pauseBtn" type="button">II</button>
+    </section>
+    <section id="screenLevelUp" class="screen overlay"><div class="modal"><h2>レベルアップ</h2><p>スキルを選択</p><div id="levelChoices" class="choiceGrid"></div></div></section>
+    <section id="screenResult" class="screen overlay"><div class="modal"><h2>死亡</h2><div id="resultPanel"></div><button id="backAfterDeathBtn" type="button">タイトルへ戻る</button></div></section>
+    <div id="errorBox" class="errorBox hidden"></div>
+  </div>
+  <script src="game.js"></script>
+</body></html>
