@@ -3,103 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#090b14">
-<title>魔石インフレーションRPG Rebuild v2.5.1</title>
+<meta name="theme-color" content="#080a12">
+<title>魔石インフレーションRPG Rebuild v3.0</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <div id="app">
-<header class="top">
-  <div><h1>魔石インフレーションRPG Rebuild v2.5.1</h1><p>動くドット実装 / 新ベース画像反映</p></div>
-  <div class="topBtns">
-    <button id="soundBtn" type="button">音ON</button>
-    <button id="bgmBtn" type="button">BGM:冒険</button>
-    <button id="saveBtn" type="button">保存</button>
-    <button id="loadBtn" type="button">読込</button>
-    <button id="resetBtn" type="button" class="danger">初期化</button>
-  </div>
-</header>
-
-<section class="hud">
-  <div><span>場所</span><b id="hudArea">-</b></div>
-  <div><span>Lv</span><b id="hudLv">1</b></div>
-  <div><span>G</span><b id="hudGold">0</b></div>
-  <div><span>魔石</span><b id="hudStones">0</b></div>
-</section>
-
-<main class="screen">
-  <section id="field" class="field"><div id="enemyLine" class="enemyLine"></div></section>
-
-  <section class="focusRow">
-    <span>表示対象</span>
-    <button class="focusBtn active" type="button" data-focus="hero">主人公</button>
-    <button class="focusBtn" type="button" data-focus="ally1">仲間1</button>
+  <header class="top">
+    <div><h1>魔石インフレーションRPG Rebuild v3.0</h1><p>大規模拡充 / ステージ進捗 / 大量敵・装備・技 / メタル敵 / ビルド強化</p></div>
+    <div class="topBtns"><button id="soundBtn">音ON</button><button id="bgmBtn">BGM:冒険</button><button id="saveBtn">保存</button><button id="loadBtn">読込</button><button id="resetBtn" class="danger">初期化</button></div>
+  </header>
+  <section class="hud">
+    <div><span>場所</span><b id="hudStage">-</b></div><div><span>Lv</span><b id="hudLv">1</b></div><div><span>G</span><b id="hudGold">0</b></div><div><span>魔石</span><b id="hudStone">0</b></div>
   </section>
-
-  <section class="party">
-    <article class="actor" data-actor="hero"><div id="heroPic" class="actorPic heroPic"></div><div><h3 id="heroName">主人公</h3><div id="heroBars"></div><p id="heroMini"></p></div></article>
-    <article class="actor" data-actor="ally1"><div id="ally1Pic" class="actorPic ally1Pic"></div><div><h3 id="ally1Name">仲間1</h3><div id="ally1Bars"></div><p id="ally1Mini"></p></div></article>
-  </section>
-
-  <section class="target"><span>対象</span><select id="targetSelect"></select></section>
-
-  <section class="commands">
-    <button id="attackBtn" type="button">攻撃</button>
-    <button id="skill1Btn" type="button">特技1</button>
-    <button id="skill2Btn" type="button">特技2</button>
-    <button id="skill3Btn" type="button">特技3</button>
-    <button id="nextBtn" type="button">敵入替</button>
-    <button id="absorbOpenBtn" type="button">魔石吸収</button>
-    <button id="sellOpenBtn" type="button">魔石売却</button>
-    <button id="autoStartBtn" type="button">オート開始</button>
-    <button id="autoStopBtn" type="button">オート停止</button>
-  </section>
-
-  <section id="absorbPanel" class="absorbPanel hidden">
-    <span>吸収量</span>
-    <select id="absorbSelect"><option value="10">10%</option><option value="25">25%</option><option value="50">50%</option><option value="100">100%</option><option value="all">一括吸収</option></select>
-    <button id="absorbExecBtn" type="button">吸収実行</button>
-  </section>
-  <section id="sellPanel" class="absorbPanel hidden">
-    <span>売却量</span>
-    <select id="sellSelect"><option value="10">10%</option><option value="25">25%</option><option value="50">50%</option><option value="100">100%</option><option value="all">一括売却</option></select>
-    <button id="sellExecBtn" type="button">売却実行</button>
-  </section>
-
-  <nav class="tabs">
-    <button class="tab active" type="button" data-panel="battle">戦闘</button>
-    <button class="tab" type="button" data-panel="area">場所</button>
-    <button class="tab" type="button" data-panel="growth">育成</button>
-    <button class="tab" type="button" data-panel="equip">装備</button>
-    <button class="tab" type="button" data-panel="stone">魔石</button>
-    <button class="tab" type="button" data-panel="ally">仲間</button>
-    <button class="tab" type="button" data-panel="image">画像/名前</button>
-    <button class="tab" type="button" data-panel="gallery">敵絵</button>
-  </nav>
-
-  <section id="panel-battle" class="panel active"><h2>ログ</h2><div id="log" class="log"></div></section>
-  <section id="panel-area" class="panel"><h2>場所・出現数倍率</h2><p class="hint">場所ごとに1〜5倍。表示上限は5体。終末王座にラスボスあり。</p><div id="areaList" class="cards"></div></section>
-  <section id="panel-growth" class="panel"><h2>育成</h2><div class="subtabs"><button class="growthBtn active" type="button" data-growth="hero">主人公</button><button class="growthBtn" type="button" data-growth="ally1">仲間1</button></div><div id="growthPanel" class="cards"></div></section>
-  <section id="panel-equip" class="panel"><h2>装備</h2><div class="subtabs"><button class="equipBtn active" type="button" data-equip="hero">主人公</button><button class="equipBtn" type="button" data-equip="ally1">仲間1</button></div><div id="equipPanel" class="cards"></div></section>
-  <section id="panel-stone" class="panel"><h2>魔石一覧</h2><p class="hint">敵ごとの魔石。強い敵ほど吸収・売却が強力。</p><div id="stonePanel" class="cards"></div></section>
-  <section id="panel-ally" class="panel"><h2>仲間</h2><div id="allyPanel" class="cards"></div></section>
-  <section id="panel-image" class="panel">
-    <h2>名前・イラスト変更</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>主人公</h3>
-        <input id="heroNameInput" class="textInput" type="text" placeholder="主人公名">
-        <div class="cardBtns"><label class="fileBtn">主人公画像を選ぶ<input id="heroImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="heroImageResetBtn" type="button">画像初期化</button></div>
-      </div>
-      <div class="card">
-        <h3>仲間1</h3>
-        <input id="ally1NameInput" class="textInput" type="text" placeholder="仲間1名">
-        <div class="cardBtns"><label class="fileBtn">仲間1画像を選ぶ<input id="ally1ImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="ally1ImageResetBtn" type="button">画像初期化</button></div>
-      </div>
-    </div>
-  </section>
-  <section id="panel-gallery" class="panel"><h2>敵イラスト一覧</h2><div id="gallery" class="gallery"></div></section>
-</main>
+  <section class="progressBox"><div><div class="progText"><b id="stageProgName">進捗</b><span id="stageProgLabel">0%</span></div><div class="bar big"><div id="stageProgFill" class="fill"></div></div><p id="stageBuffText">100%で永続バフ解放</p></div><button id="bossBtn">ボス挑戦</button></section>
+  <main class="screen">
+    <section id="field" class="field"><div id="enemyLine" class="enemyLine"></div></section>
+    <section class="party">
+      <article class="actor focused" data-actor="hero"><div id="heroPic" class="actorPic spriteSheet"></div><div><h3 id="heroName">主人公</h3><div id="heroBars"></div><p id="heroMini"></p></div></article>
+      <article class="actor" data-actor="ally"><div id="allyPic" class="actorPic spriteSheet"></div><div><h3 id="allyName">仲間</h3><div id="allyBars"></div><p id="allyMini"></p></div></article>
+    </section>
+    <section class="target"><span>対象</span><select id="targetSelect"></select></section>
+    <section class="commands"><button id="attackBtn">攻撃</button><button id="skill1Btn">特技1</button><button id="skill2Btn">特技2</button><button id="skill3Btn">特技3</button><button id="spawnBtn">敵入替</button><button id="absorbOpenBtn">魔石吸収</button><button id="autoStartBtn">オート開始</button><button id="autoStopBtn">オート停止</button></section>
+    <section id="absorbPanel" class="absorbPanel hidden"><span>吸収量</span><select id="absorbSelect"><option value="10">10%</option><option value="25">25%</option><option value="50">50%</option><option value="100">100%</option><option value="all">一括</option></select><button id="absorbBtn">吸収実行</button></section>
+    <nav class="tabs"><button class="tab active" data-panel="battle">戦闘</button><button class="tab" data-panel="stage">ステージ</button><button class="tab" data-panel="growth">育成/技</button><button class="tab" data-panel="equip">装備</button><button class="tab" data-panel="stone">魔石</button><button class="tab" data-panel="codex">図鑑</button><button class="tab" data-panel="setting">設定</button></nav>
+    <section id="panel-battle" class="panel active"><h2>ログ</h2><div id="log" class="log"></div></section>
+    <section id="panel-stage" class="panel"><h2>ステージ進捗</h2><div id="stageList" class="cards"></div></section>
+    <section id="panel-growth" class="panel"><h2>育成 / 技</h2><div id="growthPanel" class="cards"></div></section>
+    <section id="panel-equip" class="panel"><h2>装備</h2><div class="subtabs"><button class="equipTarget active" data-eqtarget="hero">主人公</button><button class="equipTarget" data-eqtarget="ally">仲間</button><button class="filterBtn active" data-filter="all">全て</button><button class="filterBtn" data-filter="shop">店</button><button class="filterBtn" data-filter="owned">所持</button><button class="filterBtn" data-filter="drop">ドロップ</button></div><div id="equipPanel" class="cards"></div></section>
+    <section id="panel-stone" class="panel"><h2>魔石</h2><div id="stonePanel" class="cards"></div></section>
+    <section id="panel-codex" class="panel"><h2>敵図鑑 / 実績</h2><div id="codexPanel" class="cards"></div></section>
+    <section id="panel-setting" class="panel"><h2>設定</h2><div class="cards"><div class="card"><h3>名前変更</h3><input id="heroNameInput" class="textInput" placeholder="主人公名"><input id="allyNameInput" class="textInput" placeholder="仲間名"></div><div class="card"><h3>画像</h3><p>カスタム画像未設定時は動くドットを使用します。</p><div class="cardBtns"><label class="fileBtn">主人公画像<input id="heroImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="heroImageResetBtn">主人公初期化</button><label class="fileBtn">仲間画像<input id="allyImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="allyImageResetBtn">仲間初期化</button></div></div></div></section>
+  </main>
 </div>
 <div id="toast" class="toast hidden"></div>
 <script src="./game.js"></script>

@@ -1,38 +1,47 @@
-# 魔石インフレーションRPG Rebuild v2.5.1
+# 魔石インフレーションRPG Rebuild v3.0
 
-## 変更内容
+## 大規模拡充アップデート
 
-- 主人公と仲間1のベース画像を、今回指定された白黒虹の男性/女性画像に差し替え
-- 同名ファイルで配置
-  - `assets/hero-dot.png`
-  - `assets/ally-dot.png`
-- 新ベース画像から、動くドット用スプライトシートを再生成
-  - `assets/hero-sprite-sheet.png`
-  - `assets/ally-sprite-sheet.png`
-- v2.5の待機/攻撃/特技/被弾アニメは維持
-
-## 重要
-
-GitHub Pagesへ反映する時は、`assets` フォルダごと上書きしてください。
-
-```text
-assets/
-  hero-dot.png
-  ally-dot.png
-  hero-sprite-sheet.png
-  ally-sprite-sheet.png
-```
+- ステージ進捗率を追加
+  - 敵を倒すと進捗が上昇
+  - 100%で永続バフ解放
+  - オートでも時間がかかるように調整
+- 敵数を大幅追加
+  - 12ステージ
+  - 通常敵、レア敵、メタル敵、ボスを含む大量追加
+  - 敵ごとに個別ドット絵PNGを同梱
+- 0.1%前後のメタルスライム枠を全ステージに追加
+- 装備を大量追加
+  - 店売り装備
+  - ドロップ装備
+  - 隠し装備
+  - ビルド用効果を大幅追加
+- 魔石吸収時の技取得を復活
+  - 敵ごとに技を追加
+  - 魔石吸収時にその敵由来の技を習得する可能性あり
+- 後半経験値問題を緩和
+  - 敵の強さ、レア度、ボス度に応じて経験値上昇
+  - 装備と進捗バフで経験値をさらに伸ばせる
+- 敵を大幅強化
+  - ステージ進捗や主人公Lvに応じて敵も強化
+- UI拡張
+  - ステージ進捗バー
+  - 装備フィルタ
+  - 敵図鑑
+  - 魔石一覧
+  - 技一覧/付け替え
+- 音楽/効果音をWebAudioで強化
 
 ## 反映
 
 ```powershell
 git add .
-git commit -m "Update rebuild v2.5.1 base character sprites"
+git commit -m "Mega update rebuild v3.0"
 git push
 ```
 
 古い表示が残る場合:
 
 ```text
-?v=rebuild251
+?v=rebuild30
 ```
