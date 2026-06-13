@@ -1,53 +1,73 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>魔石転生サバイバー v0.1</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>魔石転生サバイバー v0.2</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <section id="screenTitle" class="screen active">
-      <div class="titleBox">
-        <h1>魔石転生サバイバー</h1>
-        <p>ヴァンサバ風 × 種族ビルド × 見た目進化 × 転生強化</p>
-        <div class="menuGrid">
-          <button id="toRaceBtn" type="button">出撃準備</button>
-          <button id="toRebirthBtn" type="button">転生強化</button>
-          <button id="toRecordsBtn" type="button">記録</button>
-        </div>
-        <div class="statusCard">
-          <b>所持転生ポイント</b><span id="metaPointTitle">0</span>
-          <b>最高スコア</b><span id="bestScoreTitle">0</span>
-        </div>
+<div id="app">
+  <section id="title" class="screen active">
+    <div class="box">
+      <h1>魔石転生サバイバー v0.2</h1>
+      <p>人族・獣族・竜族 / 全画面ドラッグ移動 / 操作レスポンス改善 / BGM・効果音つき</p>
+      <div class="stats">
+        <div><b>転生pt</b><span id="metaPts">0</span></div>
+        <div><b>最高スコア</b><span id="bestScore">0</span></div>
       </div>
-    </section>
-    <section id="screenRace" class="screen">
-      <header class="screenHeader"><button class="backTitle" type="button">戻る</button><h2>種族選択</h2></header>
-      <div id="raceList" class="cardGrid"></div>
-      <div class="bottomBar"><button id="startGameBtn" type="button">この種族で出撃</button></div>
-    </section>
-    <section id="screenRebirth" class="screen">
-      <header class="screenHeader"><button class="backTitle" type="button">戻る</button><h2>転生強化</h2></header>
-      <div class="pointPanel">転生ポイント：<b id="metaPointText">0</b></div>
-      <div id="upgradeList" class="cardGrid"></div>
-    </section>
-    <section id="screenRecords" class="screen">
-      <header class="screenHeader"><button class="backTitle" type="button">戻る</button><h2>記録</h2></header>
-      <div id="recordPanel" class="records"></div>
-    </section>
-    <section id="screenGame" class="screen gameScreen">
-      <canvas id="gameCanvas"></canvas>
-      <div class="hud"><div><b>TIME</b><span id="hudTime">0:00</span></div><div><b>LV</b><span id="hudLevel">1</span></div><div><b>KILL</b><span id="hudKills">0</span></div><div><b>SCORE</b><span id="hudScore">0</span></div></div>
-      <div class="hpWrap"><div id="hpBar"></div></div><div class="xpWrap"><div id="xpBar"></div></div>
-      <div id="skillHud" class="skillHud"></div><div id="evoText" class="evoText hidden"></div>
-      <div id="stickZone"><div id="stickBase"><div id="stickKnob"></div></div></div>
-      <button id="pauseBtn" type="button">II</button>
-    </section>
-    <section id="screenLevelUp" class="screen overlay"><div class="modal"><h2>レベルアップ</h2><p>スキルを選択</p><div id="levelChoices" class="choiceGrid"></div></div></section>
-    <section id="screenResult" class="screen overlay"><div class="modal"><h2>死亡</h2><div id="resultPanel"></div><button id="backAfterDeathBtn" type="button">タイトルへ戻る</button></div></section>
-    <div id="errorBox" class="errorBox hidden"></div>
-  </div>
-  <script src="game.js"></script>
-</body></html>
+      <button id="goRace" type="button">出撃準備</button>
+      <button id="goUpgrades" type="button">転生強化</button>
+      <button id="toggleSound" type="button">音 ON/OFF</button>
+      <button id="resetSave" type="button">保存初期化</button>
+    </div>
+  </section>
+
+  <section id="race" class="screen">
+    <header><button class="back" type="button">戻る</button><h2>種族選択</h2></header>
+    <div id="raceCards" class="cards"></div>
+    <button id="start" class="fixedBtn" type="button">出撃</button>
+  </section>
+
+  <section id="upgrades" class="screen">
+    <header><button class="back" type="button">戻る</button><h2>転生強化</h2></header>
+    <div class="point">所持転生pt：<b id="ptsText">0</b></div>
+    <div id="upgradeCards" class="cards"></div>
+  </section>
+
+  <section id="game" class="screen game">
+    <canvas id="cv"></canvas>
+    <div class="hud">
+      <div><b>TIME</b><span id="time">0:00</span></div>
+      <div><b>LV</b><span id="lv">1</span></div>
+      <div><b>KILL</b><span id="kills">0</span></div>
+      <div><b>SCORE</b><span id="score">0</span></div>
+    </div>
+    <div class="hp"><i id="hpbar"></i></div>
+    <div class="xp"><i id="xpbar"></i></div>
+    <div id="skills" class="skills"></div>
+    <div id="touchHint">画面のどこでも押して移動</div>
+    <button id="pause" type="button">II</button>
+  </section>
+
+  <section id="levelup" class="overlay">
+    <div class="modal">
+      <h2>レベルアップ</h2>
+      <p>スキルを選択</p>
+      <div id="choices" class="choices"></div>
+    </div>
+  </section>
+
+  <section id="result" class="overlay">
+    <div class="modal">
+      <h2>リザルト</h2>
+      <div id="resultText"></div>
+      <button id="backTitle" type="button">タイトルへ</button>
+    </div>
+  </section>
+
+  <div id="err" class="err hidden"></div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
