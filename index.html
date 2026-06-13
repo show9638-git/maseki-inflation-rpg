@@ -3,20 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>魔石転生サバイバー v0.2</title>
+<title>魔石転生サバイバー v0.3</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="app">
   <section id="title" class="screen active">
     <div class="box">
-      <h1>魔石転生サバイバー v0.2</h1>
-      <p>人族・獣族・竜族 / 全画面ドラッグ移動 / 操作レスポンス改善 / BGM・効果音つき</p>
+      <h1>魔石転生サバイバー v0.3</h1>
+      <p>人族・獣族・竜族 / 慣性なし操作 / 共通&種族スキル / 永続Gold / ガチャ</p>
       <div class="stats">
         <div><b>転生pt</b><span id="metaPts">0</span></div>
+        <div><b>Gold</b><span id="goldText">0</span></div>
         <div><b>最高スコア</b><span id="bestScore">0</span></div>
+        <div><b>音</b><span id="soundText">ON</span></div>
       </div>
       <button id="goRace" type="button">出撃準備</button>
+      <button id="goGacha" type="button">ガチャ / 所持品</button>
       <button id="goUpgrades" type="button">転生強化</button>
       <button id="toggleSound" type="button">音 ON/OFF</button>
       <button id="resetSave" type="button">保存初期化</button>
@@ -27,6 +30,18 @@
     <header><button class="back" type="button">戻る</button><h2>種族選択</h2></header>
     <div id="raceCards" class="cards"></div>
     <button id="start" class="fixedBtn" type="button">出撃</button>
+  </section>
+
+  <section id="gacha" class="screen">
+    <header><button class="back" type="button">戻る</button><h2>ガチャ / 所持品</h2></header>
+    <div class="point">Gold：<b id="goldGacha">0</b></div>
+    <div class="gachaBtns">
+      <button id="roll1" type="button">1回 100G</button>
+      <button id="roll10" type="button">10回 1000G</button>
+    </div>
+    <div id="gachaResult" class="resultMini"></div>
+    <h2>所持装備・スキン</h2>
+    <div id="inventoryCards" class="cards"></div>
   </section>
 
   <section id="upgrades" class="screen">
@@ -42,18 +57,19 @@
       <div><b>LV</b><span id="lv">1</span></div>
       <div><b>KILL</b><span id="kills">0</span></div>
       <div><b>SCORE</b><span id="score">0</span></div>
+      <div><b>GOLD</b><span id="runGold">0</span></div>
     </div>
     <div class="hp"><i id="hpbar"></i></div>
     <div class="xp"><i id="xpbar"></i></div>
     <div id="skills" class="skills"></div>
-    <div id="touchHint">画面のどこでも押して移動</div>
+    <div id="touchHint">押している方向へ移動。離すと即停止。</div>
     <button id="pause" type="button">II</button>
   </section>
 
   <section id="levelup" class="overlay">
     <div class="modal">
       <h2>レベルアップ</h2>
-      <p>スキルを選択</p>
+      <p>共通スキル + 選択種族スキルのみ出現</p>
       <div id="choices" class="choices"></div>
     </div>
   </section>
