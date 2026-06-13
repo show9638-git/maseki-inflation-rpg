@@ -1,42 +1,12 @@
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080a12">
-<title>魔石インフレーションRPG Rebuild v3.1</title>
-<link rel="stylesheet" href="./style.css">
-</head>
-<body>
-<div id="app">
-  <header class="top">
-    <div><h1>魔石インフレーションRPG Rebuild v3.1</h1><p>ドット絵作り込み / 装備アイコン / UI改修 / ステージBGM / 5倍速オート</p></div>
-    <div class="topBtns"><button id="soundBtn">音ON</button><button id="bgmBtn">BGM:冒険</button><button id="saveBtn">保存</button><button id="loadBtn">読込</button><button id="resetBtn" class="danger">初期化</button></div>
-  </header>
-  <section class="hud">
-    <div><span>場所</span><b id="hudStage">-</b></div><div><span>Lv</span><b id="hudLv">1</b></div><div><span>G</span><b id="hudGold">0</b></div><div><span>魔石</span><b id="hudStone">0</b></div>
-  </section>
-  <section class="progressBox"><div><div class="progText"><b id="stageProgName">進捗</b><span id="stageProgLabel">0%</span></div><div class="bar big"><div id="stageProgFill" class="fill"></div></div><p id="stageBuffText">100%で永続バフ解放</p></div><button id="bossBtn">ボス挑戦</button></section>
-  <main class="screen">
-    <section id="field" class="field"><div id="enemyLine" class="enemyLine"></div></section>
-    <section class="party">
-      <article class="actor focused" data-actor="hero"><div id="heroPic" class="actorPic spriteSheet"></div><div><h3 id="heroName">主人公</h3><div id="heroBars"></div><p id="heroMini"></p></div></article>
-      <article class="actor" data-actor="ally"><div id="allyPic" class="actorPic spriteSheet"></div><div><h3 id="allyName">仲間</h3><div id="allyBars"></div><p id="allyMini"></p></div></article>
-    </section>
-    <section class="target"><span>対象</span><select id="targetSelect"></select></section>
-    <section class="commands"><button id="attackBtn">攻撃</button><button id="skill1Btn">特技1</button><button id="skill2Btn">特技2</button><button id="skill3Btn">特技3</button><button id="spawnBtn">敵入替</button><button id="absorbOpenBtn">魔石吸収</button><button id="autoStartBtn">オート開始</button><button id="autoStopBtn">オート停止</button></section>
-    <section id="absorbPanel" class="absorbPanel hidden"><span>吸収量</span><select id="absorbSelect"><option value="10">10%</option><option value="25">25%</option><option value="50">50%</option><option value="100">100%</option><option value="all">一括</option></select><button id="absorbBtn">吸収実行</button></section>
-    <nav class="tabs"><button class="tab active" data-panel="battle">戦闘</button><button class="tab" data-panel="stage">ステージ</button><button class="tab" data-panel="growth">育成/技</button><button class="tab" data-panel="equip">装備</button><button class="tab" data-panel="stone">魔石</button><button class="tab" data-panel="codex">図鑑</button><button class="tab" data-panel="setting">設定</button></nav>
-    <section id="panel-battle" class="panel active"><h2>ログ</h2><div id="log" class="log"></div></section>
-    <section id="panel-stage" class="panel"><h2>ステージ進捗</h2><div id="stageList" class="cards"></div></section>
-    <section id="panel-growth" class="panel"><h2>育成 / 技</h2><div id="growthPanel" class="cards"></div></section>
-    <section id="panel-equip" class="panel"><h2>装備</h2><div class="subtabs"><button class="equipTarget active" data-eqtarget="hero">主人公</button><button class="equipTarget" data-eqtarget="ally">仲間</button><button class="filterBtn active" data-filter="all">全て</button><button class="filterBtn" data-filter="shop">店</button><button class="filterBtn" data-filter="owned">所持</button><button class="filterBtn" data-filter="drop">ドロップ</button></div><div id="equipPanel" class="cards"></div></section>
-    <section id="panel-stone" class="panel"><h2>魔石</h2><div id="stonePanel" class="cards"></div></section>
-    <section id="panel-codex" class="panel"><h2>敵図鑑 / 実績</h2><div id="codexPanel" class="cards"></div></section>
-    <section id="panel-setting" class="panel"><h2>設定</h2><div class="cards"><div class="card"><h3>名前変更</h3><input id="heroNameInput" class="textInput" placeholder="主人公名"><input id="allyNameInput" class="textInput" placeholder="仲間名"></div><div class="card"><h3>画像</h3><p>カスタム画像未設定時は動くドットを使用します。</p><div class="cardBtns"><label class="fileBtn">主人公画像<input id="heroImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="heroImageResetBtn">主人公初期化</button><label class="fileBtn">仲間画像<input id="allyImageInput" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="allyImageResetBtn">仲間初期化</button></div></div></div></section>
-  </main>
-</div>
-<div id="toast" class="toast hidden"></div>
-<script src="./game.js"></script>
-</body>
-</html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>魔石神域探索ハクスラ v4.0</title><link rel="stylesheet" href="style.css"></head>
+<body><header class="top"><div><h1>魔石神域探索ハクスラ v4.0</h1><p>パーティ編成 / 種族・職業・二つ名 / 放置探索 / 鑑定 / 神域ボス / 魔石インフレ</p></div><div class="topBtns"><button id="saveBtn">保存</button><button id="loadBtn">読込</button><button id="resetBtn">初期化</button></div></header>
+<main><section class="hero"><div class="bossStage"><img id="mainBossImg" src="" alt=""><div class="bossShade"></div><div class="bossCaption"><b id="mainBossName">神域探索</b><span id="mainBossInfo">準備して探索へ送り出せ</span></div></div><div class="hud"><div><b>階層</b><span id="floorText">1</span></div><div><b>戦力</b><span id="powerText">0</span></div><div><b>Gold</b><span id="goldText">0</span></div><div><b>魔石</b><span id="stoneText">0</span></div><div><b>未鑑定</b><span id="lootText">0</span></div></div></section>
+<nav class="tabs"><button class="tab active" data-tab="explore">探索</button><button class="tab" data-tab="party">編成</button><button class="tab" data-tab="equip">装備</button><button class="tab" data-tab="loot">鑑定</button><button class="tab" data-tab="boss">神域ボス</button><button class="tab" data-tab="codex">図鑑</button></nav>
+<section id="explore" class="panel active"><div class="grid2"><div class="card"><h2>探索先</h2><select id="dungeonSelect"></select><div class="actions"><button id="startBtn">探索開始</button><button id="stopBtn">停止</button><button id="stepBtn">1戦だけ</button></div><div id="dungeonInfo"></div></div><div class="card"><h2>探索ログ</h2><div id="log" class="log"></div></div></div></section>
+<section id="party" class="panel"><div id="partyPanel"></div></section>
+<section id="equip" class="panel"><div class="toolbar"><select id="memberSelect"></select><select id="slotSelect"><option value="weapon">武器</option><option value="armor">防具</option><option value="acc">装飾</option><option value="relic">遺物</option></select><select id="filterSelect"><option value="owned">所持</option><option value="all">全装備</option><option value="shop">購入可能</option><option value="boss">ボス装備</option></select></div><div id="equipPanel"></div></section>
+<section id="loot" class="panel"><div class="card"><h2>未鑑定品</h2><div class="actions"><button id="identifyOne">1個鑑定</button><button id="identifyAll">全部鑑定</button><button id="sellJunk">低Tier売却</button></div></div><div id="lootPanel"></div></section>
+<section id="boss" class="panel"><div id="bossPanel"></div></section>
+<section id="codex" class="panel"><div id="codexPanel"></div></section></main><script src="game.js"></script></body></html>
