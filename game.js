@@ -2,7 +2,7 @@
 (() => {
 "use strict";
 const DATA = {"skills":[{"id":"orb","name":"魔石弾","group":"common","desc":"近い敵へ高速弾。","kind":"projectile","color":"#ffd76a"},{"id":"blade","name":"守護剣","group":"common","desc":"周囲を回る剣。","kind":"orbit","color":"#70dcff"},{"id":"aura","name":"魔力波動","group":"common","desc":"周囲へ定期攻撃。","kind":"pulse","color":"#ff72ce"},{"id":"laser","name":"星光レーザー","group":"common","desc":"直線貫通レーザー。","kind":"laser","color":"#ffe66d"},{"id":"bomb","name":"魔石爆弾","group":"common","desc":"近い敵周辺で爆発。","kind":"meteor","color":"#ff9f1c"},{"id":"needle","name":"貫通針","group":"common","desc":"細い貫通弾を連射。","kind":"projectile","color":"#b8f2e6"},{"id":"shield","name":"反撃障壁","group":"common","desc":"接触時に反撃しHP微回復。","kind":"pulse","color":"#9bf6ff"},{"id":"chain","name":"連鎖雷","group":"common","desc":"敵から敵へ連鎖。","kind":"chain","color":"#caffbf"},{"id":"mine","name":"魔石地雷","group":"common","desc":"周囲に地雷を置く。","kind":"mine","color":"#f6bd60"},{"id":"nova","name":"新星爆発","group":"common","desc":"広範囲を吹き飛ばす。","kind":"nova","color":"#f28482"},{"id":"slash","name":"人王斬","group":"human","desc":"前方へ斬撃。","kind":"projectile","color":"#ffffff"},{"id":"banner","name":"英雄旗","group":"human","desc":"回復と強化。","kind":"buff","color":"#ffd76a"},{"id":"star","name":"星導陣","group":"human","desc":"魔石を引き寄せる。","kind":"buff","color":"#70dcff"},{"id":"spear","name":"聖槍投げ","group":"human","desc":"高速貫通槍。","kind":"projectile","color":"#fefae0"},{"id":"guard","name":"王盾反射","group":"human","desc":"周囲反撃。","kind":"pulse","color":"#a8dadc"},{"id":"cross","name":"十字聖光","group":"human","desc":"十字方向攻撃。","kind":"cross","color":"#f1faee"},{"id":"judgement","name":"裁きの光","group":"human","desc":"近い敵へ落雷。","kind":"meteor","color":"#f4d35e"},{"id":"command","name":"号令","group":"human","desc":"全スキルの回転を短縮。","kind":"buff","color":"#ffc857"},{"id":"valor","name":"勇気の刃","group":"human","desc":"HPが高いほど火力増。","kind":"projectile","color":"#faf0ca"},{"id":"sanctuary","name":"聖域","group":"human","desc":"広い継続ダメージ。","kind":"nova","color":"#d8f3dc"},{"id":"claw","name":"獣爪雷撃","group":"beast","desc":"近距離範囲攻撃。","kind":"pulse","color":"#74f5a3"},{"id":"dash","name":"突進波","group":"beast","desc":"移動方向へ衝撃波。","kind":"projectile","color":"#95d5b2"},{"id":"howl","name":"獣王咆哮","group":"beast","desc":"全方位弾。","kind":"nova","color":"#52b788"},{"id":"fang","name":"裂牙","group":"beast","desc":"近い敵へ牙撃。","kind":"projectile","color":"#d8f3dc"},{"id":"pounce","name":"跳襲","group":"beast","desc":"ランダム敵へ突撃波。","kind":"projectile","color":"#b7e4c7"},{"id":"thunder","name":"雷爪嵐","group":"beast","desc":"周囲雷撃。","kind":"pulse","color":"#c7f9cc"},{"id":"wild","name":"野性解放","group":"beast","desc":"速度と攻撃強化。","kind":"buff","color":"#74c69d"},{"id":"pack","name":"群狼影","group":"beast","desc":"分身弾。","kind":"projectile","color":"#40916c"},{"id":"roar","name":"覇獣咆哮","group":"beast","desc":"敵を削る大咆哮。","kind":"nova","color":"#2d6a4f"},{"id":"hunt","name":"狩猟本能","group":"beast","desc":"撃破時Gold増加。","kind":"buff","color":"#95d5b2"},{"id":"fire","name":"竜炎弾","group":"dragon","desc":"高威力の炎弾。","kind":"projectile","color":"#ff6b6b"},{"id":"meteor","name":"竜星落下","group":"dragon","desc":"敵周辺に隕石。","kind":"meteor","color":"#f77f00"},{"id":"breath","name":"竜神ブレス","group":"dragon","desc":"前方貫通炎。","kind":"laser","color":"#e63946"},{"id":"scale","name":"竜鱗障壁","group":"dragon","desc":"防御と反撃。","kind":"pulse","color":"#f94144"},{"id":"tail","name":"竜尾旋風","group":"dragon","desc":"周囲薙ぎ払い。","kind":"orbit","color":"#f3722c"},{"id":"flare","name":"爆炎核","group":"dragon","desc":"巨大爆発。","kind":"nova","color":"#f8961e"},{"id":"storm","name":"雷竜嵐","group":"dragon","desc":"雷弾をばら撒く。","kind":"projectile","color":"#f9844a"},{"id":"ancient","name":"古竜詠唱","group":"dragon","desc":"全体火力強化。","kind":"buff","color":"#f9c74f"},{"id":"fangfire","name":"炎牙","group":"dragon","desc":"近距離炎撃。","kind":"pulse","color":"#f94144"},{"id":"apocalypse","name":"終焉竜星","group":"dragon","desc":"超広範囲隕石。","kind":"meteor","color":"#f3722c"}],"items":[{"id":"map","name":"地図","color":"#ffe066","desc":"ミニマップを右上に表示。アイテム位置も見える。"},{"id":"heal30","name":"回復薬","color":"#80ed99","desc":"HPを30%回復。"},{"id":"heal100","name":"秘薬","color":"#57cc99","desc":"HPを100%回復。"},{"id":"buff","name":"強化薬","color":"#ff922b","desc":"60秒間、攻撃・移動速度+30%。"},{"id":"book","name":"秘伝書","color":"#9b5de5","desc":"獲得可能なスキルをランダム取得。"},{"id":"growth","name":"成長薬","color":"#4cc9f0","desc":"60秒間、獲得経験値+20%。"},{"id":"magnet","name":"磁石","color":"#4895ef","desc":"散らばる魔石を一斉収集。"},{"id":"giant","name":"巨大化の種","color":"#ff4d6d","desc":"30秒間、サイズと攻撃サイズ2倍。"},{"id":"gold","name":"金貨袋","color":"#ffd166","desc":"Goldを獲得。"},{"id":"chest","name":"宝箱","color":"#c77dff","desc":"Gold大量獲得 + 低確率で追加アイテム。"},{"id":"xp","name":"経験の書","color":"#90e0ef","desc":"即座に経験値獲得。"},{"id":"shield","name":"守り札","color":"#caf0f8","desc":"10秒間、無敵。"},{"id":"speed","name":"俊足薬","color":"#06d6a0","desc":"45秒間、移動速度+50%。"},{"id":"bomb","name":"爆弾","color":"#ef476f","desc":"画面内の敵へ大ダメージ。"},{"id":"whistle","name":"召喚笛","color":"#ffbe0b","desc":"ランダムな追加アイテムをその場に呼ぶ。"},{"id":"luck","name":"幸運のコイン","color":"#ffe066","desc":"60秒間、Gold獲得量+50%。"},{"id":"revive","name":"復活の羽","color":"#f1faee","desc":"一度だけ自動復活。"},{"id":"freeze","name":"時の砂","color":"#a8dadc","desc":"8秒間、敵の動きを大きく鈍らせる。"},{"id":"harvest","name":"収穫の鎌","color":"#84a59d","desc":"60秒間、アイテム湧きが早くなる。"},{"id":"bless","name":"祝福石","color":"#e9c46a","desc":"30秒間、全ステータス上昇。"}]};
-const SAVE = "maseki_tensei_survivor_v05";
+const SAVE = "maseki_tensei_survivor_v07";
 const TILE = 24, MAP_W = 64, MAP_H = 64, WORLD_W = MAP_W*TILE, WORLD_H = MAP_H*TILE;
 const $ = id => document.getElementById(id);
 const fmt = n => Math.floor(n||0).toLocaleString("ja-JP");
@@ -12,16 +12,41 @@ const rand = (a,b) => a + Math.random()*(b-a);
 const pick = arr => arr[Math.floor(Math.random()*arr.length)];
 const SKILLS = DATA.skills;
 const ITEMS = DATA.items;
+
+const ASSET_PATHS = {
+  map: "assets/map_sky_palace.png",
+  human: [
+    "assets/human_0_sprite.png",
+    "assets/human_1_sprite.png",
+    "assets/human_2_sprite.png",
+    "assets/human_3_sprite.png",
+    "assets/human_4_sprite.png"
+  ],
+  skillIcons: Array.from({length:10}, (_,i)=>`assets/skill_fx_${i}.png`)
+};
+const IMG = { map:null, human:[], skillIcons:[] };
+function loadImage(src) {
+  const im = new Image();
+  im.src = src;
+  return im;
+}
+function preloadAssets() {
+  if(!IMG.map) IMG.map = loadImage(ASSET_PATHS.map);
+  if(!IMG.human.length) IMG.human = ASSET_PATHS.human.map(loadImage);
+  if(!IMG.skillIcons.length) IMG.skillIcons = ASSET_PATHS.skillIcons.map(loadImage);
+}
+
 const GACHA = (() => {
   const items = [];
+  const statNames = ["atk","hp","speed","magnet","growth","goldRate"];
   const add = (count, rare, type, racePool, prefix, bonusBase) => {
     for(let i=1;i<=count;i++) {
       const race = racePool === "all" ? null : pick(racePool);
-      const statKeys = ["atk","hp","speed","magnet","growth"];
-      const k1 = pick(statKeys);
-      const k2 = pick(statKeys.filter(k => k!==k1));
+      const k1 = pick(statNames);
+      const k2 = pick(statNames.filter(k => k!==k1));
       const bonus = { [k1]: bonusBase };
-      if(["SR","SSR","UR","SKIN"].includes(rare)) bonus[k2] = +(bonusBase*0.6).toFixed(4);
+      if(["R","SR","SSR","UR","SKIN"].includes(rare)) bonus[k2] = +(bonusBase*0.65).toFixed(4);
+      if(["SSR","UR"].includes(rare)) bonus[pick(statNames)] = +(bonusBase*0.45).toFixed(4);
       items.push({
         id: "g"+String(items.length+1).padStart(3,"0"),
         type, rare, race,
@@ -30,12 +55,13 @@ const GACHA = (() => {
       });
     }
   };
-  add(330,"N","equip","all","量産装備",0.006);
-  add(100,"R","equip","all","希少装備",0.014);
-  add(50,"SR","equip",["human","beast","dragon"],"英雄装備",0.028);
-  add(12,"SSR","equip",["human","beast","dragon"],"神話装備",0.05);
-  add(5,"UR","equip",["human","beast","dragon"],"究極装備",0.085);
-  add(3,"SKIN","skin",["human","beast","dragon"],"スキン",0.055);
+  // N/R/SR = ステータス小/中/大強化、SSR/UR = 特殊効果あり
+  add(330,"N","equip","all","量産装備",0.004);
+  add(100,"R","equip","all","希少装備",0.013);
+  add(50,"SR","equip",["human","beast","dragon"],"英雄装備",0.033);
+  add(12,"SSR","equip",["human","beast","dragon"],"神話装備",0.060);
+  add(5,"UR","equip",["human","beast","dragon"],"究極装備",0.115);
+  add(3,"SKIN","skin",["human","beast","dragon"],"スキン",0.060);
   return items.slice(0,500);
 })();
 
@@ -46,12 +72,13 @@ const RACES = [
 ];
 
 const UPS = [
-  {id:"hp",name:"最大HP",desc:"最大HP +10%",base:8,max:25},
-  {id:"atk",name:"攻撃力",desc:"攻撃力 +8%",base:10,max:25},
-  {id:"speed",name:"移動速度",desc:"移動速度 +4%",base:12,max:20},
-  {id:"magnet",name:"回収範囲",desc:"経験値回収範囲 +10%",base:9,max:20},
-  {id:"growth",name:"成長力",desc:"獲得経験値 +6%",base:14,max:20},
-  {id:"choice",name:"選択肢",desc:"レベルアップ選択肢 +1",base:80,max:2}
+  {id:"hp",name:"最大HP",desc:"Lvごとに最大HP上昇。高Lvほど伸びる",base:8,max:1000},
+  {id:"atk",name:"攻撃力",desc:"Lvごとに攻撃力上昇。高Lvほど伸びる",base:10,max:1000},
+  {id:"speed",name:"移動速度",desc:"Lvごとに移動速度上昇。高Lvほど伸びる",base:12,max:1000},
+  {id:"magnet",name:"回収範囲",desc:"Lvごとに回収範囲上昇。高Lvほど伸びる",base:9,max:1000},
+  {id:"growth",name:"成長力",desc:"Lvごとに獲得経験値上昇。高Lvほど伸びる",base:14,max:1000},
+  {id:"goldRate",name:"Gold取得率",desc:"LvごとにGold取得量上昇。高Lvほど伸びる",base:16,max:1000},
+  {id:"choice",name:"選択肢",desc:"レベルアップ選択肢 +1",base:80,max:10}
 ];
 
 let meta, selected = "human", g = null, raf = null, last = 0, paused = false, soundOn = true;
@@ -64,22 +91,50 @@ function save() { localStorage.setItem(SAVE, JSON.stringify(meta)); }
 function ulv(id) { return meta.spent[id] || 0; }
 function uval(id) {
   const l = ulv(id);
-  if(id==="hp") return 1+l*0.10;
-  if(id==="atk") return 1+l*0.08;
-  if(id==="speed") return 1+l*0.04;
-  if(id==="magnet") return 1+l*0.10;
-  if(id==="growth") return 1+l*0.06;
-  if(id==="choice") return l;
+  const scale = Math.pow(Math.max(0, l), 1.18);
+  if(id==="hp") return 1 + scale * 0.018;
+  if(id==="atk") return 1 + scale * 0.016;
+  if(id==="speed") return 1 + scale * 0.006;
+  if(id==="magnet") return 1 + scale * 0.018;
+  if(id==="growth") return 1 + scale * 0.012;
+  if(id==="goldRate") return 1 + scale * 0.018;
+  if(id==="choice") return Math.min(10, l);
   return 1;
 }
-function dupBonus(n) { if(n>=10000) return 5; if(n>=1000) return 3; if(n>=100) return 2; if(n>=10) return 1.5; return 1; }
+function dupBonus(n) {
+  // + milestone power: +10/+100/+1000/+10000で大幅強化
+  let m = 1 + Math.log10(Math.max(1, n)) * 0.18;
+  if(n >= 10) m += 1.0;
+  if(n >= 100) m += 3.0;
+  if(n >= 1000) m += 8.0;
+  if(n >= 10000) m += 24.0;
+  return m;
+}
 function ownedBonus(raceId) {
-  const b = {hp:1,atk:1,speed:1,magnet:1,growth:1};
+  const b = {hp:1,atk:1,speed:1,magnet:1,growth:1,goldRate:1,crit:0,cdr:1,revive:0,itemRate:1,skillPower:1,barrier:0};
   for(const [id,n] of Object.entries(meta.owned||{})) {
     const it = GACHA.find(x=>x.id===id); if(!it || !it.bonus) continue;
     if(it.race && it.race !== raceId) continue;
     const m = dupBonus(n);
     for(const [k,v] of Object.entries(it.bonus)) b[k] = (b[k] || 1) + v * m;
+
+    // SSR以上は特殊効果、URは超特殊効果
+    if(it.rare === "SSR") {
+      b.cdr *= Math.max(0.72, 1 - 0.012 * m);
+      b.itemRate += 0.035 * m;
+      b.skillPower += 0.035 * m;
+    }
+    if(it.rare === "UR") {
+      b.cdr *= Math.max(0.55, 1 - 0.025 * m);
+      b.itemRate += 0.08 * m;
+      b.skillPower += 0.09 * m;
+      b.barrier += 0.01 * m;
+    }
+    if(it.rare === "SKIN") {
+      b.hp += 0.04 * m;
+      b.atk += 0.04 * m;
+      b.speed += 0.02 * m;
+    }
   }
   return b;
 }
@@ -128,7 +183,7 @@ function render() {
   $("soundText").textContent = soundOn ? "ON" : "OFF";
   $("raceCards").innerHTML = RACES.map(r => `<button type="button" class="card ${selected===r.id?"selected":""}" data-race="${r.id}"><h3>${r.name}</h3><p>${r.desc}</p></button>`).join("");
   $("upgradeCards").innerHTML = UPS.map(u => {
-    const l = ulv(u.id), c = Math.floor(u.base*Math.pow(1.45,l)), m = l>=u.max;
+    const l = ulv(u.id), c = Math.floor(u.base * (1 + l * 0.18 + Math.pow(l, 1.35) * 0.025)), m = l>=u.max;
     return `<div class="card"><h3>${u.name} Lv${l}/${u.max}</h3><p>${u.desc}</p><button type="button" data-up="${u.id}" ${m||meta.pts<c?"disabled":""}>${m?"最大":"強化 "+fmt(c)+"pt"}</button></div>`;
   }).join("");
   renderInventory();
@@ -167,54 +222,53 @@ function roll(n) {
 }
 
 function buildMap() {
+  // v0.7: 背景画像ベースの天空宮殿マップ。障害物は廃止。
+  // 当たり判定は「浮島床の外周」だけにする。
   const tiles = Array.from({length:MAP_H},()=>Array(MAP_W).fill(0));
-  for(let y=0;y<MAP_H;y++) {
-    for(let x=0;x<MAP_W;x++) {
-      let edge = x===0||y===0||x===MAP_W-1||y===MAP_H-1;
-      if(edge) tiles[y][x] = 2;
-      else {
-        let r = Math.random();
-        tiles[y][x] = r < 0.04 ? 1 : r < 0.055 ? 3 : 0; // 0 grass,1 dirt,3 flowers
-      }
-    }
-  }
-  // paths
-  for(let x=2;x<MAP_W-2;x++) tiles[Math.floor(MAP_H/2)][x] = 1;
-  for(let y=2;y<MAP_H-2;y++) tiles[y][Math.floor(MAP_W/2)] = 1;
-  const obstacles = [];
-  for(let i=0;i<240;i++) {
-    const x = Math.floor(rand(2, MAP_W-2)), y = Math.floor(rand(2, MAP_H-2));
-    if(tiles[y][x]===1 && Math.random()<0.6) continue;
-    const t = Math.random() < 0.5 ? "tree" : "rock";
-    obstacles.push({x,y,w:1,h:1,type:t});
-  }
-  for(let i=0;i<30;i++) {
-    const x = Math.floor(rand(3, MAP_W-5)), y = Math.floor(rand(3, MAP_H-5));
-    obstacles.push({x,y,w:2,h:2,type:"ruin"});
-  }
-  return {tiles, obstacles};
+  return {tiles, obstacles:[]};
 }
+
 function tileAt(px, py) {
-  const tx = Math.floor(px / TILE), ty = Math.floor(py / TILE);
-  if(tx<0||ty<0||tx>=MAP_W||ty>=MAP_H) return 2;
-  return g.map.tiles[ty][tx];
+  return 0;
 }
 function obstacleRect(ob) {
-  return {x: ob.x*TILE, y: ob.y*TILE, w: ob.w*TILE, h: ob.h*TILE};
+  return {x:0,y:0,w:0,h:0};
 }
+// 天空宮殿の床に合わせた当たり判定。
+// 障害物は無し。マップ外と浮島外周だけ落下扱い。
 function isWalkable(px, py, r) {
-  const points = [
-    [px-r,py-r],[px+r,py-r],[px-r,py+r],[px+r,py+r],[px,py]
-  ];
-  for(const [x,y] of points) {
-    const t = tileAt(x,y);
-    if(t===2) return false;
-  }
-  for(const ob of g.map.obstacles) {
-    const rc = obstacleRect(ob);
-    if(px+r > rc.x && px-r < rc.x+rc.w && py+r > rc.y && py-r < rc.y+rc.h) return false;
-  }
-  return true;
+  const nx = px / WORLD_W;
+  const ny = py / WORLD_H;
+
+  // 床全体を複数の楕円・通路で近似
+  const ell = (cx,cy,rx,ry) => (((nx-cx)/rx)**2 + ((ny-cy)/ry)**2) <= 1;
+  const rect = (x1,y1,x2,y2) => nx>=x1 && nx<=x2 && ny>=y1 && ny<=y2;
+
+  let ok = false;
+
+  // 中央大広場
+  ok = ok || ell(0.50,0.52,0.31,0.25);
+  // 上部神殿と下部広場
+  ok = ok || ell(0.50,0.23,0.22,0.12);
+  ok = ok || ell(0.50,0.78,0.22,0.12);
+  // 左右広場
+  ok = ok || ell(0.20,0.47,0.18,0.18);
+  ok = ok || ell(0.80,0.47,0.18,0.18);
+  ok = ok || ell(0.18,0.72,0.16,0.14);
+  ok = ok || ell(0.82,0.72,0.16,0.14);
+  ok = ok || ell(0.18,0.22,0.14,0.12);
+  ok = ok || ell(0.82,0.22,0.14,0.12);
+
+  // 通路
+  ok = ok || rect(0.18,0.44,0.82,0.61);
+  ok = ok || rect(0.43,0.20,0.57,0.82);
+  ok = ok || rect(0.18,0.20,0.82,0.31);
+  ok = ok || rect(0.16,0.67,0.84,0.82);
+  ok = ok || rect(0.10,0.42,0.90,0.55);
+
+  // ほんの少し内側に寄せる
+  if(nx < 0.06 || nx > 0.94 || ny < 0.08 || ny > 0.92) ok = false;
+  return ok;
 }
 function randomWalkablePos() {
   for(let i=0;i<500;i++) {
@@ -238,7 +292,7 @@ function newGame() {
     view:{x:0,y:0},
     player: {
       x: pos.x, y: pos.y, r: 12, hp:baseHp, maxHp:baseHp, atk:baseAtk, speed:baseSpeed, magnet:125*race.bonus.magnet*uval("magnet")*ob.magnet,
-      lv:1, xp:0, next:18, phase:0, inv:0, sizeMul:1, atkMul:1, xpMul:1, goldMul:1, revive:false, minimap:false
+      lv:1, xp:0, next:18, phase:0, inv:0, sizeMul:1, atkMul:1, xpMul:1, goldMul:1, revive:false, minimap:false, cdr:ob.cdr||1, skillPower:ob.skillPower||1, barrier:ob.barrier||0
     },
     buffs: [],
     enemies: [],
@@ -252,6 +306,7 @@ function newGame() {
   };
 }
 function startGame() {
+  preloadAssets();
   initAudio(); startBgm();
   const cv = $("cv"), ctx = cv.getContext("2d"), dpr = Math.max(1, Math.min(2, devicePixelRatio||1));
   cv.width = Math.floor(innerWidth*dpr); cv.height = Math.floor(innerHeight*dpr); cv.style.width = innerWidth+"px"; cv.style.height = innerHeight+"px"; ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -283,12 +338,12 @@ function spawnEnemy(boss=false) {
     x = clamp(x, 20, WORLD_W-20); y = clamp(y,20,WORLD_H-20);
     tries++;
   } while(!isWalkable(x,y,16) && tries < 50);
-  const sc = Math.pow(1.026,g.time) * Math.pow(1.12, Math.floor(g.time/28));
+  const sc = Math.pow(1.048,g.time) * Math.pow(1.28, Math.floor(g.time/22));
   const kind = boss ? "boss" : Math.random()<0.18 ? "fast" : Math.random()<0.16 ? "tank" : "normal";
   const hp = (boss?1600:kind==="tank"?180:kind==="fast"?55:80)*sc;
   const r = boss?22:kind==="tank"?18:kind==="fast"?10:13;
   g.enemies.push({
-    x,y,r,kind,boss,hp,maxHp:hp,spd:(boss?54:kind==="fast"?158:kind==="tank"?66:92)*(1+g.time/220),dmg:(boss?34:10+g.time/40)*sc*0.18,
+    x,y,r,kind,boss,hp,maxHp:hp,spd:(boss?72:kind==="fast"?205:kind==="tank"?92:132)*(1+g.time/150),dmg:(boss?65:22+g.time/20)*sc*0.30,
     color: boss ? "#ffd76a" : kind==="fast" ? "#74f5a3" : kind==="tank" ? "#ef476f" : "#9d4edd"
   });
 }
@@ -369,7 +424,7 @@ function applyItem(item) {
   beep("gold");
 }
 function itemSpawnInterval() {
-  return g.buffs.find(b=>b.id==="harvest") ? 2.5 : 5.5;
+  return g.buffs.find(b=>b.id==="harvest") ? 6.0 : 13.0;
 }
 function spawnItem(kindId=null) {
   const kind = kindId ? ITEMS.find(i=>i.id===kindId) : pick(ITEMS);
@@ -446,7 +501,7 @@ function shoot(sk, dt) {
   sk.cd -= dt;
   if(sk.cd > 0) return;
   const lv = sk.lv, evo = sk.evo;
-  let atk = p.atk * p.atkMul * (1 + lv*0.24) * (evo ? 1.65 : 1);
+  let atk = p.atk * p.atkMul * p.skillPower * (1 + lv*0.24) * (evo ? 1.65 : 1);
   if(sk.id==="valor" && p.hp/p.maxHp > 0.8) atk *= 1.25;
   const near = g.enemies.slice().sort((a,b)=>dist2(p.x,p.y,a.x,a.y)-dist2(p.x,p.y,b.x,b.y))[0];
   const a = near ? Math.atan2(near.y-p.y, near.x-p.x) : Math.random()*Math.PI*2;
@@ -454,22 +509,22 @@ function shoot(sk, dt) {
   const color = def.color || g.race.color;
 
   if(def.kind==="projectile") {
-    sk.cd = Math.max(0.16, 0.42 - lv*0.018);
+    sk.cd = Math.max(0.16, 0.42 - lv*0.018) * p.cdr;
     const n = evo ? 3 : 1;
     for(let i=0;i<n;i++) fireShot(a+(i-(n-1)/2)*0.25, 380+lv*12, 6+lv*0.35, atk*1.35, 1.2, evo?4:2, color);
     beep("shot");
   }
   if(def.kind==="orbit") {
-    sk.cd = 0.18;
+    sk.cd = 0.18 * p.cdr;
     area(p.x,p.y,(56+lv*9+(evo?40:0))*p.sizeMul, atk*0.60, "斬", color);
   }
   if(def.kind==="pulse") {
-    sk.cd = Math.max(0.25, 0.72-lv*0.025);
+    sk.cd = Math.max(0.25, 0.72-lv*0.025) * p.cdr;
     area(p.x,p.y,(90+lv*13+(evo?70:0))*p.sizeMul, atk*1.4, "撃", color);
     beep("hit");
   }
   if(def.kind==="laser") {
-    sk.cd = Math.max(0.35,0.9-lv*0.03);
+    sk.cd = Math.max(0.35,0.9-lv*0.03) * p.cdr;
     g.fx.push({laser:true,x:p.x,y:p.y,a2:a,c:color,life:0.18,a:0,w:22*p.sizeMul});
     g.enemies.forEach(e => {
       const dx=e.x-p.x, dy=e.y-p.y, along=dx*Math.cos(a)+dy*Math.sin(a), side=Math.abs(-dx*Math.sin(a)+dy*Math.cos(a));
@@ -477,7 +532,7 @@ function shoot(sk, dt) {
     });
   }
   if(def.kind==="meteor") {
-    sk.cd = Math.max(0.45,1.05-lv*0.04);
+    sk.cd = Math.max(0.45,1.05-lv*0.04) * p.cdr;
     const n = 1+Math.floor(lv/2)+(evo?3:0);
     for(let i=0;i<n;i++) {
       const e = g.enemies[Math.floor(Math.random()*g.enemies.length)];
@@ -489,24 +544,24 @@ function shoot(sk, dt) {
     beep("hit");
   }
   if(def.kind==="chain") {
-    sk.cd = Math.max(0.38,0.85-lv*0.03);
+    sk.cd = Math.max(0.38,0.85-lv*0.03) * p.cdr;
     g.enemies.slice(0,Math.min(g.enemies.length,5+lv+(evo?8:0))).forEach(e=>{e.hp-=atk*1.25; effect(e.x,e.y,"雷",color);});
   }
   if(def.kind==="mine") {
-    sk.cd = Math.max(0.3,0.75-lv*0.025);
+    sk.cd = Math.max(0.3,0.75-lv*0.025) * p.cdr;
     area(p.x+rand(-160,160), p.y+rand(-160,160), 52+lv*4, atk*1.55, "地雷", color);
   }
   if(def.kind==="nova") {
-    sk.cd = Math.max(0.7,1.6-lv*0.05);
+    sk.cd = Math.max(0.7,1.6-lv*0.05) * p.cdr;
     area(p.x,p.y,(135+lv*14+(evo?90:0))*p.sizeMul, atk*2.0, "新星", color);
     beep("hit");
   }
   if(def.kind==="cross") {
-    sk.cd = Math.max(0.35,0.78-lv*0.03);
+    sk.cd = Math.max(0.35,0.78-lv*0.03) * p.cdr;
     [0,Math.PI/2,Math.PI,Math.PI*1.5].forEach(aa=>fireShot(aa,420,8,atk*1.4,1.0,evo?4:2,color));
   }
   if(def.kind==="buff") {
-    sk.cd = 1.5;
+    sk.cd = 1.5 * p.cdr;
     p.hp = Math.min(p.maxHp, p.hp+3+lv);
     effect(p.x,p.y,"強化",color);
     if(sk.id==="command") {
@@ -534,28 +589,49 @@ function update(dt) {
   // spawn enemies
   g.spawn -= dt;
   if(g.spawn <= 0) {
-    g.spawn = Math.max(0.035, 0.34 - g.time/260);
-    for(let i=0;i<1+Math.floor(g.time/28);i++) spawnEnemy(false);
+    g.spawn = Math.max(0.018, 0.26 - g.time/220);
+    for(let i=0;i<1+Math.floor(g.time/16);i++) spawnEnemy(false);
   }
   g.boss -= dt;
   if(g.boss <= 0) {
-    g.boss = 45; spawnEnemy(true); effect(p.x,p.y-40,"ボス出現","#ffd76a");
+    g.boss = 35; spawnEnemy(true); effect(p.x,p.y-40,"ボス出現","#ffd76a");
   }
 
   // spawn items
   g.itemSpawn -= dt;
   if(g.itemSpawn <= 0) {
     g.itemSpawn = itemSpawnInterval();
-    if(g.items.length < 12) spawnItem();
+    if(g.items.length < 5) spawnItem();
   }
 
   // movement with collision
   const mv = moveVec();
   const speed = p.speed * (p.speedBuff||1);
-  let nx = p.x + mv.x * speed * dt, ny = p.y + mv.y * speed * dt;
   const pr = p.r * p.sizeMul;
+
+  // stuck safety: if the player somehow starts inside an obstacle, move to the nearest central safe spot.
+  if(!isWalkable(p.x, p.y, pr)) {
+    const safeSpots = [
+      [WORLD_W/2, WORLD_H/2],
+      [WORLD_W/2 + TILE*3, WORLD_H/2],
+      [WORLD_W/2 - TILE*3, WORLD_H/2],
+      [WORLD_W/2, WORLD_H/2 + TILE*3],
+      [WORLD_W/2, WORLD_H/2 - TILE*3]
+    ];
+    for(const s of safeSpots) {
+      if(isWalkable(s[0], s[1], pr)) { p.x = s[0]; p.y = s[1]; break; }
+    }
+  }
+
+  let nx = p.x + mv.x * speed * dt;
+  let ny = p.y + mv.y * speed * dt;
+
   if(isWalkable(nx, p.y, pr)) p.x = nx;
+  else if(isWalkable(nx, p.y - pr, pr * 0.5)) p.x = nx;
+
   if(isWalkable(p.x, ny, pr)) p.y = ny;
+  else if(isWalkable(p.x - pr, ny, pr * 0.5)) p.y = ny;
+
   if(p.inv > 0) p.inv -= dt;
 
   Object.values(g.skills).forEach(s => shoot(s,dt));
@@ -567,7 +643,7 @@ function update(dt) {
     e.y += Math.sin(a)*e.spd*dt*g.freezeMul;
     const rr = e.r + pr;
     if(dist2(e.x,e.y,p.x,p.y) < rr*rr && p.inv <= 0) {
-      p.hp -= e.dmg;
+      p.hp -= Math.max(1, e.dmg * (1 - Math.min(0.45, p.barrier || 0)));
       p.inv = 0.22;
       effect(p.x,p.y,"-"+Math.floor(e.dmg),"#ff6b6b");
       beep("hit");
@@ -599,7 +675,7 @@ function update(dt) {
   const dead = g.enemies.filter(e=>e.hp<=0);
   dead.forEach(e => {
     g.kills++;
-    const gold = Math.floor((e.boss ? 80+g.time/3 : 4+Math.random()*5+g.time/45) * p.goldMul);
+    const gold = Math.max(1, Math.floor((e.boss ? 25+g.time/10 : 1+Math.random()*2+g.time/180) * p.goldMul * uval("goldRate") * ownedBonus(g.race.id).goldRate));
     g.runGold += gold; meta.gold += gold; save();
     if(Math.random()<0.2) beep("gold");
     g.score += e.boss ? 7000 : 100+g.time;
@@ -639,28 +715,28 @@ function update(dt) {
   hud();
 }
 
-function drawTile(c, t, x, y) {
-  if(t===0) { c.fillStyle="#2f7d32"; c.fillRect(x,y,TILE,TILE); c.fillStyle="#39963d"; c.fillRect(x+2,y+2,4,4); c.fillStyle="#266c29"; c.fillRect(x+14,y+12,5,5); }
-  if(t===1) { c.fillStyle="#8d6e63"; c.fillRect(x,y,TILE,TILE); c.fillStyle="#a1887f"; c.fillRect(x+5,y+5,3,3); c.fillRect(x+14,y+10,4,4); }
-  if(t===2) { c.fillStyle="#1d3557"; c.fillRect(x,y,TILE,TILE); c.fillStyle="#457b9d"; c.fillRect(x+3,y+3,18,18); }
-  if(t===3) { c.fillStyle="#2f7d32"; c.fillRect(x,y,TILE,TILE); c.fillStyle="#ff99c8"; c.fillRect(x+5,y+5,3,3); c.fillStyle="#bde0fe"; c.fillRect(x+15,y+10,3,3); c.fillStyle="#f1fa8c"; c.fillRect(x+10,y+16,3,3); }
-}
-function drawObstacle(c, ob, vx, vy) {
-  const x = ob.x*TILE - vx, y = ob.y*TILE - vy;
-  if(ob.type==="tree") {
-    c.fillStyle="#5b3a29"; c.fillRect(x+9,y+12,6,12);
-    c.fillStyle="#2d6a4f"; c.fillRect(x+4,y+2,16,12);
-    c.fillStyle="#40916c"; c.fillRect(x+2,y+5,20,8);
-  } else if(ob.type==="rock") {
-    c.fillStyle="#6c757d"; c.fillRect(x+3,y+8,18,12);
-    c.fillStyle="#adb5bd"; c.fillRect(x+7,y+6,10,6);
+function drawSkyPalaceMap(c, vx, vy) {
+  if(IMG.map && IMG.map.complete && IMG.map.naturalWidth) {
+    c.drawImage(IMG.map, -vx, -vy, WORLD_W, WORLD_H);
   } else {
-    c.fillStyle="#6d6875"; c.fillRect(x,y,ob.w*TILE,ob.h*TILE);
-    c.fillStyle="#b8c0c8"; c.fillRect(x+2,y+2,ob.w*TILE-4,ob.h*TILE-4);
-    c.fillStyle="#8d99ae"; c.fillRect(x+6,y+6,ob.w*TILE-12,ob.h*TILE-12);
+    // fallback while image loads
+    const grd = c.createLinearGradient(0,0,g.w,g.h);
+    grd.addColorStop(0,"#dcecff");
+    grd.addColorStop(1,"#5b7cff");
+    c.fillStyle = grd;
+    c.fillRect(0,0,g.w,g.h);
+    c.fillStyle = "#f8f6ea";
+    c.fillRect(WORLD_W*0.18-vx,WORLD_H*0.20-vy,WORLD_W*0.64,WORLD_H*0.60);
   }
 }
 function drawSkillIcon(c, def, x, y, size) {
+  const idx = Math.abs((def.id || "").split("").reduce((a,ch)=>a+ch.charCodeAt(0),0)) % IMG.skillIcons.length;
+  const im = IMG.skillIcons[idx];
+  if(im && im.complete && im.naturalWidth) {
+    c.drawImage(im, x, y, size, size);
+    return;
+  }
+
   const s = size;
   c.fillStyle = "#0a0f1c"; c.fillRect(x,y,s,s);
   c.fillStyle = def.color || "#fff";
@@ -703,26 +779,30 @@ function drawEnemy(c, e, vx, vy) {
   c.restore();
 }
 function drawHumanSprite(c, x, y, phase, scale=1) {
+  const idx = Math.max(0, Math.min(4, phase|0));
+  const im = IMG.human[idx];
+  const size = 44 * scale * (phase >= 4 ? 1.12 : 1);
+  if(im && im.complete && im.naturalWidth) {
+    c.drawImage(im, x - size*0.25, y - size*0.35, size*1.5, size*1.5);
+    return;
+  }
+  // fallback tiny pixel
   const px = 4*scale;
   const skin = "#f1c27d", white = "#ffffff", black = "#1a1a1a", gold="#ffd76a", blue="#70dcff";
-  // wings/auras per phase
   if(phase>=1) {
     c.fillStyle = phase>=3 ? blue : "#cfe8ff";
     c.fillRect(x-4*px,y+2*px,2*px,5*px); c.fillRect(x+6*px,y+2*px,2*px,5*px);
     c.fillStyle = phase>=4 ? "#ff72ce" : gold;
     c.fillRect(x-6*px,y+4*px,2*px,4*px); c.fillRect(x+8*px,y+4*px,2*px,4*px);
   }
-  // body base
-  c.fillStyle = skin; c.fillRect(x+2*px,y,2*px,2*px); // head
+  c.fillStyle = skin; c.fillRect(x+2*px,y,2*px,2*px);
   c.fillStyle = black; c.fillRect(x+1*px,y,1*px,2*px); c.fillRect(x+4*px,y,1*px,2*px);
   c.fillStyle = white; c.fillRect(x+2*px,y+0.5*px,0.5*px,0.5*px); c.fillRect(x+3.5*px,y+0.5*px,0.5*px,0.5*px);
-  c.fillStyle = phase>=2 ? gold : white; c.fillRect(x+2*px,y+2*px,2*px,1*px); // collar
-  c.fillStyle = phase>=3 ? blue : white; c.fillRect(x+1*px,y+3*px,4*px,3*px); // torso
-  c.fillStyle = phase>=4 ? "#ff72ce" : black; c.fillRect(x+1*px,y+6*px,1*px,3*px); c.fillRect(x+4*px,y+6*px,1*px,3*px); // legs
-  c.fillStyle = skin; c.fillRect(x,y+3*px,1*px,3*px); c.fillRect(x+5*px,y+3*px,1*px,3*px); // arms
-  c.fillStyle = phase>=2 ? gold : "#a8dadc"; c.fillRect(x+6*px,y+3.5*px,3*px,1*px); c.fillRect(x+8*px,y+2.5*px,1*px,3*px); // sword
-  if(phase>=3) { c.fillStyle = "#ffffff"; c.fillRect(x+7*px,y+1*px,1*px,1*px); c.fillRect(x+8*px,y+1*px,1*px,1*px); }
-  if(phase>=4) { c.fillStyle="#ffd76a"; c.fillRect(x-1*px,y-1*px,8*px,1*px); }
+  c.fillStyle = phase>=2 ? gold : white; c.fillRect(x+2*px,y+2*px,2*px,1*px);
+  c.fillStyle = phase>=3 ? blue : white; c.fillRect(x+1*px,y+3*px,4*px,3*px);
+  c.fillStyle = phase>=4 ? "#ff72ce" : black; c.fillRect(x+1*px,y+6*px,1*px,3*px); c.fillRect(x+4*px,y+6*px,1*px,3*px);
+  c.fillStyle = skin; c.fillRect(x,y+3*px,1*px,3*px); c.fillRect(x+5*px,y+3*px,1*px,3*px);
+  c.fillStyle = phase>=2 ? gold : "#a8dadc"; c.fillRect(x+6*px,y+3.5*px,3*px,1*px); c.fillRect(x+8*px,y+2.5*px,1*px,3*px);
 }
 function drawBeastSprite(c, x, y, phase, scale=1) {
   const px=4*scale; c.fillStyle="#5c3d2e"; c.fillRect(x+1*px,y+2*px,4*px,4*px); c.fillStyle="#74f5a3"; c.fillRect(x+2*px,y+1*px,2*px,1*px); c.fillRect(x,y+2*px,1*px,2*px); c.fillRect(x+5*px,y+2*px,1*px,2*px); c.fillStyle="#fff"; c.fillRect(x+2*px,y+3*px,1*px,1*px); c.fillRect(x+3*px,y+3*px,1*px,1*px); if(phase>=2) {c.fillStyle="#caffbf"; c.fillRect(x+1*px,y+6*px,4*px,1*px);} }
@@ -756,12 +836,6 @@ function drawMiniMap(c) {
   c.fillStyle = "#8d6e63";
   c.fillRect(x+4 + (MAP_W/2)*(w-8)/MAP_W - 1, y+4, 2, h-8);
   c.fillRect(x+4, y+4 + (MAP_H/2)*(h-8)/MAP_H - 1, w-8, 2);
-  // obstacles
-  c.fillStyle = "#6c757d";
-  g.map.obstacles.slice(0,300).forEach(ob => {
-    const ox = x+4 + ob.x*(w-8)/MAP_W, oy = y+4 + ob.y*(h-8)/MAP_H;
-    c.fillRect(ox,oy,Math.max(1,ob.w),Math.max(1,ob.h));
-  });
   // items
   c.fillStyle = "#ffe066";
   g.items.forEach(it => {
@@ -778,17 +852,7 @@ function draw() {
   if(!g) return;
   const c = g.ctx, p = g.player, vx = g.view.x, vy = g.view.y;
   c.clearRect(0,0,g.w,g.h);
-  // visible tile bounds
-  const sx = Math.floor(vx/TILE), ex = Math.min(MAP_W-1, Math.ceil((vx+g.w)/TILE));
-  const sy = Math.floor(vy/TILE), ey = Math.min(MAP_H-1, Math.ceil((vy+g.h)/TILE));
-  for(let ty=sy; ty<=ey; ty++) {
-    for(let tx=sx; tx<=ex; tx++) drawTile(c, g.map.tiles[ty][tx], tx*TILE-vx, ty*TILE-vy);
-  }
-  g.map.obstacles.forEach(ob => {
-    const ox = ob.x*TILE, oy = ob.y*TILE;
-    if(ox+ob.w*TILE < vx || oy+ob.h*TILE < vy || ox > vx+g.w || oy > vy+g.h) return;
-    drawObstacle(c, ob, vx, vy);
-  });
+  drawSkyPalaceMap(c, vx, vy);
   // items
   g.items.forEach(it => drawItem(c,it,vx,vy));
   // gems
@@ -859,7 +923,7 @@ function die() {
 }
 
 function spend(id) {
-  const u = UPS.find(x=>x.id===id), l = ulv(id), c = Math.floor(u.base*Math.pow(1.45,l));
+  const u = UPS.find(x=>x.id===id), l = ulv(id), c = Math.floor(u.base * (1 + l * 0.18 + Math.pow(l, 1.35) * 0.025));
   if(l>=u.max || meta.pts<c) return;
   meta.pts -= c; meta.spent[id] = l+1; save(); render();
 }
