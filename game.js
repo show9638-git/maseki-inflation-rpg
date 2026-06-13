@@ -2,7 +2,7 @@
 (()=>{"use strict";
 const DATA={"skills":[{"id":"c0","name":"魔石弾","group":"common","kind":"projectile","color":"#ffd76a"},{"id":"c1","name":"守護剣","group":"common","kind":"orbit","color":"#70dcff"},{"id":"c2","name":"魔力波動","group":"common","kind":"pulse","color":"#ff72ce"},{"id":"c3","name":"星光レーザー","group":"common","kind":"laser","color":"#ffe66d"},{"id":"c4","name":"魔石爆弾","group":"common","kind":"meteor","color":"#ff9f1c"},{"id":"c5","name":"貫通針","group":"common","kind":"projectile","color":"#ffd76a"},{"id":"c6","name":"反撃障壁","group":"common","kind":"pulse","color":"#70dcff"},{"id":"c7","name":"連鎖雷","group":"common","kind":"chain","color":"#ff72ce"},{"id":"c8","name":"魔石地雷","group":"common","kind":"mine","color":"#ffe66d"},{"id":"c9","name":"新星爆発","group":"common","kind":"nova","color":"#ff9f1c"},{"id":"h0","name":"人王斬","group":"human","kind":"projectile","color":"#fefae0"},{"id":"h1","name":"英雄旗","group":"human","kind":"buff","color":"#fefae0"},{"id":"h2","name":"星導陣","group":"human","kind":"buff","color":"#fefae0"},{"id":"h3","name":"聖槍投げ","group":"human","kind":"projectile","color":"#fefae0"},{"id":"h4","name":"王盾反射","group":"human","kind":"pulse","color":"#fefae0"},{"id":"h5","name":"十字聖光","group":"human","kind":"cross","color":"#fefae0"},{"id":"h6","name":"裁きの光","group":"human","kind":"meteor","color":"#fefae0"},{"id":"h7","name":"号令","group":"human","kind":"buff","color":"#fefae0"},{"id":"h8","name":"勇気の刃","group":"human","kind":"projectile","color":"#fefae0"},{"id":"h9","name":"聖域","group":"human","kind":"nova","color":"#fefae0"}],"items":[{"id":"map","name":"地図","color":"#ffe066"},{"id":"heal30","name":"回復薬","color":"#80ed99"},{"id":"heal100","name":"秘薬","color":"#57cc99"},{"id":"buff","name":"強化薬","color":"#ff922b"},{"id":"book","name":"秘伝書","color":"#9b5de5"},{"id":"growth","name":"成長薬","color":"#4cc9f0"},{"id":"magnet","name":"磁石","color":"#4895ef"},{"id":"giant","name":"巨大化の種","color":"#ff4d6d"},{"id":"gold","name":"金貨袋","color":"#ffd166"},{"id":"chest","name":"宝箱","color":"#c77dff"},{"id":"xp","name":"経験の書","color":"#90e0ef"},{"id":"shield","name":"守り札","color":"#caf0f8"},{"id":"speed","name":"俊足薬","color":"#06d6a0"},{"id":"bomb","name":"爆弾","color":"#ef476f"},{"id":"whistle","name":"召喚笛","color":"#ffbe0b"},{"id":"luck","name":"幸運のコイン","color":"#ffe066"},{"id":"revive","name":"復活の羽","color":"#f1faee"},{"id":"freeze","name":"時の砂","color":"#a8dadc"},{"id":"harvest","name":"収穫の鎌","color":"#84a59d"},{"id":"bless","name":"祝福石","color":"#e9c46a"}]};
 const TILE=32, MAP_W=72, MAP_H=72, WORLD_W=MAP_W*TILE, WORLD_H=MAP_H*TILE;
-const SAVE="maseki_tensei_survivor_v011";
+const SAVE="maseki_tensei_survivor_v012";
 const ASSET={tiles:"assets/tile_atlas.png",human:"assets/human_sheet.png",skill:"assets/skill_fx_sheet.png",enemy:"assets/enemy_sheet.png"};
 const IMG={}; const $=id=>document.getElementById(id), fmt=n=>Math.floor(n||0).toLocaleString("ja-JP"), clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), d2=(a,b,c,d)=>{let x=a-c,y=b-d;return x*x+y*y}, rand=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
 const SKILLS=DATA.skills, ITEMS=DATA.items;
@@ -20,35 +20,27 @@ function render(){$("pts").textContent=fmt(meta.pts);$("pts2").textContent=fmt(m
 function beep(t="hit"){if(!soundOn)return;if(!audio)audio=new(AudioContext||webkitAudioContext)();let o=audio.createOscillator(),ga=audio.createGain(),now=audio.currentTime;o.connect(ga);ga.connect(audio.destination);o.type=t=="shot"?"square":"triangle";o.frequency.value=t=="lv"?650:t=="gold"?880:t=="dead"?160:320;ga.gain.setValueAtTime(.035,now);ga.gain.exponentialRampToValueAtTime(.001,now+.13);o.start(now);o.stop(now+.15)}
 function rectFill(a,x1,y1,x2,y2,v){for(let y=y1;y<=y2;y++)for(let x=x1;x<=x2;x++)if(x>=0&&y>=0&&x<MAP_W&&y<MAP_H)a[y][x]=v}
 function border(a,x1,y1,x2,y2){rectFill(a,x1,y1,x2,y2,1);for(let x=x1;x<=x2;x++){a[y1][x]=2;a[y2][x]=2}for(let y=y1;y<=y2;y++){a[y][x1]=2;a[y][x2]=2}}
-function buildMap(){let t=Array.from({length:MAP_H},()=>Array(MAP_W).fill(0));
-  // clear palace layout: continuous floors + visible buildings
-  rectFill(t,16,16,55,55,1);
-  rectFill(t,30,6,41,18,1);
-  rectFill(t,30,53,41,66,1);
-  rectFill(t,6,31,21,42,1);
-  rectFill(t,50,31,65,42,1);
-  rectFill(t,10,10,23,23,1);
-  rectFill(t,48,10,61,23,1);
-  rectFill(t,10,49,23,62,1);
-  rectFill(t,48,49,61,62,1);
+function buildMap(){let t=Array.from({length:MAP_H},()=>Array(MAP_W).fill(1));
+  // map base is all temple floor, so black void does not fill the play area.
+  // decorative main roads
+  rectFill(t,34,0,37,MAP_H-1,3);
+  rectFill(t,0,35,MAP_W-1,38,3);
+  rectFill(t,12,15,60,18,3);
+  rectFill(t,12,54,60,58,3);
 
-  rectFill(t,34,6,37,66,3);
-  rectFill(t,6,35,65,38,3);
-  rectFill(t,14,15,57,18,3);
-  rectFill(t,14,54,57,58,3);
-
-  border(t,29,5,42,19); border(t,29,52,42,67);
+  // clear rooms and walls
+  border(t,27,5,44,20); border(t,27,51,44,66);
   border(t,5,30,22,43); border(t,49,30,66,43);
-  border(t,9,9,24,24); border(t,47,9,62,24);
-  border(t,9,48,24,63); border(t,47,48,62,63);
+  border(t,8,8,24,24); border(t,47,8,63,24);
+  border(t,8,48,24,64); border(t,47,48,63,64);
 
-  // gates
-  rectFill(t,34,18,37,20,3); rectFill(t,34,52,37,54,3);
+  // open gates
+  rectFill(t,34,18,37,20,3); rectFill(t,34,51,37,53,3);
   rectFill(t,21,35,23,38,3); rectFill(t,49,35,51,38,3);
   rectFill(t,16,23,19,25,3); rectFill(t,52,23,55,25,3);
   rectFill(t,16,47,19,49,3); rectFill(t,52,47,55,49,3);
 
-  // buildings and pillars are collision tiles, placed away from initial spawn
+  // buildings clearly separated
   rectFill(t,31,9,40,15,4);
   rectFill(t,31,58,40,63,4);
   rectFill(t,11,33,17,40,4);
@@ -57,14 +49,17 @@ function buildMap(){let t=Array.from({length:MAP_H},()=>Array(MAP_W).fill(0));
   rectFill(t,52,12,59,18,4);
   rectFill(t,12,53,19,60,4);
   rectFill(t,52,53,59,60,4);
+
+  // pillars, away from spawn
   [[26,26],[45,26],[26,45],[45,45],[24,36],[47,36],[36,24],[36,47]].forEach(p=>t[p[1]][p[0]]=7);
 
+  // stairs / crystal markers
   rectFill(t,34,20,37,24,5); rectFill(t,34,48,37,52,5);
   [[35,35],[36,35],[35,36],[36,36],[13,35],[58,35],[35,13],[35,59],[16,16],[55,16],[16,56],[55,56]].forEach(p=>t[p[1]][p[0]]=6);
   return{tiles:t}
 }
 function tileAt(px,py){let x=Math.floor(px/TILE),y=Math.floor(py/TILE);if(x<0||y<0||x>=MAP_W||y>=MAP_H)return 0;return g.map.tiles[y][x]}function block(t){return t==0||t==2||t==4||t==7}function walk(px,py,r){let cr=Math.max(7,r*.45),pts=[[px-cr,py-cr],[px+cr,py-cr],[px-cr,py+cr],[px+cr,py+cr],[px,py]];return !pts.some(p=>block(tileAt(p[0],p[1])))}function randPos(){for(let i=0;i<500;i++){let x=rand(70,WORLD_W-70),y=rand(70,WORLD_H-70);if(walk(x,y,10))return{x,y}}return{x:36*TILE+16,y:36*TILE+16}}
-function startGame(){preload();let cv=$("cv"),ctx=cv.getContext("2d"),dpr=Math.max(1,Math.min(2,devicePixelRatio||1));cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cv.style.width=innerWidth+"px";cv.style.height=innerHeight+"px";ctx.setTransform(dpr,0,0,dpr,0,0);let ob=obonus(),hp=160*uval("hp")*ob.hp;g={ctx,cv,w:innerWidth,h:innerHeight,map:buildMap(),view:{x:0,y:0},time:0,score:0,kills:0,runGold:0,spawn:0,boss:30,itemSpawn:8,over:false,freeze:1,buffs:[],enemies:[],gems:[],items:[],shots:[],fx:[],float:[],skills:{c0:{id:"c0",lv:1,cd:0},h0:{id:"h0",lv:1,cd:0}},p:{x:36*TILE+16,y:36*TILE+16,r:13,hp,maxHp:hp,atk:20*uval("atk")*ob.atk,spd:250*uval("speed")*ob.speed,magnet:125*uval("magnet")*ob.magnet,lv:1,xp:0,next:18,phase:0,inv:0,walk:0,frame:0,size:1,atkMul:1,xpMul:1,goldMul:1,cdr:ob.cdr,power:ob.power,barrier:ob.barrier,minimap:false,revive:false}};paused=false;$("pause").textContent="II";show("game");last=performance.now();if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
+function startGame(){preload();let cv=$("cv"),ctx=cv.getContext("2d"),dpr=Math.max(1,Math.min(2,devicePixelRatio||1));cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cv.style.width=innerWidth+"px";cv.style.height=innerHeight+"px";ctx.setTransform(dpr,0,0,dpr,0,0);let ob=obonus(),hp=160*uval("hp")*ob.hp;g={ctx,cv,w:innerWidth,h:innerHeight,map:buildMap(),view:{x:0,y:0},time:0,score:0,kills:0,runGold:0,spawn:0,boss:30,itemSpawn:8,over:false,freeze:1,buffs:[],enemies:[],gems:[],items:[],shots:[],fx:[],float:[],skills:{c0:{id:"c0",lv:1,cd:0},h0:{id:"h0",lv:1,cd:0}},p:{x:36*TILE+16,y:36*TILE+16,r:13,hp,maxHp:hp,atk:20*uval("atk")*ob.atk,spd:250*uval("speed")*ob.speed,magnet:125*uval("magnet")*ob.magnet,lv:1,xp:0,next:18,phase:0,inv:0,walk:0,frame:0,dir:0,size:1,atkMul:1,xpMul:1,goldMul:1,cdr:ob.cdr,power:ob.power,barrier:ob.barrier,minimap:false,revive:false}};paused=false;$("pause").textContent="II";show("game");last=performance.now();if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
 function spawnEnemy(boss=false){let p=g.p,pos=randPos();if(Math.random()<.8){let a=Math.random()*7,d=Math.max(g.w,g.h)*.55;pos={x:clamp(p.x+Math.cos(a)*d,40,WORLD_W-40),y:clamp(p.y+Math.sin(a)*d,40,WORLD_H-40)};if(!walk(pos.x,pos.y,12))pos=randPos()}let sc=Math.pow(1.06,g.time)*Math.pow(1.38,Math.floor(g.time/18)),kind=boss?"boss":Math.random()<.18?"fast":Math.random()<.16?"tank":"normal",ghost=!boss&&Math.random()<.14;{
   const ghost = !boss && Math.random() < 0.14;
   const spriteType = boss ? 9 : ghost ? 1 : Math.floor(Math.random()*8);
@@ -78,41 +73,16 @@ function grantSkill(via){let pool=SKILLS.filter(s=>s.group=="common"||s.group=="
 function levelUp(){beep("lv");let p=g.p,n=p.lv>=45?4:p.lv>=28?3:p.lv>=14?2:p.lv>=6?1:0;if(n>p.phase){p.phase=n;effect(p.x,p.y,["第一進化","第二進化","第三進化","神化"][n-1],"#fff")}paused=true;let pool=SKILLS.filter(s=>s.group=="common"||s.group=="human"),count=Math.min(pool.length,3+uval("choice"));currentChoices=pool.sort(()=>Math.random()-.5).slice(0,count);$("choices").innerHTML=currentChoices.map(s=>`<button class=choice data-skill=${s.id}><h3>${s.name} ${g.skills[s.id]?"Lv"+g.skills[s.id].lv:"NEW"}</h3><p>${s.kind}</p></button>`).join("");$("levelup").classList.add("active");choiceRemain=3;if(choiceTimer)clearInterval(choiceTimer);choiceTimer=setInterval(()=>{choiceRemain-=.1;$("timer").textContent=Math.max(0,choiceRemain).toFixed(1);if(choiceRemain<=0){clearInterval(choiceTimer);choiceTimer=0;chooseSkill(pick(currentChoices).id,false)}},100)}
 function chooseSkill(id,via=false){if(choiceTimer){clearInterval(choiceTimer);choiceTimer=0}let s=g.skills[id]||{id,lv:0,cd:0};s.lv++;if(s.lv>=6)s.evo=true;g.skills[id]=s;if(!via){$("levelup").classList.remove("active");paused=false;last=performance.now()}}
 function shot(a,spd,r,dmg,life,pen,c){let p=g.p;g.shots.push({x:p.x,y:p.y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,r:r*p.size,dmg,life,pen,c})}
-function area(x,y,rad,dmg){g.enemies.forEach(e=>{if(d2(x,y,e.x,e.y)<rad*rad)e.hp-=dmg})}
-function shoot(s,dt){let p=g.p,def=SKILLS.find(x=>x.id==s.id)||SKILLS[0];s.cd-=dt;if(s.cd>0)return;let lv=s.lv,atk=p.atk*p.atkMul*p.power*(1+lv*.25)*(s.evo?1.7:1),near=g.enemies.slice().sort((a,b)=>d2(p.x,p.y,a.x,a.y)-d2(p.x,p.y,b.x,b.y))[0],a=near?Math.atan2(near.y-p.y,near.x-p.x):Math.random()*7,c=def.color;if(def.kind=="projectile"){s.cd=Math.max(.13,.38-lv*.018)*p.cdr;for(let i=0;i<(s.evo?3:1);i++)shot(a+(i-1)*.22,430,7+lv*.4,atk*1.3,1.1,s.evo?4:2,c);beep("shot")}else if(def.kind=="pulse"||def.kind=="orbit"){s.cd=Math.max(.18,.62-lv*.02)*p.cdr;area(p.x,p.y,(80+lv*10+(s.evo?55:0))*p.size,atk*1.35);effect(p.x,p.y,"撃",c)}else if(def.kind=="laser"){s.cd=Math.max(.3,.8-lv*.03)*p.cdr;g.fx.push({laser:true,x:p.x,y:p.y,a2:a,c,life:.2,a:0,w:26*p.size});g.enemies.forEach(e=>{let dx=e.x-p.x,dy=e.y-p.y,al=dx*Math.cos(a)+dy*Math.sin(a),si=Math.abs(-dx*Math.sin(a)+dy*Math.cos(a));if(al>0&&al<520&&si<30*p.size)e.hp-=atk*2.3})}else if(def.kind=="meteor"||def.kind=="mine"){s.cd=Math.max(.36,.95-lv*.04)*p.cdr;for(let i=0;i<1+Math.floor(lv/2)+(s.evo?3:0);i++){let e=pick(g.enemies);if(e){area(e.x,e.y,(46+lv*5)*p.size,atk*2);g.fx.push({circle:true,x:e.x,y:e.y,rr:(46+lv*5)*p.size,c,life:.28,a:0})}}}else if(def.kind=="nova"||def.kind=="cross"){s.cd=Math.max(.55,1.3-lv*.04)*p.cdr;area(p.x,p.y,(140+lv*12+(s.evo?90:0))*p.size,atk*2.1);effect(p.x,p.y,"新星",c)}else if(def.kind=="chain"){s.cd=Math.max(.3,.72-lv*.03)*p.cdr;g.enemies.slice(0,6+lv).forEach(e=>{e.hp-=atk*1.2;effect(e.x,e.y,"雷",c)})}else{s.cd=1.4*p.cdr;p.hp=Math.min(p.maxHp,p.hp+4+lv);effect(p.x,p.y,"強化",c)}}
-function update(dt){if(paused||!g||g.over)return;let p=g.p;g.buffs.forEach(b=>b.t-=dt);g.buffs=g.buffs.filter(b=>b.t>0);buffs();g.time+=dt;g.score+=dt*12+p.lv*dt*6;g.spawn-=dt;if(g.spawn<=0){g.spawn=Math.max(.012,.22-g.time/210);for(let i=0;i<1+Math.floor(g.time/12);i++)spawnEnemy()}g.boss-=dt;if(g.boss<=0){g.boss=30;spawnEnemy(true)}g.itemSpawn-=dt;if(g.itemSpawn<=0){g.itemSpawn=g.buffs.find(b=>b.id=="harvest")?6:13;if(g.items.length<5)spawnItem()}let mv=moveVec(),spd=p.spd*p.speedMul,pr=p.r*p.size,nx=p.x+mv.x*spd*dt,ny=p.y+mv.y*spd*dt;if(walk(nx,p.y,pr))p.x=nx;if(walk(p.x,ny,pr))p.y=ny;if(Math.abs(mv.x)+Math.abs(mv.y)>.05){p.walk=(p.walk||0)+dt*9;p.frame=Math.floor(p.walk)%4}else p.frame=0;if(p.inv>0)p.inv-=dt;Object.values(g.skills).forEach(s=>shoot(s,dt));g.enemies.forEach(e=>{
-  let a=Math.atan2(p.y-e.y,p.x-e.x);
-  let nx=e.x+Math.cos(a)*e.spd*dt*g.freeze;
-  let ny=e.y+Math.sin(a)*e.spd*dt*g.freeze;
-  if(e.ghost || walk(nx, e.y, e.r*.75)) e.x=nx;
-  if(e.ghost || walk(e.x, ny, e.r*.75)) e.y=ny;
-  if(d2(e.x,e.y,p.x,p.y)<(e.r+pr)**2&&p.inv<=0){
-    p.hp-=Math.max(1,e.dmg*(1-Math.min(.45,p.barrier)));
-    p.inv=.22;effect(p.x,p.y,"-"+Math.floor(e.dmg),"#ff6b6b");
-    if(p.hp<=0){if(p.revive){p.revive=false;p.hp=p.maxHp*.5;p.inv=3}else die()}
-  }
-});g.shots.forEach(s=>{s.x+=s.vx*dt;s.y+=s.vy*dt;s.life-=dt;g.enemies.forEach(e=>{if(s.life>0&&s.pen>0&&d2(s.x,s.y,e.x,e.y)<(s.r+e.r)**2){e.hp-=s.dmg;s.pen--;effect(e.x,e.y,Math.floor(s.dmg),"#fff")}})});g.shots=g.shots.filter(s=>s.life>0&&s.pen>0);let dead=g.enemies.filter(e=>e.hp<=0);dead.forEach(e=>{g.kills++;let gold=Math.max(1,Math.floor((e.boss?25+g.time/10:1+Math.random()*2+g.time/180)*p.goldMul*uval("goldRate")*obonus().goldRate));g.runGold+=gold;meta.gold+=gold;save();g.score+=e.boss?7000:100+g.time;let n=e.boss?22:1+(Math.random()<.2?1:0);for(let i=0;i<n;i++)g.gems.push({x:e.x+rand(-18,18),y:e.y+rand(-18,18),r:e.boss?6:4,v:e.boss?18:4});if(Math.random()<(e.boss?.65:.025*obonus().itemRate))spawnItem();float(e.x,e.y,"+"+gold+"G","#ffd76a")});g.enemies=g.enemies.filter(e=>e.hp>0);g.gems.forEach(m=>{let dd=Math.sqrt(d2(m.x,m.y,p.x,p.y));if(dd<p.magnet||m.pull){m.x+=(p.x-m.x)*dt*10;m.y+=(p.y-m.y)*dt*10}if(dd<pr+m.r+9){m.pick=true;gainXp(m.v)}});g.gems=g.gems.filter(m=>!m.pick);g.items.forEach(it=>{it.ttl-=dt;if(d2(it.x,it.y,p.x,p.y)<(pr+it.r+4)**2){it.pick=true;applyItem(it)}});g.items=g.items.filter(it=>!it.pick&&it.ttl>0);g.fx.forEach(f=>f.a+=dt);g.fx=g.fx.filter(f=>f.a<f.life);g.float.forEach(f=>f.a+=dt);g.float=g.float.filter(f=>f.a<f.life);g.view.x=clamp(p.x-g.w/2,0,WORLD_W-g.w);g.view.y=clamp(p.y-g.h/2,0,WORLD_H-g.h);hud()}
-function moveVec(){let x=0,y=0;if(keys.ArrowLeft||keys.KeyA)x--;if(keys.ArrowRight||keys.KeyD)x++;if(keys.ArrowUp||keys.KeyW)y--;if(keys.ArrowDown||keys.KeyS)y++;x+=input.dx;y+=input.dy;let l=Math.hypot(x,y);if(l>1){x/=l;y/=l}return{x,y}}
-function drawTile(c,t,x,y){if(IMG.tiles?.complete)c.drawImage(IMG.tiles,t*32,0,32,32,x,y,TILE,TILE);else{c.fillStyle=["#111a3d","#b2a582","#4b5676","#aa9a76","#483560","#958b72","#62d5ff","#d6d1bd"][t]||"#000";c.fillRect(x,y,TILE,TILE)}}function drawMap(c,vx,vy){c.fillStyle="#0d1638";c.fillRect(0,0,g.w,g.h);let sx=Math.max(0,Math.floor(vx/TILE)-1),ex=Math.min(MAP_W-1,Math.ceil((vx+g.w)/TILE)+1),sy=Math.max(0,Math.floor(vy/TILE)-1),ey=Math.min(MAP_H-1,Math.ceil((vy+g.h)/TILE)+1);for(let ty=sy;ty<=ey;ty++)for(let tx=sx;tx<=ex;tx++)drawTile(c,g.map.tiles[ty][tx],tx*TILE-vx,ty*TILE-vy)}
-function drawSkillIcon(c,def,x,y,s){let idx=Math.abs(def.id.split("").reduce((a,ch)=>a+ch.charCodeAt(0),0))%40,sx=(idx%8)*64,sy=Math.floor(idx/8)*64;if(IMG.skill?.complete)c.drawImage(IMG.skill,sx,sy,64,64,x,y,s,s);else{c.fillStyle=def.color;c.fillRect(x,y,s,s)}}
-function drawPlayer(c,p,vx,vy){let x=p.x-vx,y=p.y-vy,size=74*p.size*(p.phase>=4?1.18:1);if(p.inv>0)c.globalAlpha=.75+Math.sin(g.time*15)*.25;if(p.phase){c.strokeStyle="#70dcff";c.globalAlpha=.35;c.lineWidth=3;c.beginPath();c.arc(x,y,(24+p.phase*8)*p.size,0,7);c.stroke();c.globalAlpha=1}if(IMG.human?.complete){c.imageSmoothingEnabled=false;c.shadowColor="#000";c.shadowBlur=5;c.imageSmoothingEnabled=false;c.drawImage(IMG.human,p.frame*112,Math.min(4,p.phase)*112,112,112,x-size/2,y-size*.78,size,size);c.shadowBlur=0;c.imageSmoothingEnabled=true}else{c.fillStyle="#ffd76a";c.fillRect(x-10,y-24,20,32)}c.globalAlpha=1}
-function draw(){if(!g)return;let c=g.ctx,p=g.p,vx=g.view.x,vy=g.view.y;c.clearRect(0,0,g.w,g.h);drawMap(c,vx,vy);g.items.forEach(it=>{c.fillStyle="#08131f";c.fillRect(it.x-vx-8,it.y-vy-8,16,16);c.fillStyle=it.color;c.fillRect(it.x-vx-6,it.y-vy-6,12,12);c.fillStyle="#fff";c.fillRect(it.x-vx-2,it.y-vy-2,4,4)});g.gems.forEach(m=>{c.fillStyle="#70dcff";c.beginPath();c.arc(m.x-vx,m.y-vy,m.r,0,7);c.fill()});g.shots.forEach(s=>{c.fillStyle=s.c;c.beginPath();c.arc(s.x-vx,s.y-vy,s.r,0,7);c.fill();c.strokeStyle="#ffffffaa";c.lineWidth=2;c.beginPath();c.arc(s.x-vx,s.y-vy,s.r*1.7,0,7);c.stroke()});g.enemies.forEach(e=>{
-  const ex=e.x-vx, ey=e.y-vy;
+function area(x,y,rad,dmg){g.enemies.forEach(e=>{
+  const ex=e.x-vx,ey=e.y-vy;
   if(IMG.enemy?.complete){
-    const cell=96;
-    const anim=Math.floor(g.time*7)%3;
-    const type=Math.max(0,Math.min(9,e.spriteType||0));
+    const cell=96,anim=Math.floor(g.time*7)%3,type=Math.max(0,Math.min(9,e.spriteType||0));
     const size=(e.boss?104:e.kind=="tank"?76:e.kind=="fast"?48:62);
-    c.save();
-    if(e.ghost)c.globalAlpha=.72;
-    c.shadowColor="#000";c.shadowBlur=4;
-    c.imageSmoothingEnabled=false;
+    c.save(); if(e.ghost)c.globalAlpha=.72;
+    c.shadowColor="#000";c.shadowBlur=4;c.imageSmoothingEnabled=false;
     c.drawImage(IMG.enemy,anim*cell,type*cell,cell,cell,ex-size/2,ey-size*.78,size,size);
-    c.imageSmoothingEnabled=true;c.shadowBlur=0;
-    c.restore();
-  }else{
-    c.fillStyle=e.col;c.beginPath();c.arc(ex,ey,e.r,0,7);c.fill();
-  }
+    c.imageSmoothingEnabled=true;c.shadowBlur=0;c.restore();
+  }else{c.fillStyle=e.col;c.beginPath();c.arc(ex,ey,e.r,0,7);c.fill();}
   c.fillStyle="#000a";c.fillRect(ex-e.r,ey-e.r-8,e.r*2,4);
   c.fillStyle=e.ghost?"#c8e7ff":"#74f5a3";c.fillRect(ex-e.r,ey-e.r-8,e.r*2*(e.hp/e.max),4);
 });drawPlayer(c,p,vx,vy);g.fx.forEach(f=>{c.save();c.globalAlpha=1-f.a/f.life;if(f.laser){c.translate(f.x-vx,f.y-vy);c.rotate(f.a2);c.strokeStyle=f.c;c.lineWidth=f.w;c.beginPath();c.moveTo(0,0);c.lineTo(520,0);c.stroke()}else if(f.circle){c.strokeStyle=f.c;c.lineWidth=4;c.beginPath();c.arc(f.x-vx,f.y-vy,f.rr*(f.a/f.life),0,7);c.stroke()}else{c.fillStyle=f.c;c.font="bold 16px system-ui";c.textAlign="center";c.fillText(f.t,f.x-vx,f.y-vy-f.a*40)}c.restore()});g.float.forEach(f=>{c.save();c.globalAlpha=1-f.a/f.life;c.fillStyle=f.c;c.font="bold 14px system-ui";c.textAlign="center";c.fillText(f.t,f.x-vx,f.y-vy-f.a*36);c.restore()});Object.values(g.skills).slice(0,8).forEach((s,i)=>{let def=SKILLS.find(x=>x.id==s.id),x=10+i*44,y=g.h-54;c.fillStyle="#050814cc";c.fillRect(x,y,40,40);drawSkillIcon(c,def,x+4,y+4,24);c.fillStyle="#fff";c.font="10px system-ui";c.textAlign="center";c.fillText("Lv"+s.lv,x+20,y+35)});if(p.minimap)drawMini(c)}
