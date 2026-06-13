@@ -1,9 +1,9 @@
 
 (()=>{"use strict";
 const DATA={"skills":[{"id":"c0","name":"魔石弾","group":"common","kind":"projectile","color":"#ffd76a"},{"id":"c1","name":"守護剣","group":"common","kind":"orbit","color":"#70dcff"},{"id":"c2","name":"魔力波動","group":"common","kind":"pulse","color":"#ff72ce"},{"id":"c3","name":"星光レーザー","group":"common","kind":"laser","color":"#ffe66d"},{"id":"c4","name":"魔石爆弾","group":"common","kind":"meteor","color":"#ff9f1c"},{"id":"c5","name":"貫通針","group":"common","kind":"projectile","color":"#ffd76a"},{"id":"c6","name":"反撃障壁","group":"common","kind":"pulse","color":"#70dcff"},{"id":"c7","name":"連鎖雷","group":"common","kind":"chain","color":"#ff72ce"},{"id":"c8","name":"魔石地雷","group":"common","kind":"mine","color":"#ffe66d"},{"id":"c9","name":"新星爆発","group":"common","kind":"nova","color":"#ff9f1c"},{"id":"h0","name":"人王斬","group":"human","kind":"projectile","color":"#fefae0"},{"id":"h1","name":"英雄旗","group":"human","kind":"buff","color":"#fefae0"},{"id":"h2","name":"星導陣","group":"human","kind":"buff","color":"#fefae0"},{"id":"h3","name":"聖槍投げ","group":"human","kind":"projectile","color":"#fefae0"},{"id":"h4","name":"王盾反射","group":"human","kind":"pulse","color":"#fefae0"},{"id":"h5","name":"十字聖光","group":"human","kind":"cross","color":"#fefae0"},{"id":"h6","name":"裁きの光","group":"human","kind":"meteor","color":"#fefae0"},{"id":"h7","name":"号令","group":"human","kind":"buff","color":"#fefae0"},{"id":"h8","name":"勇気の刃","group":"human","kind":"projectile","color":"#fefae0"},{"id":"h9","name":"聖域","group":"human","kind":"nova","color":"#fefae0"}],"items":[{"id":"map","name":"地図","color":"#ffe066"},{"id":"heal30","name":"回復薬","color":"#80ed99"},{"id":"heal100","name":"秘薬","color":"#57cc99"},{"id":"buff","name":"強化薬","color":"#ff922b"},{"id":"book","name":"秘伝書","color":"#9b5de5"},{"id":"growth","name":"成長薬","color":"#4cc9f0"},{"id":"magnet","name":"磁石","color":"#4895ef"},{"id":"giant","name":"巨大化の種","color":"#ff4d6d"},{"id":"gold","name":"金貨袋","color":"#ffd166"},{"id":"chest","name":"宝箱","color":"#c77dff"},{"id":"xp","name":"経験の書","color":"#90e0ef"},{"id":"shield","name":"守り札","color":"#caf0f8"},{"id":"speed","name":"俊足薬","color":"#06d6a0"},{"id":"bomb","name":"爆弾","color":"#ef476f"},{"id":"whistle","name":"召喚笛","color":"#ffbe0b"},{"id":"luck","name":"幸運のコイン","color":"#ffe066"},{"id":"revive","name":"復活の羽","color":"#f1faee"},{"id":"freeze","name":"時の砂","color":"#a8dadc"},{"id":"harvest","name":"収穫の鎌","color":"#84a59d"},{"id":"bless","name":"祝福石","color":"#e9c46a"}]};
-const TILE=32, MAP_W=48, MAP_H=32, WORLD_W=1536, WORLD_H=1024;
-const SAVE="maseki_tensei_survivor_v013";
-const ASSET={tiles:"assets/tile_atlas.png",stage:"assets/stage_sky_palace_v013.png",human:"assets/human_sheet.png",skill:"assets/skill_fx_sheet.png",enemy:"assets/enemy_sheet.png"};
+const TILE=32, MAP_W=32, MAP_H=24, WORLD_W=1024, WORLD_H=768;
+const SAVE="maseki_tensei_survivor_v014";
+const ASSET={tiles:"assets/tile_atlas.png",stage:"assets/stage_sky_palace_v014.png",human:"assets/human_sheet_v014.png",skill:"assets/skill_fx_sheet.png",enemy:"assets/enemy_sheet.png"};
 const IMG={}; const $=id=>document.getElementById(id), fmt=n=>Math.floor(n||0).toLocaleString("ja-JP"), clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), d2=(a,b,c,d)=>{let x=a-c,y=b-d;return x*x+y*y}, rand=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
 const SKILLS=DATA.skills, ITEMS=DATA.items;
 function loadImg(s){let im=new Image();im.src=s;return im}function preload(){if(!IMG.tiles)IMG.tiles=loadImg(ASSET.tiles);if(!IMG.stage)IMG.stage=loadImg(ASSET.stage);if(!IMG.human)IMG.human=loadImg(ASSET.human);if(!IMG.skill)IMG.skill=loadImg(ASSET.skill);if(!IMG.enemy)IMG.enemy=loadImg(ASSET.enemy)}
@@ -21,110 +21,86 @@ function beep(t="hit"){if(!soundOn)return;if(!audio)audio=new(AudioContext||webk
 function rectFill(a,x1,y1,x2,y2,v){for(let y=y1;y<=y2;y++)for(let x=x1;x<=x2;x++)if(x>=0&&y>=0&&x<MAP_W&&y<MAP_H)a[y][x]=v}
 function border(a,x1,y1,x2,y2){rectFill(a,x1,y1,x2,y2,1);for(let x=x1;x<=x2;x++){a[y1][x]=2;a[y2][x]=2}for(let y=y1;y<=y2;y++){a[y][x1]=2;a[y][x2]=2}}
 function buildMap(){
-  // v0.13: 生成済みの完成マップ画像を背景に使うため、タイル描画用の配列は使わない。
+  // v0.14: 生成済みの完成マップ画像を背景に使うため、タイル描画用の配列は使わない。
   return {tiles:[]}
 }
 function tileAt(px,py){return 1}
 function block(t){return false}
 
 function inRect(x,y,x1,y1,x2,y2){return x>=x1&&x<=x2&&y>=y1&&y<=y2}
-function inEllipse(x,y,cx,cy,rx,ry){
-  let dx=(x-cx)/rx,dy=(y-cy)/ry;
-  return dx*dx+dy*dy<=1;
-}
+function inEllipse(x,y,cx,cy,rx,ry){let dx=(x-cx)/rx,dy=(y-cy)/ry;return dx*dx+dy*dy<=1}
 
-// 生成マップの床形状に合わせた当たり判定。
-// 床・通路は歩行可。神殿外周と大型建造物は不可。
+// v0.14: 縮小した天空神殿マップに合わせた床 / 建造物判定
 function walk(px,py,r){
   let x=px,y=py;
-  if(x<55||y<60||x>WORLD_W-55||y>WORLD_H-55)return false;
+  if(x<40||y<40||x>WORLD_W-40||y>WORLD_H-40)return false;
 
   let floor=false;
-  // 中央大広場
-  floor = floor || inRect(x,y,360,230,1175,830);
-  floor = floor || inEllipse(x,y,768,530,455,315);
-
-  // 上下広場
-  floor = floor || inRect(x,y,555,70,980,300);
-  floor = floor || inRect(x,y,555,735,980,970);
-
-  // 左右エリア
-  floor = floor || inRect(x,y,80,165,420,415);
-  floor = floor || inRect(x,y,1110,165,1455,415);
-  floor = floor || inRect(x,y,95,610,430,900);
-  floor = floor || inRect(x,y,1105,610,1445,900);
-
-  // 通路
-  floor = floor || inRect(x,y,180,430,1360,610);
-  floor = floor || inRect(x,y,700,90,840,950);
-  floor = floor || inRect(x,y,280,230,1260,330);
-  floor = floor || inRect(x,y,270,720,1260,830);
-
+  // 中央広場
+  floor = floor || inEllipse(x,y,512,392,255,195);
+  floor = floor || inRect(x,y,320,205,705,570);
+  // 中央縦通路
+  floor = floor || inRect(x,y,445,70,580,700);
+  // 中央横通路
+  floor = floor || inRect(x,y,120,325,900,455);
+  // 左右上広場
+  floor = floor || inEllipse(x,y,165,170,120,105);
+  floor = floor || inEllipse(x,y,860,170,120,105);
+  // 左右下広場
+  floor = floor || inEllipse(x,y,165,590,120,105);
+  floor = floor || inEllipse(x,y,860,590,120,105);
+  // 左右接続通路
+  floor = floor || inRect(x,y,185,120,345,265);
+  floor = floor || inRect(x,y,680,120,840,265);
+  floor = floor || inRect(x,y,185,505,345,650);
+  floor = floor || inRect(x,y,680,505,840,650);
   if(!floor)return false;
 
-  // 建造物・柱・祭壇の当たり判定
+  // 建造物 / 台座 / 大階段
   const blocks=[
-    [640,75,895,185],     // 上部大神殿
-    [640,835,895,1010],   // 下部階段/外周
-    [70,80,190,185],
-    [1345,80,1490,185],
-    [95,720,245,905],
-    [1295,720,1465,905],
-    [390,300,500,430],
-    [1035,300,1145,430],
-    [385,650,500,780],
-    [1030,650,1145,780],
-    [210,170,325,270],
-    [1210,170,1325,270],
-    [205,720,330,820],
-    [1205,720,1330,820],
-    [720,480,820,575],    // 中央クリスタル台座
+    [423,34,602,129],   // 上部大神殿本体
+    [445,632,580,760],  // 下部階段終端
+    [458,340,566,438],  // 中央クリスタル台座
+    [86,108,127,157],[205,108,246,157],
+    [775,108,816,157],[894,108,935,157],
+    [90,555,129,603],[205,555,245,603],
+    [776,555,815,603],[892,555,932,603],
+    [264,194,334,264],[689,194,759,264],
+    [264,505,334,575],[689,505,759,575]
   ];
-
-  for(const b of blocks){
-    if(inRect(x,y,b[0]-r,b[1]-r,b[2]+r,b[3]+r))return false;
-  }
-
+  for(const b of blocks){if(inRect(x,y,b[0]-r,b[1]-r,b[2]+r,b[3]+r))return false}
   return true;
 }
 
 function randPos(){
   for(let i=0;i<500;i++){
-    let x=rand(140,WORLD_W-140),y=rand(130,WORLD_H-130);
+    let x=rand(80,WORLD_W-80),y=rand(80,WORLD_H-80);
     if(walk(x,y,10))return{x,y};
   }
-  return{x:768,y:585};
+  return{x:512,y:470};
 }
 
-function startGame(){preload();let cv=$("cv"),ctx=cv.getContext("2d"),dpr=Math.max(1,Math.min(2,devicePixelRatio||1));cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cv.style.width=innerWidth+"px";cv.style.height=innerHeight+"px";ctx.setTransform(dpr,0,0,dpr,0,0);let ob=obonus(),hp=220*uval("hp")*ob.hp;g={ctx,cv,w:innerWidth,h:innerHeight,map:buildMap(),view:{x:0,y:0},time:0,score:0,kills:0,runGold:0,spawn:0,boss:30,itemSpawn:8,over:false,freeze:1,buffs:[],enemies:[],gems:[],items:[],shots:[],fx:[],float:[],skills:{c0:{id:"c0",lv:1,cd:0},h0:{id:"h0",lv:1,cd:0}},p:{x:768,y:585,r:13,hp,maxHp:hp,atk:28*uval("atk")*ob.atk,spd:250*uval("speed")*ob.speed,magnet:125*uval("magnet")*ob.magnet,lv:1,xp:0,next:18,phase:0,inv:0,walk:0,frame:0,dir:0,size:1,atkMul:1,xpMul:1,goldMul:1,cdr:ob.cdr,power:ob.power,barrier:ob.barrier,minimap:false,revive:false}};paused=false;$("pause").textContent="II";show("game");last=performance.now();if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
+function startGame(){preload();let cv=$("cv"),ctx=cv.getContext("2d"),dpr=Math.max(1,Math.min(2,devicePixelRatio||1));cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cv.style.width=innerWidth+"px";cv.style.height=innerHeight+"px";ctx.setTransform(dpr,0,0,dpr,0,0);let ob=obonus(),hp=260*uval("hp")*ob.hp;g={ctx,cv,w:innerWidth,h:innerHeight,map:buildMap(),view:{x:0,y:0},time:0,score:0,kills:0,runGold:0,spawn:0,boss:40,itemSpawn:8,over:false,freeze:1,buffs:[],enemies:[],gems:[],items:[],shots:[],fx:[],float:[],skills:{c0:{id:"c0",lv:1,cd:0},h0:{id:"h0",lv:1,cd:0}},p:{x:512,y:470,r:13,hp,maxHp:hp,atk:30*uval("atk")*ob.atk,spd:265*uval("speed")*ob.speed,magnet:125*uval("magnet")*ob.magnet,lv:1,xp:0,next:18,phase:0,inv:0,walk:0,frame:0,dir:0,size:1,atkMul:1,xpMul:1,goldMul:1,cdr:ob.cdr,power:ob.power,barrier:ob.barrier,minimap:false,revive:false}};paused=false;$("pause").textContent="II";show("game");last=performance.now();if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
 function spawnEnemy(boss=false){
   let p=g.p,pos=randPos();
-  if(Math.random()<.8){
-    let a=Math.random()*7,d=Math.max(g.w,g.h)*.55;
-    pos={x:clamp(p.x+Math.cos(a)*d,80,WORLD_W-80),y:clamp(p.y+Math.sin(a)*d,80,WORLD_H-80)};
+  if(Math.random()<.85){
+    let a=Math.random()*7,d=Math.max(g.w,g.h)*.58;
+    pos={x:clamp(p.x+Math.cos(a)*d,60,WORLD_W-60),y:clamp(p.y+Math.sin(a)*d,60,WORLD_H-60)};
     if(!walk(pos.x,pos.y,12))pos=randPos();
   }
-
-  // 序盤は弱く、1分以降から強烈にインフレ
-  let early=Math.min(1,g.time/60);
-  let sc=Math.pow(1.018,g.time)*Math.pow(1.22,Math.floor(Math.max(0,g.time-45)/20));
+  let t=g.time;
+  let sc=Math.pow(1.017,Math.max(0,t-15))*Math.pow(1.20,Math.floor(Math.max(0,t-70)/22));
   let kind=boss?"boss":Math.random()<.18?"fast":Math.random()<.16?"tank":"normal";
   let ghost=!boss&&Math.random()<.12;
   let spriteType=boss?9:ghost?1:kind=="tank"?7:kind=="fast"?5:Math.floor(Math.random()*6);
-
-  let baseHp=boss?1200:kind=="tank"?95:kind=="fast"?32:45;
-  let baseDmg=boss?28:kind=="tank"?8:kind=="fast"?5:6;
-  let baseSpd=boss?70:kind=="tank"?70:kind=="fast"?145:100;
-
+  let baseHp=boss?700:kind=="tank"?55:kind=="fast"?22:28;
+  let baseDmg=boss?14:kind=="tank"?4:kind=="fast"?2.5:3;
+  let baseSpd=boss?62:kind=="tank"?66:kind=="fast"?135:92;
   g.enemies.push({
-    x:pos.x,y:pos.y,
-    r:boss?24:kind=="tank"?18:kind=="fast"?10:13,
+    x:pos.x,y:pos.y,r:boss?22:kind=="tank"?17:kind=="fast"?10:12,
     kind,boss,ghost,spriteType,
-    hp:baseHp*sc,
-    max:baseHp*sc,
-    spd:baseSpd*(1+g.time/180),
-    dmg:baseDmg*(1+early*0.8)*sc*.38,
-    col:ghost?"#c8e7ff":boss?"#ffd76a":kind=="fast"?"#74f5a3":kind=="tank"?"#ef476f":"#9d4edd"
+    hp:baseHp*sc,max:baseHp*sc,spd:baseSpd*(1+t/210),
+    dmg:baseDmg*sc*.42,col:ghost?"#c8e7ff":boss?"#ffd76a":kind=="fast"?"#74f5a3":kind=="tank"?"#ef476f":"#9d4edd"
   });
 }
 function effect(x,y,t,c="#fff"){g.fx.push({x,y,t,c,a:0,life:.45})}function float(x,y,t,c="#ffd76a"){g.float.push({x,y,t,c,a:0,life:.7})}
@@ -222,11 +198,11 @@ function update(dt){
 
   g.spawn-=dt;
   if(g.spawn<=0){
-    g.spawn=Math.max(.035,.55-g.time/240);
-    for(let i=0;i<1+Math.floor(Math.max(0,g.time-35)/22);i++)spawnEnemy(false);
+    g.spawn=Math.max(.045,.62-g.time/260);
+    for(let i=0;i<1+Math.floor(Math.max(0,g.time-45)/20);i++)spawnEnemy(false);
   }
   g.boss-=dt;
-  if(g.boss<=0){g.boss=55;spawnEnemy(true)}
+  if(g.boss<=0){g.boss=60;spawnEnemy(true)}
 
   g.itemSpawn-=dt;
   if(g.itemSpawn<=0){
@@ -317,11 +293,9 @@ function drawTile(c,t,x,y){
 function drawMap(c,vx,vy){
   c.fillStyle="#8ec7ff";
   c.fillRect(0,0,g.w,g.h);
-
   if(IMG.stage&&IMG.stage.complete){
-    c.imageSmoothingEnabled=false;
-    c.drawImage(IMG.stage,-vx,-vy,WORLD_W,WORLD_H);
     c.imageSmoothingEnabled=true;
+    c.drawImage(IMG.stage,-vx,-vy,WORLD_W,WORLD_H);
   }else{
     c.fillStyle="#d9d2bd";
     c.fillRect(-vx,-vy,WORLD_W,WORLD_H);
@@ -334,20 +308,18 @@ function drawSkillIcon(c,def,x,y,s){
   else{c.fillStyle=def.color||"#fff";c.fillRect(x,y,s,s)}
 }
 function drawPlayer(c,p,vx,vy){
-  let x=p.x-vx,y=p.y-vy,size=76*(p.size||1)*(p.phase>=4?1.16:1);
+  let x=p.x-vx,y=p.y-vy,size=68*(p.size||1)*(p.phase>=4?1.1:1);
   if(p.inv>0)c.globalAlpha=.75+Math.sin(g.time*15)*.25;
-
   if(p.phase){
-    c.strokeStyle="#70dcff";c.globalAlpha=.30;c.lineWidth=3;
-    c.beginPath();c.arc(x,y,(25+p.phase*8)*(p.size||1),0,7);c.stroke();c.globalAlpha=1;
+    c.strokeStyle="#70dcff";c.globalAlpha=.22;c.lineWidth=3;
+    c.beginPath();c.arc(x,y,(22+p.phase*6)*(p.size||1),0,7);c.stroke();c.globalAlpha=1;
   }
-
   if(IMG.human&&IMG.human.complete){
     let row=(Math.min(4,p.phase||0)*4+(p.dir||0));
     c.save();
-    c.shadowColor="#000";c.shadowBlur=5;
+    c.shadowColor="#000";c.shadowBlur=4;
     c.imageSmoothingEnabled=false;
-    c.drawImage(IMG.human,(p.frame||0)*112,row*112,112,112,x-size/2,y-size*.78,size,size);
+    c.drawImage(IMG.human,(p.frame||0)*128,row*128,128,128,x-size/2,y-size*0.82,size,size);
     c.imageSmoothingEnabled=true;
     c.restore();
   }else{
