@@ -9,7 +9,7 @@ h1,h2,h3,p{margin-top:0}h1{font-size:19px;margin-bottom:2px}h2{font-size:17px;ma
 .screen{border:1px solid var(--line);border-radius:18px;background:rgba(10,13,24,.78);padding:8px}.field{min-height:250px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(#20385c 0 38%,#7eb97e 39% 66%,#3d7138 67%);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding:22px 8px}.field:before{content:"";position:absolute;inset:34% 0 auto;height:18%;background:linear-gradient(90deg,transparent,#e8f2ff,transparent);opacity:.45}.enemyLine{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-end;justify-content:center;width:100%;flex-wrap:wrap}
 .enemyCard{width:18%;max-width:180px;min-width:78px;text-align:center;position:relative}.enemyName{font-weight:900;text-shadow:2px 2px #000;font-size:12px;margin-bottom:4px}.enemyRare{color:var(--pink);text-shadow:2px 2px #000;font-weight:900}.monsterArt{height:100px;border-radius:16px;border:2px solid rgba(255,255,255,.18);display:grid;place-items:center;font-size:38px;font-weight:900;text-shadow:2px 2px #000;box-shadow:inset 0 -28px 35px rgba(0,0,0,.35),0 10px 20px rgba(0,0,0,.25)}.enemyCard.target .monsterArt{outline:3px solid var(--rare)}.hpText{font-size:11px;color:#fff;text-shadow:1px 1px #000;margin-top:3px}
 .focusRow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px}.focusRow span{color:var(--muted);font-size:12px}.focusBtn{min-height:36px;font-size:12px}.focusBtn.active,.tab.active,.growthBtn.active,.equipBtn.active{background:linear-gradient(#fff,#9aa5c4);color:#0a0d16}
-.party{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}.actor{display:grid;grid-template-columns:96px 1fr;gap:8px;padding:9px;border:1px solid var(--line);border-radius:15px;background:var(--panel)}.actor.focused{outline:2px solid var(--rare)}.actorPic{height:96px;border-radius:14px;border:1px solid var(--line);background-repeat:no-repeat;background-position:center;background-size:contain;background-color:#101522;display:grid;place-items:center;font-size:12px;font-weight:900;text-align:center;box-shadow:inset 0 -30px 40px rgba(0,0,0,.25)}.heroPic{background-image:url("./assets/hero-dot.png")}.ally1Pic{background-image:url("./assets/ally-dot.png")}.actorPic.hasImage{color:transparent;text-shadow:none}.actorPic.attack{animation:slash .35s}.actorPic.skill{animation:skill .55s}
+.party{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}.actor{display:grid;grid-template-columns:96px 1fr;gap:8px;padding:9px;border:1px solid var(--line);border-radius:15px;background:var(--panel)}.actor.focused{outline:2px solid var(--rare)}.actorPic{height:96px;border-radius:14px;border:1px solid var(--line);background-repeat:no-repeat;background-position:center;background-size:contain;background-color:#101522;display:grid;place-items:center;font-size:12px;font-weight:900;text-align:center;box-shadow:inset 0 -30px 40px rgba(0,0,0,.25)}.heroPic{background-image:url("./assets/hero-sprite-sheet.png")}.ally1Pic{background-image:url("./assets/ally-sprite-sheet.png")}.actorPic.hasImage{color:transparent;text-shadow:none}.actorPic.attack{animation:slash .35s}.actorPic.skill{animation:skill .55s}
 .barLabel{font-size:12px;color:var(--muted);margin:4px 0 2px}.bar{height:12px;border-radius:999px;background:rgba(255,255,255,.13);overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#88f0a9,#e8f0ff)}.actor p{font-size:12px;color:var(--muted);margin:4px 0 0}.target{display:flex;gap:8px;align-items:center;margin:8px 0}.target select{flex:1}.commands{position:sticky;bottom:0;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:8px 0;background:linear-gradient(0deg,var(--bg) 82%,transparent)}
 .absorbPanel{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--panel2);margin:0 0 8px}.hidden{display:none!important}
 .tabs{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin:8px 0}.tab{font-size:12px;min-height:38px;border-radius:999px}.panel{display:none;border:1px solid var(--line);border-radius:15px;background:rgba(15,18,31,.88);padding:10px}.panel.active{display:block}.log{height:220px;overflow:auto;font-size:13px;display:flex;flex-direction:column;gap:5px}.log div{border-bottom:1px dashed rgba(255,255,255,.1);padding-bottom:4px}.good{color:var(--good)}.bad{color:var(--bad)}.rare{color:var(--rare)}
@@ -19,3 +19,68 @@ h1,h2,h3,p{margin-top:0}h1{font-size:19px;margin-bottom:2px}h2{font-size:17px;ma
 
 
 .buildHint{color:var(--rare);font-size:12px;margin-top:6px}
+
+
+/* v2.5 animated dot sprites */
+.actorPic.spriteSheet{
+  background-size:800% 100%;
+  background-position:0% 0;
+  background-repeat:no-repeat;
+  image-rendering:pixelated;
+  animation:spriteIdle 1.05s steps(1) infinite;
+}
+.actorPic.hasImage{
+  animation:none;
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.actorPic.spriteSheet.attack{
+  animation:spriteAttack .46s steps(1) forwards;
+}
+.actorPic.spriteSheet.skill{
+  animation:spriteSkill .68s steps(1) forwards;
+}
+.actorPic.spriteSheet.hit{
+  animation:spriteHit .32s steps(1) forwards;
+}
+.enemyCard .monsterArt{
+  animation:monsterIdle 1.6s ease-in-out infinite;
+}
+.enemyCard.target .monsterArt{
+  animation:monsterIdle .9s ease-in-out infinite;
+}
+.enemyCard .monsterArt.hit{
+  animation:enemyHit .26s linear;
+}
+@keyframes spriteIdle{
+  0%,49%{background-position:0% 0}
+  50%,100%{background-position:14.2857% 0}
+}
+@keyframes spriteAttack{
+  0%{background-position:28.5714% 0}
+  42%{background-position:42.8571% 0}
+  72%{background-position:42.8571% 0}
+  100%{background-position:0% 0}
+}
+@keyframes spriteSkill{
+  0%{background-position:57.1428% 0}
+  46%{background-position:71.4285% 0}
+  82%{background-position:71.4285% 0}
+  100%{background-position:0% 0}
+}
+@keyframes spriteHit{
+  0%{background-position:85.7142% 0; transform:translateX(-4px)}
+  45%{background-position:85.7142% 0; transform:translateX(4px)}
+  100%{background-position:0% 0; transform:translateX(0)}
+}
+@keyframes monsterIdle{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+@keyframes enemyHit{
+  0%{transform:translateX(0);filter:brightness(1)}
+  25%{transform:translateX(-5px);filter:brightness(2)}
+  50%{transform:translateX(5px);filter:brightness(1.6)}
+  100%{transform:translateX(0);filter:brightness(1)}
+}

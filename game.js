@@ -59,7 +59,7 @@ GAME.items.forEach(it=>{
     if(it.slot==="acc") it.fx.exp = (it.fx.exp||0) + .25;
   }
 });
-const SAVE_KEY = "maseki_rebuild_v24";
+const SAVE_KEY = "maseki_rebuild_v25";
 const IMG_KEY = "maseki_rebuild_v23_img_";
 const $ = id => document.getElementById(id);
 
@@ -209,7 +209,16 @@ function calc(ch,pow,skillName){
   if(target()&&target().boss)value*=1+(fx.bossDamage||0);
   return Math.max(1,Math.floor(value));
 }
-function damage(list,amount,label){list.forEach(e=>{if(!e)return;const d=Math.max(1,amount-Math.floor(e.def*.35));e.hp=Math.max(0,e.hp-d);log(`${label}: ${e.name}に${fmt(d)}ダメージ`);});if(!alive().length)victory();}
+function enemyHitAnim(e){
+  if(!e||!e.uid)return;
+  const card=document.querySelector(`[data-uid="${e.uid}"] .monsterArt`);
+  if(!card)return;
+  card.classList.remove("hit");
+  void card.offsetWidth;
+  card.classList.add("hit");
+  setTimeout(()=>card.classList.remove("hit"),260);
+}
+function damage(list,amount,label){list.forEach(e=>{if(!e)return;const d=Math.max(1,amount-Math.floor(e.def*.35));e.hp=Math.max(0,e.hp-d);enemyHitAnim(e);log(`${label}: ${e.name}に${fmt(d)}ダメージ`);});if(!alive().length)victory();}
 function useHeroSkill(slot){const name=state.hero.skillSlots[slot]||state.hero.skillSlots[0];useSkill(state.hero,name,"hero");}
 function doAttack(){if(!target())return spawn();anim("hero","attack");damage([target()],calc(state.hero,1,null),"攻撃");if(alive().length){allyAi();if(alive().length)enemyTurn();}sfx("attack");render();}
 function useSkill(ch,name,key){const sk=skill(name);if(!sk){log("技が見つからない","bad");return;}if(ch.mp<sk.mp){log("MP不足","bad");return;}ch.mp-=sk.mp;anim(key,"skill");addSkillExp(name,ch,5);if(sk.type==="heal"){const ht=total(state.hero),at=total(state.ally1);state.hero.hp=ht.maxHp;state.ally1.hp=at.maxHp;log(`${ch.name}の${name}。全回復！`,"good");sfx("heal");render();return;}if(sk.type==="buff"){state.buffs.damage+=0.25+(skillLevel(name,ch)-1)*.05;state.buffs.turns=5;log(`${name}！ 攻撃威力上昇。`,"good");render();return;}if(sk.type==="shield"){state.buffs.shield+=0.25;state.buffs.turns=5;log(`${name}！ 被ダメージ軽減。`,"good");render();return;}if(sk.type==="stone"){addRandomStone(3+skillLevel(name,ch));log(`${name}！ 魔石を引き寄せた。`,"rare");render();return;}if(sk.type==="exp"){ch.exp+=Math.floor(ch.next*.15);log(`${name}！ 経験値を得た。`,"rare");level(ch);render();return;}if(sk.type==="mp"){ch.mp=Math.min(total(ch).maxMp,ch.mp+Math.floor(total(ch).maxMp*.5));log(`${name}！ MP回復。`,"good");render();return;}if(sk.type==="random"){for(let i=0;i<(sk.hits||3);i++){const a=alive();if(!a.length)break;damage([pick(a)],calc(ch,sk.power,name),`${name} ${i+1}`);} }else if(sk.type==="drain"){const before=alive().reduce((s,e)=>s+e.hp,0);damage(chooseTargets(sk.targets||1),calc(ch,sk.power,name),name);const after=alive().reduce((s,e)=>s+e.hp,0);ch.hp=Math.min(total(ch).maxHp,ch.hp+Math.floor((before-after)*.35));}else{damage(chooseTargets((sk.targets||1)+(key==="hero"?effects().multi:0)),calc(ch,sk.power,name),name);}if(key==="hero"&&alive().length){allyAi();if(alive().length)enemyTurn();}sfx("skill");render();}
@@ -334,7 +343,15 @@ function equip(who,id){const it=item(id);if(!it||!it.slot)return;if(!state.inven
 function autoStep(){if(!state.autoActive)return;if(!alive().length){spawn();return;}if(alive().length>=2&&state.hero.mp>=skill(state.hero.skillSlots[1])?.mp)useHeroSkill(1);else if(state.hero.mp>=skill(state.hero.skillSlots[2])?.mp)useHeroSkill(2);else if(state.hero.mp>=skill(state.hero.skillSlots[0])?.mp)useHeroSkill(0);else doAttack();}
 function startAuto(){if(state.autoActive)return;state.autoActive=true;log("オート開始（3倍速）","good");clearInterval(autoTimer);autoTimer=setInterval(autoStep,140);render();}
 function stopAuto(){state.autoActive=false;clearInterval(autoTimer);autoTimer=null;log("オート停止","good");render();}
-function anim(key,cls){const el=$(key+"Pic");if(!el)return;el.classList.remove("attack","skill");void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),550);}
+function anim(key,cls){
+  const el=$(key+"Pic");
+  if(!el)return;
+  el.classList.remove("attack","skill","hit");
+  void el.offsetWidth;
+  el.classList.add(cls);
+  const ms=cls==="skill"?720:520;
+  setTimeout(()=>el.classList.remove(cls),ms);
+}
 function enemyHtml(e,gallery){const isTarget=!gallery&&target()===e;return`<div class="enemyCard ${isTarget?"target":""}" data-uid="${e.uid||e.id}"><div class="enemyName">${e.rare?'<span class="enemyRare">レア!</span> ':''}${e.boss?'💀 ':''}${e.name} Lv${e.lv}</div><div class="monsterArt" style="background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.38),transparent 22%),linear-gradient(145deg,${e.color},#111827)">${e.icon}</div><div class="hpText">HP ${fmt(e.hp)}/${fmt(e.maxHp||e.hp)}</div></div>`;}
 function render(){const a=area();$("hudArea").textContent=a.name;$("hudLv").textContent=state.hero.lv;$("hudGold").textContent=fmt(state.hero.gold);$("hudStones").textContent=fmt(totalStones());$("field").style.background=`linear-gradient(#20385c 0 38%, ${a.bg2} 39% 66%, ${a.bg1} 67%)`;$("enemyLine").innerHTML=state.enemies.map(e=>enemyHtml(e,false)).join("");$("targetSelect").innerHTML=alive().map((e,i)=>`<option value="${i}" ${i===state.target?"selected":""}>${i+1}: ${e.name}</option>`).join("");renderActor("hero");renderActor("ally1");renderSkillButtons();renderAreas();renderGrowth();renderEquip();renderStonePanel();renderAlly();renderGallery();applyImages();document.querySelectorAll(".focusBtn").forEach(b=>b.classList.toggle("active",b.dataset.focus===state.focus));document.querySelectorAll("[data-actor]").forEach(c=>c.classList.toggle("focused",c.dataset.actor===state.focus));}
 function renderActor(k){const ch=actor(k),t=total(ch);$(k+"Name").textContent=`${ch.name} Lv${ch.lv}`;$(k+"Bars").innerHTML=bar("HP",ch.hp,t.maxHp)+bar("MP",ch.mp,t.maxMp)+bar("EXP",ch.exp,ch.next);$(k+"Mini").textContent=`攻撃 ${fmt(t.atk)} / 防御 ${fmt(t.def)}`;}
@@ -373,7 +390,21 @@ function startBgm(){stopBgm();if(!state.sound)return;setupSound();const mode=BGM
 function bindHold(el,fn){if(!el)return;el.addEventListener("pointerdown",()=>{clearTimeout(holdTimer);clearInterval(holdInterval);holdTimer=setTimeout(()=>{holdInterval=setInterval(fn,180);},420);});["pointerup","pointerleave","pointercancel"].forEach(ev=>el.addEventListener(ev,()=>{clearTimeout(holdTimer);clearInterval(holdInterval);}));}
 function switchPanel(p){state.panel=p;document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.panel===p));document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id==="panel-"+p));}
 function resizeAndSave(k,file){if(!file)return;const img=new Image();const url=URL.createObjectURL(file);img.onload=()=>{const max=128;let w=img.width,h=img.height;if(w>h&&w>max){h=Math.round(h*max/w);w=max}else if(h>=w&&h>max){w=Math.round(w*max/h);h=max}const canvas=document.createElement("canvas");canvas.width=128;canvas.height=128;const ctx=canvas.getContext("2d");ctx.clearRect(0,0,128,128);ctx.drawImage(img,(128-w)/2,(128-h)/2,w,h);try{localStorage.setItem(IMG_KEY+k,canvas.toDataURL("image/png"));applyImages();toast("画像変更");}catch(e){toast("画像が大きすぎます");}URL.revokeObjectURL(url);};img.onerror=()=>toast("画像読込失敗");img.src=url;}
-function applyImages(){["hero","ally1"].forEach(k=>{const el=$(k+"Pic"),img=localStorage.getItem(IMG_KEY+k);if(img){el.style.backgroundImage=`url(${img})`;el.classList.add("hasImage");}else{el.style.backgroundImage="";el.classList.remove("hasImage");}});}
+function applyImages(){
+  const defaults={hero:"./assets/hero-sprite-sheet.png",ally1:"./assets/ally-sprite-sheet.png"};
+  ["hero","ally1"].forEach(k=>{
+    const el=$(k+"Pic"),img=localStorage.getItem(IMG_KEY+k);
+    if(img){
+      el.style.backgroundImage=`url(${img})`;
+      el.classList.add("hasImage");
+      el.classList.remove("spriteSheet");
+    }else{
+      el.style.backgroundImage=`url(${defaults[k]})`;
+      el.classList.remove("hasImage");
+      el.classList.add("spriteSheet");
+    }
+  });
+}
 function setNameInputs(){$("heroNameInput").value=state.hero.name;$("ally1NameInput").value=state.ally1.name;}
 function bind(){[["attackBtn",doAttack],["skill1Btn",()=>useHeroSkill(0)],["skill2Btn",()=>useHeroSkill(1)],["skill3Btn",()=>useHeroSkill(2)],["nextBtn",spawn],["absorbExecBtn",absorbSelected],["sellExecBtn",sellSelected],["autoStartBtn",startAuto],["autoStopBtn",stopAuto],["saveBtn",save],["resetBtn",reset],["bgmBtn",cycleBgm]].forEach(([id,fn])=>$(id).addEventListener("click",fn));$("absorbOpenBtn").addEventListener("click",()=>$("absorbPanel").classList.toggle("hidden"));$("sellOpenBtn").addEventListener("click",()=>$("sellPanel").classList.toggle("hidden"));$("loadBtn").addEventListener("click",()=>{state=load();setNameInputs();render();log("読み込みました","good");});$("soundBtn").addEventListener("click",()=>{state.sound=!state.sound;$("soundBtn").textContent=state.sound?"音OFF":"音ON";if(state.sound){setupSound();sfx("level");startBgm();}else stopBgm();});$("targetSelect").addEventListener("change",e=>{state.target=Number(e.target.value);render();});$("heroNameInput").addEventListener("input",e=>{state.hero.name=e.target.value||"白黒虹の剣士";render();});$("ally1NameInput").addEventListener("input",e=>{state.ally1.name=e.target.value||"白黒虹の女性";render();});$("heroImageInput").addEventListener("change",e=>resizeAndSave("hero",e.target.files&&e.target.files[0]));$("ally1ImageInput").addEventListener("change",e=>resizeAndSave("ally1",e.target.files&&e.target.files[0]));$("heroImageResetBtn").addEventListener("click",()=>{localStorage.removeItem(IMG_KEY+"hero");applyImages();});$("ally1ImageResetBtn").addEventListener("click",()=>{localStorage.removeItem(IMG_KEY+"ally1");applyImages();});bindHold($("attackBtn"),doAttack);bindHold($("skill1Btn"),()=>useHeroSkill(0));bindHold($("skill2Btn"),()=>useHeroSkill(1));bindHold($("skill3Btn"),()=>useHeroSkill(2));document.body.addEventListener("change",e=>{const sel=e.target.closest("[data-skill-slot]");if(sel)setSkillSlot(Number(sel.dataset.skillSlot),sel.value);});document.body.addEventListener("click",e=>{const ec=e.target.closest(".enemyCard");if(ec&&ec.dataset.uid){const idx=alive().findIndex(x=>x.uid===ec.dataset.uid);if(idx>=0){state.target=idx;render();}return;}const f=e.target.closest(".focusBtn");if(f){state.focus=f.dataset.focus;state.growth=state.focus;state.equip=state.focus;render();return;}const tab=e.target.closest(".tab");if(tab){switchPanel(tab.dataset.panel);render();return;}const gb=e.target.closest(".growthBtn");if(gb){state.growth=gb.dataset.growth;state.focus=state.growth;render();return;}const eb=e.target.closest(".equipBtn");if(eb){state.equip=eb.dataset.equip;state.focus=state.equip;render();return;}const a=e.target.closest("[data-act]");if(!a)return;const act=a.dataset.act,id=a.dataset.id;if(act==="move"){const ar=GAME.areas.find(x=>x.id===id);if(ar&&state.hero.lv>=ar.minLv){state.area=id;switchPanel("battle");spawn();}}else if(act==="mult"){state.spawnMult[id]=Number(a.dataset.v||1);log(`${id} 出現数${state.spawnMult[id]}倍`,"good");render();}else if(act==="buy")buy(id);else if(act==="equip")equip(a.dataset.who||state.equip,id);});}
 function boot(){try{bind();setNameInputs();$("bgmBtn").textContent="BGM:"+BGM[state.bgm].name;log("Rebuild v2.3 起動。画像・個別魔石・技Lv・追加ステージ対応。");if(!state.enemies.length)spawn();render();}catch(err){console.error(err);document.body.insertAdjacentHTML("afterbegin",`<div style="padding:12px;background:#5a1111;color:white;position:sticky;top:0;z-index:9999">読み込みエラー: ${err.message||err}</div>`);}}
